@@ -1,0 +1,228 @@
+html, body, #map {
+    height:100%;
+    width:100%;
+    padding:0px;
+    margin:0px;
+} 
+
+#view{
+    height:100% 
+}
+#map {
+    background-color: black;
+    /*
+    position: initial !IMPORTANT;
+    */
+}
+
+html, body{
+    height: 100%;
+}
+
+button {
+    z-index:99999;
+
+}
+
+
+.leaflet-control-attribution {
+    display: none;   
+
+}
+.sidebar_left{
+    position: relative;
+    width: 150px;
+    height: 100%;
+    float: left;
+    background-color: blue; 
+}
+
+.main_content{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;    
+}
+
+
+
+
+.sidebar_left_close{
+    left:0px;
+}
+
+.sidebar_left_open{
+    left:320px;
+}
+
+
+
+.app-body2{
+    position: absolute;
+    right:0px;
+
+    height:100%;
+}
+
+
+#btn_refresh{
+    z-index:1000;
+    margin: 10px;
+    position: absolute;
+    bottom: 15px;
+    right:0px;
+    outline:0px;
+}
+
+#btn_center{
+    z-index:1000;
+    margin: 10px;
+    position: absolute;
+    bottom: 81px;
+    right:0px;
+    outline:0px;
+}
+
+#btn_menu{
+    z-index:1000;
+    margin: 10px;
+    position: absolute;
+    top: 10px;
+    left:0px;
+    background-color: white;
+}
+
+#btn_cancel_geo
+{
+    z-index:1000;
+    margin: 10px;
+    position: absolute;
+    bottom: 10px;
+    left:0;
+}
+
+#btn_validate_geo
+{
+    z-index:1000;
+    margin: 10px;
+    position: absolute;
+    bottom: 10px;
+    right:0;
+}
+
+
+
+#alert {position:absolute;
+    top:0px;
+    width:100%;
+    z-index: 10;
+}
+
+#footer {
+    position:absolute;
+    bottom:0px;
+    width:100%;
+    height: 51px;
+    z-index: 10;
+    background-color: white;
+}
+
+.padding-bottom{
+    padding-bottom: 51px !important;   
+}
+
+.center-label {
+    text-align: center; 
+    display: block;
+}
+
+#form_login button {
+    width:100%;
+
+}
+#form_login {
+    padding:20px;
+    text-align:center;
+
+}
+
+.switch{
+
+    margin-right:auto; 
+    margin-left:auto;
+}
+
+.content_slider{
+    width: 100%;
+    height: 50px;
+    background-color: white;
+    display: inline;
+
+}
+.content_slider.label{
+    text-align: center; 
+}
+
+.scrollable {
+    background-color: white !IMPORTANT;
+}
+
+
+
+
+
+/*MENU*/
+
+.wrapper {
+    transition: -webkit-transform 0.5s ease;
+}
+
+.wrapper.mm-menu-open {
+    -webkit-transform: translateX(300px);
+}
+
+
+.mm-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    background-color: #fff;
+    width: 300px;
+    height: 100%;
+    overflow-y: auto;
+    box-shadow: 0;
+     transition: -webkit-transform 0.5s ease;
+    -webkit-transform: translateX(-100%);
+}
+
+#mm-menu ul {
+    padding-left: 5px !IMPORTANT;
+}
+.mm-menu.active {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    -webkit-transform: translateX(0);
+    /*  -ms-transform: translateX(0);
+    transform: translateX(0);*/
+}
+
+.mm-menu__link {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    margin: 4px 0;
+    padding: 12px;
+    color: #727272;
+    font-size: 16px;
+    text-decoration: none;
+    /*  -webkit-transition: background 0.5s, color 0.5s;
+    transition: background 0.5s, color 0.5s;*/
+}
+
+.mm-menu__link-text {
+    position: relative;
+    z-index: 2;
+}
+
+

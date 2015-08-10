@@ -1,0 +1,90 @@
+<div class="modal-header">
+    <h3 ng-show = "!editable"  class="modal-title" ng-model="geojson.properties.tags.name">  {{geojson.properties.tags.name && geojson.properties.tags.name !='' ? geojson.properties.tags.name : "Sans nom"}}</h3>
+    <input ng-show = "editable" type="text" class="form-control" ng-model="geojson.properties.tags.name" placeholder="Nom">
+
+</div>
+<div class="modal-body">
+
+    <p>Modifié le : {{geojson.properties.meta.timestamp}}  Par : {{geojson.properties.meta.user}}</p>
+    <table class="table table-condensed" ng-show = "!editable"  >
+        <tr class="active">
+            <th>Clé</th>
+            <th>Valeur</th>
+        <tr>
+            <td>{{all_tags[primary_tag.k].lbl}}</td>
+            <td>{{ current_primary_key_config.lbl && current_primary_key_config.lbl || geojson.properties.tags[primary_tag.k] }}</td> <!---->
+        </tr>
+
+        <tr ng-repeat="(k ,v ) in geojson.properties.tags"   ng-if="tag_hidden.indexOf(k) == -1 && k != primary_tag.k ">
+            <td>{{subtags[k] && subtags[k].lbl || k }}</td>
+            <td>{{ v}}</td>
+<!--
+            <td>{{findSubtag(subtags[k].tags,geojson.properties.tags[k]) && findSubtag(subtags[k].tags,geojson.properties.tags[k]).lbl || v}}</td>
+-->
+        </tr>
+
+
+
+    </table>
+
+    <!--MODE EDITION-->
+    <table class="table " ng-show = "editable"  >
+
+        <tr class="active">
+            <td>  <select class="form-control" ng-model="primary_tag.k" ng-Change='onPrimaryKeyChange(primary_tag.k)' ng-options="k as v.lbl for (k,v) in all_tags"></select></td>
+            <td ng-show="!customValueType"><select class="form-control" ng-options="f.key as f.lbl for f in all_tags[primary_tag.k].values | orderBy:'lbl'" ng-model = "geojson.properties.tags[primary_tag.k]"></select> </td> 
+
+            <td ng-show="customValueType"><input type="text" class="form-control" ng-model="geojson.properties.tags[primary_tag.k]"> </td>
+            <td><i class="fa fa-file-code-o fa-2x"  ng-model="customValueType" btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0"></i> </td>
+        </tr>
+
+        <!--SUB TAG-->
+        <tr ng-repeat="n in list_sub_tag_of_object">
+            <td > <input type="text" class="form-control" ng-model="subtags[n].lbl" ng-lowercase ng-disabled=true></td>
+            
+            <td ng-if = "subtags[n].type == 'select'"> <select class="form-control" ng-options="st.v as st.lbl for st in subtags[n].tags " ng-model = "geojson.properties.tags[n] "> </td>
+            
+            <td ng-if = "subtags[n].type == 'number'" > 
+                <input ng-init="geojson.properties.tags[n] = strToNumber(geojson.properties.tags[n])" type="number" class="form-control" value="{{geojson.properties.tags[n]}}" ng-model = "geojson.properties.tags[n]" > 
+            </td>
+            
+            <!--TEXT-->
+            <td ng-if = "subtags[n].type == 'text'" > 
+                <input type="text" class="form-control" value="{{geojson.properties.tags[n]}}" ng-model = "geojson.properties.tags[n]" > 
+            </td>
+
+            
+
+            <!--  <td> <i class="fa fa-times fa-2x" style="color:red" ng-click= "supTag(k)"></i></td>-->
+        </tr>
+
+
+        <tr ng-repeat="(k ,v ) in geojson.properties.tags"   ng-if="tag_hidden.indexOf(k) == -1 && k != primary_tag.k && list_sub_tag_of_object.indexOf(k) == -1 ">  <!---->
+            <td > <input type="text" class="form-control" ng-model="k" ng-lowercase ng-disabled=true></td>
+            <td><input type="text" class="form-control" ng-model="geojson.properties.tags[k]"> </td>
+            <td> <i class="fa fa-times fa-2x" style="color:red" ng-click= "supTag(k)"></i></td>
+        </tr>
+
+        <!--ADD TAG-->
+        <tr class="success">
+            <td ><input type="text" placeholder="Key" class="form-control" ng-model="newKV.k_add"  ng-lowercase></td>
+            <td><input type="text" placeholder="Value" class="form-control" ng-model="newKV.v_add"> </td>
+            <td> <i class="fa fa-plus-circle fa-2x" ng-click="addTag()" style="color:green"></i></td>
+        </tr>
+    </table>
+
+
+
+</div>
+<div class="modal-footer">
+    
+    <button ng-show = "!editable" type="button" class="btn btn-default btn-fab btn-raised" style="position:absolute; left:5px; bottom:5px;" ng-click='showEditable()'>
+				<i class="fa fa-pencil-square-o" ></i>
+				</button>
+    <button ng-show="editable && !sw_delete" class="btn btn-primary" ng-click="ok(geojson)">OK</button>
+    <button class="btn btn-warning" ng-click="cancel()">Annuler</button>
+
+    <input type="checkbox" ng-show="editable"  ng-model="sw_delete"></input>
+  
+    <button ng-show="editable && sw_delete" class="btn btn-warning" ng-click="deleteElement(geojson)">Supprimer!</button>
+</div>
