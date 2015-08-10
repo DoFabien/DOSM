@@ -112,14 +112,14 @@ app.controller('ModalFicheCtrl', function ($scope, $modalInstance,items,$filter,
         $modalInstance.dismiss($scope.editable);
     };
 
-    // ajouter un type D pour delete. Dans la fiche, une case a cocher => suppression, puis boutton supprimer .
+    // ajouter un type D pour delete. Dans la fiche, une case a cocher => suppression, puis boutton supprimer . 
     $scope.deleteElement = function(geojson){
 
         $modalInstance.close({geojson:geojson, type_ope:'D'});
         //console.log($modalInstance);
     };
     
-    /*onBackbutton*/
+    /*onBackbutton => ferme la fiche*/
       document.addEventListener("backbutton", function(e){
             $modalInstance.dismiss($scope.editable);
         }, false);
