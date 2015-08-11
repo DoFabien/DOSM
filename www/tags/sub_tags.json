@@ -24,7 +24,6 @@
         {"v":"pizza","lbl":"Pizza"},
         {"v":"seafood","lbl":"Poisson, fruits de mer"},
         {"v":"chicken","lbl":"Poulet"},
-        {"v":"regional","lbl":"Regional"},
         {"v":"sandwich","lbl":"Sandwich"},
         {"v":"sushi","lbl":"Sushi"},
         {"v":"tapas","lbl":"Tapas"},
@@ -90,7 +89,7 @@
         {"v":"green","lbl":"green"}
     ]},
 
-    "fire_hydrant:diameter":{"type":"text","lbl":"Diamètre", "tags":[
+    "fire_hydrant:diameter":{"type":"number","lbl":"Diamètre", "tags":[
     ]},
 
     "school:FR":{"type":"select","lbl":"Ecole FR", "tags":[

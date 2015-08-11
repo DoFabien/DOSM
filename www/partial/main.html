@@ -17,17 +17,22 @@
     <div id="map"> </div>
 
 
-    <button id="btn_menu" ng-show = "show_btn.btn_menu" ng-click="test()" type="button" class="btn btn-default btn-fab btn-raised" >
-        <i class="fa fa-bars " ></i>
-    </button>
+    <md-button id="btn_menu" ng-show = "show_btn.btn_menu" ng-click="test()" class="md-fab md-primary md-button md-default-theme" aria-label="Menu" >
+        <md-icon md-svg-src = 'images/SVG/ic_list_24px.svg' style="color:black;font:bold;"></md-icon>
+    </md-button>
 
-    <button id="btn_refresh" ng-click ="refreshMapData()" ng-show = "show_btn.btn_chargement" type="button" class="btn btn-fab btn-raised btn-primary">
-        <i class="fa fa-refresh" ng-class="{'fa-spin':show_btn.refreshing_data}"></i>
-    </button>
+<!-- <md-fab-progress id="btn_refresh" mode="indeterminate" fab-class="md-hue-1 md-lg" fab-area-label="Save" progress-class="md-warn md-hue-1">X</md-fab-progress>  -->
 
-    <button id ="btn_center" ng-show = "show_btn.btn_center"  type="button" class="btn btn-info btn-fab btn-raised" ng-click='centerMapOnLocation()'>
-        <i class="mdi-maps-my-location" ></i>
-    </button>
+    <md-button id="btn_refresh" ng-click ="refreshMapData()" ng-show = "show_btn.btn_chargement" class="md-fab" aria-label="refresh">
+<!--        <md-icon md-font-icon="fa-refresh fa-3x fa-spin" class="fa" alt=""></md-icon>-->
+         <md-icon md-svg-src = 'images/SVG/refresh.svg' ng-class="{'fa-spin':show_btn.refreshing_data}" style="color:black;font:bold;width:30px;height:30px;"></md-icon>
+         
+    </md-button>
+
+
+    <md-button id ="btn_center" ng-show = "show_btn.btn_center"  type="button" class="md-fab md-primary md-button md-default-theme" ng-click='centerMapOnLocation()' aria-label="Center position">
+              <md-icon md-svg-src = 'images/SVG/ic_gps_fixed_24px.svg' style="color:black;font:bold;width:30px;height:30px;"></md-icon>
+    </md-button>
 
     <button id ="btn_validate_geo" ng-show = "show_btn.update_validate" class="btn btn-success btn-fab btn-raised" href="" ng-click="updateOsmLatLng()">
         <i class="fa fa-check " ></i>

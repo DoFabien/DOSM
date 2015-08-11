@@ -1,7 +1,5 @@
 //DEBUT DU CONTROLEUR 1
-app.controller('MainCtrl', function($scope,$window,$modal,$location,OsmFctry,ConfigFctry,$timeout,$cordovaGeolocation, $cordovaDeviceOrientation, $interval) {
-    $.material.init();
-    //var menu = new Menu;
+app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,ConfigFctry,$timeout,$cordovaGeolocation, $cordovaDeviceOrientation, $interval) {
 
     //TEST
     //console.log(ConfigFctry.getPrimaryKeys());
@@ -170,7 +168,7 @@ app.controller('MainCtrl', function($scope,$window,$modal,$location,OsmFctry,Con
 
         var geojson = {"type":"Feature","id":"","properties":{"type":"node","id":"","tags":{name:'',shop:'*'},"relations":[],"meta":{"timestamp":"","version":"","changeset":"","user":"","uid":""}},"geometry":{"type":"Point","coordinates":[lng,lat]}};
 
-        $scope.open(geojson,'W');
+        $scope.open($scope.$event,geojson,'W');
     };
 
 
@@ -260,14 +258,14 @@ app.controller('MainCtrl', function($scope,$window,$modal,$location,OsmFctry,Con
 
                     //c'est un polygon, on convertit le XML de façon différente pour conserver ses noeud
                     OsmFctry.getOsmElemById(e.target.json.id,function(data){
-                        $scope.open(data.osmGeojson,'R');  
+                        $scope.open($scope.$event,data.osmGeojson,'R');  
                         console.log(data.osmGeojson);
                     });
 
                 }
 
                 else{
-                    $scope.open(e.target.json,'R');
+                    $scope.open($scope.$event,e.target.json,'R');
                 }
 
             });
@@ -328,6 +326,8 @@ app.controller('MainCtrl', function($scope,$window,$modal,$location,OsmFctry,Con
 
     $scope.modalIsOpen = false; // La fenetre modal est ouverte ou non?
     $scope.$watch('modalIsOpen', function() {
+        
+        
         /*       console.log($scope.modalIsOpen);
         if ($scope.modalIsOpen === true){
             console.log('popin ouverte');
@@ -346,30 +346,45 @@ app.controller('MainCtrl', function($scope,$window,$modal,$location,OsmFctry,Con
 
 
     /*OUVERTURE DE LA POPIN MODAL*/
-    $scope.open = function (geojson,_type_action) {
+    $scope.open = function (ev,geojson,_type_action) {
+        
+/*             $scope.items = {caca:'caca'};
 
-        if ($scope.modalIsOpen) return; // si déjà ouvert, on fait rien
+                    $mdDialog.show({
+                        controller: 'ModalFicheCtrl',
+                        templateUrl: 'dialog1.tmpl.html',
+                        targetEvent: ev,
+                        locals: {
+                            items: $scope.items
+                        }
+                    })
+                        .then(function(answer) {
+                        console.log(answer);
+                    }, function(cb) {
+                        console.log( 'Annuler! ' + cb);
+                    });*/
+
+//        if ($scope.modalIsOpen) return; // si déjà ouvert, on fait rien
 
         var items = {geojson:geojson, type_action:_type_action};
-        var modalInstance = $modal.open({
-            templateUrl: 'partial/Modal_FicheOsm.html',
+        var modalInstance = $mdDialog.show({
+            templateUrl: 'partial/Modal_FicheOsm.html',//'partial/Modal_FicheOsm.html',
             controller: 'ModalFicheCtrl',
-            backdrop: false,
-            resolve: {
-                items: function () {
-                    return items;
-                }
-
-            }
+           // backdrop: false,
+             locals: {
+                 items: items
+                        }
         });
 
-        modalInstance.opened.then(function() {
+    /*    modalInstance.opened.then(function() {
             $scope.modalIsOpen = true; // La fenetre modal est ouverte ou non?$
             console.log('modal open!');
-        });
+        });*/
 
         //lors du clic su OK. feature en geojson
-        modalInstance.result.then(function (result) {
+        modalInstance.then(function (result) {
+            
+            
 
             //création d'un noeud
             feature = result.geojson;

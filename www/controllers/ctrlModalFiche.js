@@ -1,5 +1,8 @@
 //CONTROLEUR MODAL FICHE OSM
-app.controller('ModalFicheCtrl', function ($scope, $modalInstance,items,$filter,OsmFctry,ConfigFctry) {
+app.controller('ModalFicheCtrl', function ($scope, $mdDialog,items,$filter,OsmFctry,ConfigFctry) {
+    $scope.flex_col_read = {'A':50, 'B':50, 'C':0}; 
+    $scope.flex_col_edit = {'A':45, 'B':45, 'C':10}; 
+
     $scope.type_action = items.type_action; // W create/ R consult
     $scope.sw_delete = false; // variable si true, le bouton supprimer apparait
     $scope.tag_hidden = ['source','name'];
@@ -11,13 +14,14 @@ app.controller('ModalFicheCtrl', function ($scope, $modalInstance,items,$filter,
 
     $scope.geojson = items.geojson; // l'object json dans son ensemble
 
-    $scope.all_tags = ConfigFctry.getTags(); // tous les tags et leurs ConfigFctryurations 
+    $scope.all_tags = ConfigFctry.getTags(); // tous les tags et leurs Configurations
+    $scope.all_sub_tags = ConfigFctry.getSubTags();
 
     $scope.primary_tag = ConfigFctry.getPrimaryKeyOfObject($scope.geojson.properties.tags);/*Le type de la key de l'objet OSM ex: {k: "amenity", v: "restaurant"}  paramètre : les tags du geojson*/
 
     //console.log($scope.subtags['cuisine'].tags);
-    //  $scope.types_tags = ConfigFctry.getConfigTypeTag();
-    /*Liste d'object des ConfigFctryuration possible pour cette Primary Key*/
+    //  $scope.types_tags = Config.getConfigTypeTag();
+    /*Liste d'object des Configuration possible pour cette Primary Key*/
     $scope.types_tags = ConfigFctry.getTagsByPrimaryKey($scope.primary_tag.k); 
 
     //Config du Tag principal (shop, amenity, etc)
@@ -75,17 +79,30 @@ app.controller('ModalFicheCtrl', function ($scope, $modalInstance,items,$filter,
 
     };
 
+    $scope.test = function(){
+        return('dada');   
+    }
 
-
-    $scope.findSubtag = function (_array_subtag,value){
-
-        for (var i = 0; i< _array_subtag.length; i++){
-            if (_array_subtag[i].v == value){
-                return   _array_subtag[i]; 
+    $scope.findSubTagLabel = function (_k,_v){
+        //        console.log($scope.all_sub_tags[_k].tags);
+        //            console.log(_k);
+             //  console.log($scope.all_sub_tags[_k].tags.length);
+        if($scope.all_sub_tags[_k]){
+            for(var i = 0; i< $scope.all_sub_tags[_k].tags.length;i++){
+            //    console.log($scope.all_sub_tags[_k].tags.v);
+                if($scope.all_sub_tags[_k].tags[i].v == _v){
+                    console.log( $scope.all_sub_tags[_k].tags[i].lbl);
+                    return $scope.all_sub_tags[_k].tags[i].lbl;
+                }
             }
         }
 
-        return value;
+        else {
+            return _v ;  
+        }
+
+
+        return _v;
 
     };
 
@@ -100,28 +117,30 @@ app.controller('ModalFicheCtrl', function ($scope, $modalInstance,items,$filter,
 
     $scope.ok = function (geojson) {
         if ( $scope.newKV.k_add !=='' &&  $scope.newKV.v_add !==''){
-            alert('Une nouvelle tag a été saisi mais non ajouté. Supprimer son contenu ou ajouter le');
+            alert('Un nouveau tag a été saisi mais non ajouté. Supprimer son contenu ou ajouter le');
         }
         else{
-            $modalInstance.close({geojson:geojson, type_ope:$scope.type_action});
+            //$modalInstance.close({geojson:geojson, type_ope:$scope.type_action});
+            $mdDialog.hide({geojson:geojson, type_ope:$scope.type_action});
         }
 
     };
 
     $scope.cancel = function () {
-        $modalInstance.dismiss($scope.editable);
+        $mdDialog.cancel($scope.editable);
+        // $modalInstance.dismiss($scope.editable);
     };
 
     // ajouter un type D pour delete. Dans la fiche, une case a cocher => suppression, puis boutton supprimer . 
     $scope.deleteElement = function(geojson){
 
-        $modalInstance.close({geojson:geojson, type_ope:'D'});
+        //$modalInstance.close({geojson:geojson, type_ope:'D'});
         //console.log($modalInstance);
     };
-    
+
     /*onBackbutton => ferme la fiche*/
-      document.addEventListener("backbutton", function(e){
-            $modalInstance.dismiss($scope.editable);
-        }, false);
+    document.addEventListener("backbutton", function(e){
+        $modalInstance.dismiss($scope.editable);
+    }, false);
 });
 //EOF CTRL MODAL
