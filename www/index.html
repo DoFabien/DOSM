@@ -1,6 +1,12 @@
 <!doctype html>
 <html ng-app="myApp">
     <head>
+      
+       <!--       MD-->
+         <link rel="stylesheet" href="css/angular-material.min.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
+        
+        
         <title>DOSM</title>
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -10,18 +16,22 @@
 
         <!--        <meta http-equiv="cache-control" content="no-cache" />-->
 
+
+       
         <link rel="stylesheet" href="css/style.css" />
 
         <link rel="stylesheet" href="css/ionicons.min.css" />
         <link rel="stylesheet" href="lib/font-awesome-4.3.0/css/font-awesome.min.css" />
-        <link rel="stylesheet" href="lib/css/bootstrap-select.min.css" />
+<!--        <link rel="stylesheet" href="lib/css/bootstrap-select.min.css" />-->
         <link rel="stylesheet" href="lib/awesom-marker/css/font-awesome.css" />
         <link rel="stylesheet" href="lib/awesom-marker/leaflet.awesome-markers.css"/>
         <link rel="stylesheet" href="lib/Map-Icons-master/css/map-icons.css"/>
         <link rel="stylesheet" href="lib/leaflet/leaflet.css" />
 
+<!--
         <link href="css/bootstrap.css" rel="stylesheet">
         <link href="css/material-fullpalette.min.css" rel="stylesheet">
+-->
 
 
     </head>
@@ -29,25 +39,32 @@
     <body >
         <div id="view" ng-view ></div>
 
+       
+       
         <script src="lib/jquery.min.js" type="application/javascript"></script>
-        <script src="lib/angular.min.js" type="application/javascript"></script>
         <script src="lib/osmtogeojson.js" type="application/javascript"></script>
+        
+        <!-- Angular Material Dependencies -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-route.min.js" type="application/javascript"></script>    
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-animate.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-aria.min.js"></script>
 
+        <script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.9.4/angular-material.min.js"></script>
+<!--        <script src="lib/angular-sanitize.min.js" type="application/javascript"></script>-->
+       
 
-        <script src="lib/ui-bootstrap-tpls-0.12.0.js" type="application/javascript"></script>
-        <script src="lib/angular-route.min.js" type="application/javascript"></script>        
-        <script src="lib/angular-sanitize.min.js" type="application/javascript"></script>
-
-
-        <script src="lib/js/bootstrap-select.min.js" type="application/javascript"></script>
         <script src="lib/leaflet/leaflet.js" type="application/javascript"></script>
         <script src="lib/awesom-marker/leaflet.awesome-markers.min.js" type="application/javascript" ></script>
         <script src="lib/leaflet/Marker.Rotate.js" type="application/javascript"></script>
 
+<!--
         <script src="lib/ripples.min.js"></script>
         <script src="lib/material.min.js"></script>
+-->
 
-
+        <!--Apps-->
         <script src="app.js" type="application/javascript"></script>
         <!--Factories-->
         <script src="factories/OsmFctry.js" type="application/javascript"></script>

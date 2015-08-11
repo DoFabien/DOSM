@@ -1,8 +1,8 @@
 
-var app = angular.module('myApp', ['ui.bootstrap','ngRoute','ngSanitize','ngCordova']); //'ui.bootstrap'
+var app = angular.module('myApp', ['ngRoute','ngCordova','ngMaterial']); //'ui.bootstrap'
 
         app.config(function($routeProvider) {
-            $.material.init();
+           
             $routeProvider
             .when('/main', {templateUrl: 'partial/main.html',
                         controller:'MainCtrl'
@@ -33,6 +33,7 @@ var app = angular.module('myApp', ['ui.bootstrap','ngRoute','ngSanitize','ngCord
                 }
             };
         });
+
 
 
    

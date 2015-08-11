@@ -67,7 +67,7 @@ button {
 
 
 #btn_refresh{
-    z-index:1000;
+    /*    z-index:1000;*/
     margin: 10px;
     position: absolute;
     bottom: 15px;
@@ -76,7 +76,7 @@ button {
 }
 
 #btn_center{
-    z-index:1000;
+    /*    z-index:1000;*/
     margin: 10px;
     position: absolute;
     bottom: 81px;
@@ -85,7 +85,7 @@ button {
 }
 
 #btn_menu{
-    z-index:1000;
+    /*    z-index:1000;*/
     margin: 10px;
     position: absolute;
     top: 10px;
@@ -95,7 +95,7 @@ button {
 
 #btn_cancel_geo
 {
-    z-index:1000;
+    /*    z-index:1000;*/
     margin: 10px;
     position: absolute;
     bottom: 10px;
@@ -193,7 +193,7 @@ button {
     height: 100%;
     overflow-y: auto;
     box-shadow: 0;
-     transition: -webkit-transform 0.5s ease;
+    transition: -webkit-transform 0.5s ease;
     -webkit-transform: translateX(-100%);
 }
 
@@ -226,3 +226,66 @@ button {
 }
 
 
+
+/*MdDialog*/
+md-dialog {
+    max-width: 98% !IMPORTANT;
+    max-height: 90%  !IMPORTANT;
+    z-index: 1010 !IMPORTANT;
+}
+
+md-dialog-content{
+    padding-top: 5px !IMPORTANT;
+    padding-bottom: 5px !IMPORTANT;
+    padding-left: 15px !IMPORTANT;
+    padding-right: 15px !IMPORTANT;
+}
+
+md-dialog md-select {
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+md-dialog table{
+    width: 40%;
+}
+
+.md-select-label{
+    padding: 0;   
+}
+
+md-input-container {
+    padding: 0;  
+}
+
+md-list-item{
+    min-height: 30px;   
+}
+
+.readA{
+    margin: 0px;
+    float:left;
+    width:50%;   
+}
+.readB{
+    margin: 0px;
+    float:left;
+    width:50%   
+}
+
+.editableA {
+    margin: 0px;
+    float:left;
+    width:45%;  
+}
+
+.editableB {
+    margin: 0px;
+    float:left;
+    width:45%;  
+}
+.editableC {
+    margin: 0px;
+    float:left;
+    width:10%;  
+}

@@ -1,34 +1,43 @@
+
 <form id='form_login'>
 
     <h1><small>Connexion à OpenStreetMap</small></h1>
-       <br />
-    
-   
-
-    <label for="login">Adresse e-mail ou nom d'utilisateur</label>
-    <input type="text" class="form-control" id="login" spellcheck="false" ng-model="user" autofocus>
     <br />
 
 
-    <label for="password">Password</label>
-    <input type="password" class="form-control" id="password" placeholder="Password" ng-model="password">
-       <br />
 
-  <!--serveur de prod ou de test-->
- <label>Serveur :</label><input type="checkbox"  ng-model="switch_server"></input> {{server}}
- 
-
-    
- <div class="form-group">
-  <button type="submit" class="btn btn-primary btn-lg" ng-click="connexion()">Se connecter</button>
-   </div>
    
-<div id="login_error" class="alert alert-danger" role="alert" ng-show="alert">
-  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-  <span class="sr-only">Error:</span>
-  Nom d'utilisateur ou mot de passe invalide
+    
+         <md-input-container flex>
+          <label>Adresse e-mail ou nom d'utilisateur</label>
+          <input spellcheck="false" ng-model="user" autofocus >
+        </md-input-container>
+    
+          <md-input-container flex>
+          <label>Password</label>
+          <input type="password" spellcheck="false" ng-model="password"  >
+        </md-input-container>
+        
+   
+    <br />
+
+    <!--serveur de prod ou de test-->
+ <md-switch ng-model="switch_server" aria-label="Serveur">
+    Serveur : {{server}}
+  </md-switch>
+
+
+<div class="form-group">
+
+    <md-button class="md-raised md-primary" ng-click="connexion()">Se connecter</md-button>
 </div>
- 
+
+<div id="login_error" class="alert alert-danger" role="alert" ng-show="alert">
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <span class="sr-only">Error:</span>
+    Nom d'utilisateur ou mot de passe invalide
+</div>
+
 </form>
 
 
