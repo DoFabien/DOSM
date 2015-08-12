@@ -19,9 +19,11 @@ html, body{
     height: 100%;
 }
 
+.fa{
+    outline:0px !IMPORTANT;   
+}
 button {
     z-index:99999;
-
 }
 
 
@@ -67,7 +69,9 @@ button {
 
 
 #btn_refresh{
-    /*    z-index:1000;*/
+
+    background-color: #d90808;
+    color: white;
     margin: 10px;
     position: absolute;
     bottom: 15px;
@@ -76,7 +80,8 @@ button {
 }
 
 #btn_center{
-    /*    z-index:1000;*/
+    background-color: #174dc7;
+    color: white;
     margin: 10px;
     position: absolute;
     bottom: 81px;
@@ -95,7 +100,9 @@ button {
 
 #btn_cancel_geo
 {
-    /*    z-index:1000;*/
+    background-color: #7e0909;
+    color: white;
+    z-index:10000;
     margin: 10px;
     position: absolute;
     bottom: 10px;
@@ -104,7 +111,9 @@ button {
 
 #btn_validate_geo
 {
-    z-index:1000;
+    background-color: #22a503;
+    color: white;
+    z-index:10000;
     margin: 10px;
     position: absolute;
     bottom: 10px;
@@ -113,11 +122,30 @@ button {
 
 
 
-#alert {position:absolute;
+.alert {
+    position:absolute;
+    outline:0px !IMPORTANT;   
     top:0px;
-    width:100%;
-    z-index: 10;
+    left: 0px;
+    right: 0px;
+    z-index: 10001;
+    padding: 15px;
+    margin: 4px;
+    border: 1px solid transparent;
+    border-radius: 4px;
 }
+.alert-danger{
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+
+.alert-warning {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+}
+
 
 #footer {
     position:absolute;
@@ -234,6 +262,12 @@ md-dialog {
     z-index: 1010 !IMPORTANT;
 }
 
+md-dialog .last_edition{
+    font-size: 11px;
+    font-style: italic;
+    margin-bottom: 0px;
+}
+
 md-dialog-content{
     padding-top: 5px !IMPORTANT;
     padding-bottom: 5px !IMPORTANT;
@@ -260,6 +294,22 @@ md-input-container {
 
 md-list-item{
     min-height: 30px;   
+    padding: 0 !IMPORTANT;
+}
+
+md-dialog md-switch{
+    margin: 0;
+    position: absolute;
+    left: 5px;
+    bottom: 5px;   
+}
+
+md-dialog md-switch .md-label{
+ font-size: 11px;   
+}
+
+.md-toolbar-tools md-input-container input{
+ color: white !IMPORTANT;
 }
 
 .readA{
@@ -285,6 +335,7 @@ md-list-item{
     width:45%;  
 }
 .editableC {
+    text-align: center;
     margin: 0px;
     float:left;
     width:10%;  

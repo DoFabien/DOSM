@@ -37,7 +37,11 @@ app.controller('ModalFicheCtrl', function ($scope, $mdDialog,items,$filter,OsmFc
     $scope.showEditable = function(){
         $scope.editable = true;
     };
+$scope.activateCustomTag = function(){
+    console.log($scope.customValueType);
+    $scope.customValueType = ($scope.customValueType) ? false : true;
 
+}
 
     /*Au changement de la clé principal, on supprime l'ancienne*/
     var old_primary_key  = $.extend(true, {}, $scope.primary_tag); // on clone 
@@ -127,12 +131,14 @@ app.controller('ModalFicheCtrl', function ($scope, $mdDialog,items,$filter,OsmFc
     };
 
     $scope.cancel = function () {
-        $mdDialog.cancel($scope.editable);
+        console.log($scope.type_action);
+        $mdDialog.cancel({isEditable:$scope.editable, type_ope:$scope.type_action, geojson:$scope.geojson});
         // $modalInstance.dismiss($scope.editable);
     };
 
     // ajouter un type D pour delete. Dans la fiche, une case a cocher => suppression, puis boutton supprimer . 
     $scope.deleteElement = function(geojson){
+         $mdDialog.hide({geojson:geojson, type_ope:'D'});
 
         //$modalInstance.close({geojson:geojson, type_ope:'D'});
         //console.log($modalInstance);
@@ -140,7 +146,8 @@ app.controller('ModalFicheCtrl', function ($scope, $mdDialog,items,$filter,OsmFc
 
     /*onBackbutton => ferme la fiche*/
     document.addEventListener("backbutton", function(e){
-        $modalInstance.dismiss($scope.editable);
+         $mdDialog.cancel({isEditable:$scope.editable, type_ope:$scope.type_action, geojson:$scope.geojson});
+        //$modalInstance.dismiss($scope.editable);
     }, false);
 });
 //EOF CTRL MODAL
