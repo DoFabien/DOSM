@@ -185,12 +185,12 @@
         {"key": "*", "lbl": "_NC", "lbl_alt": "", "icon": "", "prefix": "", "iconColor": "", "markerColor": "black", "alert": "", "subtags": [] }
     ]},
 
-    "public_transport":{"type":"public_transport", "lbl": "Transport_public", "values":[
+    "public_transport":{"type":"public_transport", "lbl": "Transport en commun", "values":[
         {"key": "stop_position", "lbl": "Arret", "lbl_alt": "", "icon": "fa-bus", "prefix": "fa", "iconColor": "white", "markerColor": "green", "alert": "", "subtags": [] },
         {"key": "*", "lbl": "_NC", "lbl_alt": "", "icon": "", "prefix": "", "iconColor": "", "markerColor": "black", "alert": "", "subtags": [] }
     ]},
 
-    "emergency":{"type":"urgence", "lbl": "urgence", "values":[
+    "emergency":{"type":"urgence", "lbl": "Urgence", "values":[
         {"key": "fire_hydrant", "lbl": "Bouche d'incendie ", "lbl_alt": "", "icon": "ion-flame", "prefix": "ion", "iconColor": "white", "markerColor": "darkred", "alert": "", "subtags": ["fire_hydrant:type", "fire_hydrant:position","fire_hydrant:diameter"] },
         {"key": "*", "lbl": "_NC", "lbl_alt": "", "icon": "", "prefix": "", "iconColor": "", "markerColor": "black", "alert": "", "subtags": [] }
     ]}

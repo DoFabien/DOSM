@@ -67,57 +67,84 @@ button {
     height:100%;
 }
 
+.div_fab_menu{
+    margin: 0;
+    position: absolute;
+    top: 10px;
+    left:0px;
+}
+#btn_menu{
+    margin: 10px;
+    background-color: white;
+}
 
+.div_fab_refresh{
+    margin: 0;
+        position: absolute;
+    bottom: 15px;
+    right:0px;
+}
 #btn_refresh{
-
     background-color: #d90808;
     color: white;
     margin: 10px;
-    position: absolute;
-    bottom: 15px;
-    right:0px;
+
     outline:0px;
 }
 
+.div_fab_center{
+    margin: 0;
+     position: absolute;
+    bottom: 81px;
+    right:0px;
+}
 #btn_center{
     background-color: #174dc7;
     color: white;
     margin: 10px;
-    position: absolute;
-    bottom: 81px;
-    right:0px;
+   
     outline:0px;
 }
 
-#btn_menu{
-    /*    z-index:1000;*/
-    margin: 10px;
+.div_fab_menu{
+    margin: 0;
     position: absolute;
     top: 10px;
     left:0px;
+}
+#btn_menu{
+    margin: 10px;
     background-color: white;
 }
 
+.div_fab_cancel_geo{
+    margin: 0;
+    position: absolute;
+    bottom: 10px;
+    left:0;
+}
 #btn_cancel_geo
 {
     background-color: #7e0909;
     color: white;
     z-index:10000;
     margin: 10px;
-    position: absolute;
-    bottom: 10px;
-    left:0;
+
 }
 
+.div_fab_validate_geo{
+    margin: 0;
+     position: absolute;
+    bottom: 10px;
+    right:0; 
+}
 #btn_validate_geo
 {
     background-color: #22a503;
     color: white;
     z-index:10000;
     margin: 10px;
-    position: absolute;
-    bottom: 10px;
-    right:0;
+   
 }
 
 
