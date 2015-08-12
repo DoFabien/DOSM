@@ -1,10 +1,15 @@
 
 
 <!--alert-->
+<!--
 <div id="alert" class="alert" ng-class="alert.style" ng-show="alert.show" ng-click="alert.show=false">
     {{alert.content}}
 </div>
+-->
 
+<div class="alert" ng-class="alert.style" ng-show="alert.show" ng-click="alert.show=false">
+ {{alert.content}}
+</div>
 
 <!--<div class="sidebar_left">
 
@@ -16,30 +21,36 @@
 
     <div id="map"> </div>
 
-
+   <!--MENU EN HAUT A GAUCHE-->
     <md-button id="btn_menu" ng-show = "show_btn.btn_menu" ng-click="test()" class="md-fab md-primary md-button md-default-theme" aria-label="Menu" >
         <md-icon md-svg-src = 'images/SVG/ic_list_24px.svg' style="color:black;font:bold;"></md-icon>
     </md-button>
 
-<!-- <md-fab-progress id="btn_refresh" mode="indeterminate" fab-class="md-hue-1 md-lg" fab-area-label="Save" progress-class="md-warn md-hue-1">X</md-fab-progress>  -->
-
-    <md-button id="btn_refresh" ng-click ="refreshMapData()" ng-show = "show_btn.btn_chargement" class="md-fab" aria-label="refresh">
-<!--        <md-icon md-font-icon="fa-refresh fa-3x fa-spin" class="fa" alt=""></md-icon>-->
-         <md-icon md-svg-src = 'images/SVG/refresh.svg' ng-class="{'fa-spin':show_btn.refreshing_data}" style="color:black;font:bold;width:30px;height:30px;"></md-icon>
-         
+   <!--REFRESH EN BAS DROITE-->
+    <md-button id="btn_refresh" ng-click ="refreshMapData()" ng-disabled="show_btn.refreshing_data" ng-show = "show_btn.btn_chargement" class="md-fab" aria-label="refresh">
+         <md-icon md-svg-src = 'images/SVG/refresh.svg' ng-class="{'fa-spin':show_btn.refreshing_data}" style="font:bold;width:30px;height:30px;"></md-icon>
     </md-button>
 
-
-    <md-button id ="btn_center" ng-show = "show_btn.btn_center"  type="button" class="md-fab md-primary md-button md-default-theme" ng-click='centerMapOnLocation()' aria-label="Center position">
-              <md-icon md-svg-src = 'images/SVG/ic_gps_fixed_24px.svg' style="color:black;font:bold;width:30px;height:30px;"></md-icon>
+    <!--CENTRER POSTION EN BAS DROITE-->
+    <md-button id ="btn_center" ng-show = "show_btn.btn_center"  type="button" class="md-fab md-button" ng-click='centerMapOnLocation()' aria-label="Center position">
+              <md-icon md-svg-src = 'images/SVG/ic_gps_fixed_24px.svg' style="font:bold;width:30px;height:30px;"></md-icon>
     </md-button>
-
-    <button id ="btn_validate_geo" ng-show = "show_btn.update_validate" class="btn btn-success btn-fab btn-raised" href="" ng-click="updateOsmLatLng()">
-        <i class="fa fa-check " ></i>
-    </button>
+    <!--VALIDER UN DEPLACEMENT EN BAS A DROITE-->
+   <md-button id ="btn_validate_geo" ng-show = "show_btn.update_validate" class="md-button md-fab" aria-label="Valider le déplacement" ng-click="updateOsmLatLng()">
+          <md-icon md-svg-src = 'images/SVG/ic_check_24px.svg' style="font:bold;width:30px;height:30px;"></md-icon>
+    </md-button>
+   
+    <!--ANNULER UN DEPLACEMENT EN BAS A GAUCHE-->
+  <md-button id ="btn_cancel_geo" ng-show = "show_btn.update_validate" class="md-button md-fab" aria-label="Valider le déplacement" ng-click="refreshMapData()">
+          <md-icon md-svg-src = 'images/SVG/ban.svg' style="font:bold;width:30px;height:30px;"></md-icon>
+    </md-button>
+   
+   
+<!--
     <button id ="btn_cancel_geo" ng-show = "show_btn.update_validate" class="btn btn-danger btn-fab btn-raised" href="" ng-click="refreshMapData()">
         <i class="fa fa-times"></i>
     </button>
+-->
 
 
 
