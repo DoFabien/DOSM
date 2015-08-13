@@ -5,7 +5,6 @@ app.factory('ConfigFctry',function(){
         serverAPI: null, // {type:"prod",url:"http://api.openstreetmap.org"},
 
         getServerAPI:function(){
-
             if(localStorage.getItem("server") != 'null'){
                 factory.setServerAPI(localStorage.getItem("server"));
             }
@@ -18,31 +17,26 @@ app.factory('ConfigFctry',function(){
         },
 
         setServerAPI:function(_type){
-            if(_type == 'prod'){
-                factory.serverAPI = {type:"prod",url:"http://api.openstreetmap.org"}  
-            }
-            else{
-                factory.serverAPI =  {type:"dev",url:"http://api06.dev.openstreetmap.org"}
-            }
-
+            factory.serverAPI = (_type == 'prod') ? {type:"prod",url:"http://api.openstreetmap.org"}  : {type:"dev",url:"http://api06.dev.openstreetmap.org"};
             localStorage.setItem("server", _type);
 
-            //  return  (type == 'prod') ? factory.serverAPI = {type:"prod",url:"http://api.openstreetmap.org"} : factory.serverAPI =  {type:"dev",url:"http://api06.dev.openstreetmap.org"};
-
         },
-        position : {lat:null,lng:null,compass:0},
+        
+        /*GEOLOC*/
+        position : {lat : 0, lng : 0, accuracy : 0, compass : 0},
         getPosition :function(){
             return factory.position;
         },
-        setPositionLatLng : function(_lat,_lng){
+        setPositionLatLng : function(_lat,_lng,_accuracy){
             factory.position.lat = _lat;
             factory.position.lng = _lng;
+            factory.position.accuracy = _accuracy;
         },
         setPositionCompass:function(_compass){
             factory.position.compass = _compass;  
         },
 
-
+        /*USER*/
         user_info :{user:'', password:''},
         getUserInfo:function(){
             if (factory.user_info.user ==''){

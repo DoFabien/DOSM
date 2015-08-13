@@ -1,40 +1,34 @@
-//DEBUT DU CONTROLEUR 1
-app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,ConfigFctry,$timeout,$cordovaGeolocation, $cordovaDeviceOrientation, $interval) {
+app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,ConfigFctry,$timeout,$cordovaGeolocation, $cordovaDeviceOrientation, $interval,$rootScope) {
 
-    //TEST
-
-    //TEST
 
     $scope.alert = {show:false,content:'',style:''};
     $scope.show_btn = {bar_menu:true, btn_chargement:true, btn_center:true, refreshing_data:false,footer:false, update_validate:false, update_cancel:false, btn_menu:true};
-    //OsmFctry.setChangeset(53748,0);
     $scope.position = {lat : 0, lng : 0, accuracy : 0, compass : 0};
 
     $scope.marker_position =  L.marker(
-        [$scope.position.lat, $scope.position.lng],
-        {clickable:false,renderer : L.canvas(),iconAngle: $scope.position , 
+        [$rootScope.position.lat, $rootScope.position.lng],
+        {clickable:false,renderer : L.canvas(),iconAngle: $rootScope.position.compass , 
          icon: L.icon({
              iconUrl: 'images/fleche_24.png',
              iconSize:     [24, 24],
              iconAnchor:   [12, 12]
-              ,renderer : L.canvas()
+             ,renderer : L.canvas()
          })
         });
 
-    $scope.circle_position =  L.circle([0, 0], 1, {
+    $scope.circle_position =  L.circle([$rootScope.position.lat, $rootScope.position.lng], $rootScope.position.accuracy, {
         clickable:false,
         color: '#383a40',
         stroke:true,
         weight:2,
         fillColor: '#070707',
         fillOpacity: 0.1
-         ,renderer : L.canvas()
+        ,renderer : L.canvas()
     });
 
     OsmFctry.getChangeset();
     ConfigFctry.getUserInfo();
 
-    //$scope.refreshing_data = false;
     $scope.show_alert = false;
     $scope.menu_is_open =false;
     $scope.current_action = '';
@@ -64,8 +58,8 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
     $scope.circle_position.addTo(FgroupPosition);
     //console.log($scope.map );
     $scope.init = function () {
-        var view = {lat:45.1865,lng: 5.717,zoom: 19};
-        $scope.map.setView(L.latLng(view.lat, view.lng), view.zoom, true);
+
+        $scope.map.setView(L.latLng($rootScope.position.lat, $rootScope.position.lng), 19, true);
         basemaps[0].url.addTo($scope.map );
         Fgroup.addTo($scope.map );
         FgroupPosition.addTo($scope.map );
@@ -78,73 +72,40 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
     //ON READY
     document.addEventListener("deviceready", function () {
 
-
         document.addEventListener("backbutton", function(e){
-            if($scope.menu_is_open == true){
-                $scope.menu_is_open = false;   
-            }
+            if($scope.menu_is_open == true){$scope.menu_is_open = false; }
         }, false);
-
-        $interval(function(){
-            $scope.getCompass();
-        },30);
-
-        $interval(function(){
-            $scope.getPosition();
-        },1000);
 
 
     }, false);
 
-    //COMPASS
-    $scope.getCompass = function(){
 
-        $cordovaDeviceOrientation.getCurrentHeading().then(function(result) {
-            $scope.position.compass = result.trueHeading;
+    /*LES COORDONNEES ONT CHANGE*/
+    $rootScope.$watch('[position.lat,position.lng,position.accuracy]', function() { // au changement de geoloc
+        console.log('watched!')
+        $scope.circle_position.setRadius($rootScope.position.accuracy);
+        $scope.circle_position.setLatLng([$rootScope.position.lat, $rootScope.position.lng]);
+        $scope.marker_position.setLatLng([$rootScope.position.lat, $rootScope.position.lng]);
+        $scope.marker_position.setIconAngle($rootScope.position.compass);
+        $scope.marker_position.update();
+    });
 
-            $scope.marker_position.setIconAngle($scope.position.compass);
-            $scope.marker_position.update()
-
-
-
-        }, function(err) {
-            // An error occurred
-        });   
-
-    }
-
-    //CORDOVA GEOLOCATION
-    $scope.getPosition = function(){
-
-        var posOptions = {/*timeout: 100000, */enableHighAccuracy: true};
-        $cordovaGeolocation
-            .getCurrentPosition(posOptions)
-            .then(function (result) {
-            $scope.position.lat = result.coords.latitude;
-            $scope.position.lng = result.coords.longitude;
-            $scope.position.accuracy = result.coords.accuracy;
-
-            $scope.circle_position.setRadius($scope.position.accuracy);
-            $scope.circle_position.setLatLng([$scope.position.lat, $scope.position.lng]);
-            $scope.marker_position.setLatLng([$scope.position.lat, $scope.position.lng]);
-
-            $scope.marker_position.update();
-
-
-        }, function(err) {
-            // error
-        });
-
-    }
-
+    /*L'ORIENTATION A CHANGE*/
+    $rootScope.$watch('position.compass', function(){
+        $scope.marker_position.setIconAngle($rootScope.position.compass);
+        $scope.marker_position.update()
+    });
 
 
     /*CENTRE LA CARTE SUR LA POSTITION GPS*/	
     $scope.centerMapOnLocation = function(){
-        console.log($scope.position);
-        $scope.map.setView([$scope.position.lat,$scope.position.lng]);
+        console.log($rootScope.position);
+        if($rootScope.position.lat != 0){
+            $scope.map.setView([$rootScope.position.lat,$rootScope.position.lng]);
+        }
     };
 
+    /*ON LONG TOUCH ON THE MAP*/
     $scope.map.on("contextmenu", function(e){
         var lat =e.latlng.lat;
         var lng = e.latlng.lng;
@@ -152,7 +113,8 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
             $scope.addNode(lat,lng);
         }
     });
-    /*Ajout d'un POI OSM*/
+    
+    /*AJOUT D'UN POI OSM*/
     $scope.addNode = function(lat,lng){
         var geojson = {"type":"Feature","id":"","properties":{"type":"node","id":"","tags":{name:'',shop:'*'},"relations":[],"meta":{"timestamp":"","version":"","changeset":"","user":"","uid":""}},"geometry":{"type":"Point","coordinates":[lng,lat]}};
         $scope.open($scope.$event,geojson,'W');
@@ -163,15 +125,9 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
     $scope.showAlert = function(show,content,style){
         $scope.alert = {show:show,content:content,style:style};
         $scope.$apply();
-
-        //        $timeout(function () {
-        //            $scope.alert = {show:false,content:'',style:''};
-        //            $scope.$apply();
-        //        }, 3000);
     };
 
     $scope.dragMarker = function(marker){
-        //        $scope.show_btn = {bar_menu:false, btn_chargement:false,footer:true, update_validate:true, update_cancel:true};
         if(!$scope.$$phase) {$scope.$apply();}
 
         if (marker.json.properties.type == 'way'){
@@ -244,6 +200,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
             marker.id_osm = id_osm;
             marker.json = data[i];
             marker.on("click",function(e){
+                console.log('click marker');
                 if (e.target.json.properties.type == 'way'){
 
                     //c'est un polygon, on convertit le XML de façon différente pour conserver ses noeud
@@ -264,7 +221,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
             });
 
             marker.on("contextmenu", function(e){
-                console.log('CLICK MARKER!');
+                console.log('CLICK DROIT MARKER!');
                 $scope.dragMarker(e.target);
 
             });
@@ -419,8 +376,6 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
         navigator.app.exitApp();   
     }
 
-});//FIN DU CONTROLEUR 1 
-
-//
+});//EOF CTRL
 
 
