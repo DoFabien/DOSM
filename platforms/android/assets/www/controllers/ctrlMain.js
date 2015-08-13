@@ -2,19 +2,7 @@
 app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,ConfigFctry,$timeout,$cordovaGeolocation, $cordovaDeviceOrientation, $interval) {
 
     //TEST
-    //console.log(ConfigFctry.getPrimaryKeys());
-    console.log(ConfigFctry.getSubTags());
-    $scope.test = function(){
-        if($scope.menu_is_open == true){
-            $scope.menu_is_open = false;   
-        }
-        else{
-            $scope.menu_is_open = true;
-        }
-        console.log($scope.menu_is_open );
-        // console.log($scope.modalIsOpen);
 
-    };
     //TEST
 
     $scope.alert = {show:false,content:'',style:''};
@@ -29,7 +17,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
              iconUrl: 'images/fleche_24.png',
              iconSize:     [24, 24],
              iconAnchor:   [12, 12]
-             // ,renderer : L.canvas()
+              ,renderer : L.canvas()
          })
         });
 
@@ -40,7 +28,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
         weight:2,
         fillColor: '#070707',
         fillOpacity: 0.1
-        // ,renderer : L.canvas()
+         ,renderer : L.canvas()
     });
 
     OsmFctry.getChangeset();
@@ -52,8 +40,11 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
     $scope.current_action = '';
     $scope.geojson_OSM = null;
 
-    $scope.logout = function(){
+    $scope.openCloseMenu = function(){
+        $scope.menu_is_open = ($scope.menu_is_open) ? false : true;
+    };
 
+    $scope.logout = function(){
         $timeout(function () {
             $location.path( "/" );
         }, 0);
@@ -89,9 +80,9 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
 
 
         document.addEventListener("backbutton", function(e){
-             if($scope.menu_is_open == true){
-            $scope.menu_is_open = false;   
-             }
+            if($scope.menu_is_open == true){
+                $scope.menu_is_open = false;   
+            }
         }, false);
 
         $interval(function(){
@@ -148,7 +139,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
 
 
 
-/*CENTRE LA CARTE SUR LA POSTITION GPS*/	
+    /*CENTRE LA CARTE SUR LA POSTITION GPS*/	
     $scope.centerMapOnLocation = function(){
         console.log($scope.position);
         $scope.map.setView([$scope.position.lat,$scope.position.lng]);
@@ -161,7 +152,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
             $scope.addNode(lat,lng);
         }
     });
-/*Ajout d'un POI OSM*/
+    /*Ajout d'un POI OSM*/
     $scope.addNode = function(lat,lng){
         var geojson = {"type":"Feature","id":"","properties":{"type":"node","id":"","tags":{name:'',shop:'*'},"relations":[],"meta":{"timestamp":"","version":"","changeset":"","user":"","uid":""}},"geometry":{"type":"Point","coordinates":[lng,lat]}};
         $scope.open($scope.$event,geojson,'W');
@@ -173,21 +164,23 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
         $scope.alert = {show:show,content:content,style:style};
         $scope.$apply();
 
-//        $timeout(function () {
-//            $scope.alert = {show:false,content:'',style:''};
-//            $scope.$apply();
-//        }, 3000);
+        //        $timeout(function () {
+        //            $scope.alert = {show:false,content:'',style:''};
+        //            $scope.$apply();
+        //        }, 3000);
     };
 
     $scope.dragMarker = function(marker){
-//         $scope.show_btn = {bar_menu:false, btn_chargement:false,footer:true, update_validate:true, update_cancel:true};
-//$scope.$apply();
+        //        $scope.show_btn = {bar_menu:false, btn_chargement:false,footer:true, update_validate:true, update_cancel:true};
+        if(!$scope.$$phase) {$scope.$apply();}
+
         if (marker.json.properties.type == 'way'){
             $scope.showAlert(true,"Impossible de déplacer l'élément car c'est un polygone",'alert-warning');
         }
         else {
             $scope.show_btn = {bar_menu:false, btn_chargement:false,footer:true, update_validate:true, update_cancel:true};
-            $scope.$apply();
+            if(!$scope.$$phase) {$scope.$apply();}
+
             Fgroup.clearLayers(); 
             // console.log(marker);
             marker.off("click");
@@ -285,7 +278,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
     $scope.refreshMapData = function(){
         $scope.current_action = '';
         $scope.show_btn = {bar_menu:true, btn_chargement:true,footer:false,refreshing_data:true, update_validate:false, update_cancel:false,btn_menu:true, btn_center:true};
-//         $scope.$apply();
+        //         $scope.$apply();
         OsmFctry.getGeojsonByBbox(ConfigFctry.getListOfPrimaryKey(),$scope.map .getBounds(),function (data){
             $scope.geojson_OSM = data;
             $scope.drawMarker($scope.geojson_OSM);
@@ -300,7 +293,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
         if (_type_action == 'W'){ // c'est une création d'un nouveau noeud, on le push dans le json
             OSM_json.push(new_feature);
         }
-        
+
         /*C'est un update*/
         else if (_type_action == 'R'){
 
@@ -322,34 +315,34 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
         return OSM_json;
     };
 
- 
+
 
 
     /*OUVERTURE DE LA POPIN MODAL*/
     $scope.open = function (ev,geojson,_type_action) {
-        
-//        if ($scope.modalIsOpen) return; // si déjà ouvert, on fait rien
+
+        //        if ($scope.modalIsOpen) return; // si déjà ouvert, on fait rien
 
         var items = {geojson:geojson, type_action:_type_action};
         var modalInstance = $mdDialog.show({
             templateUrl: 'partial/Modal_FicheOsm.html',//'partial/Modal_FicheOsm.html',
             controller: 'ModalFicheCtrl',
-           // backdrop: false,
-             locals: {
-                 items: items
-                        }
+            // backdrop: false,
+            locals: {
+                items: items
+            }
         });
 
 
 
         //lors du clic su OK. feature en geojson
         modalInstance.then(function (result) {
-            
+
             //création d'un noeud
             feature = result.geojson;
-           
+
             $scope.type_ope = result.type_ope;
-           // $scope.modalIsOpen = false;
+            // $scope.modalIsOpen = false;
             console.log( $scope.type_ope );
 
             if ( $scope.type_ope  == 'W'){ //creation
@@ -394,7 +387,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
             }
 
         }, function (object) {
-            
+
             var feature = object.geojson;
             var type_ope = object.type_ope;
             var isEditable = object.isEditable;

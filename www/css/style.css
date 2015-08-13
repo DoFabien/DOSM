@@ -10,9 +10,6 @@ html, body, #map {
 }
 #map {
     background-color: black;
-    /*
-    position: initial !IMPORTANT;
-    */
 }
 
 html, body{
@@ -31,41 +28,7 @@ button {
     display: none;   
 
 }
-.sidebar_left{
-    position: relative;
-    width: 150px;
-    height: 100%;
-    float: left;
-    background-color: blue; 
-}
 
-.main_content{
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    bottom: 0px;
-    right: 0px;    
-}
-
-
-
-
-.sidebar_left_close{
-    left:0px;
-}
-
-.sidebar_left_open{
-    left:320px;
-}
-
-
-
-.app-body2{
-    position: absolute;
-    right:0px;
-
-    height:100%;
-}
 
 .div_fab_menu{
     margin: 0;
@@ -194,35 +157,12 @@ button {
 
 #form_login button {
     width:100%;
-
 }
 #form_login {
     padding:20px;
     text-align:center;
 
 }
-
-.switch{
-
-    margin-right:auto; 
-    margin-left:auto;
-}
-
-.content_slider{
-    width: 100%;
-    height: 50px;
-    background-color: white;
-    display: inline;
-
-}
-.content_slider.label{
-    text-align: center; 
-}
-
-.scrollable {
-    background-color: white !IMPORTANT;
-}
-
 
 
 
@@ -284,8 +224,9 @@ button {
 
 /*MdDialog*/
 md-dialog {
-    max-width: 98% !IMPORTANT;
-    max-height: 90%  !IMPORTANT;
+    width: 95% !IMPORTANT;
+    max-width: 95% !IMPORTANT;
+    max-height: 95%  !IMPORTANT;
     z-index: 1010 !IMPORTANT;
 }
 
@@ -295,35 +236,37 @@ md-dialog .last_edition{
     margin-bottom: 0px;
 }
 
-md-dialog-content{
+md-dialog md-dialog-content{
     padding-top: 5px !IMPORTANT;
     padding-bottom: 5px !IMPORTANT;
     padding-left: 15px !IMPORTANT;
     padding-right: 15px !IMPORTANT;
 }
 
-md-dialog md-select {
-    width: 100%;
-    padding: 0 !IMPORTANT;
-    margin-bottom: 5px;
-}
-
-md-dialog table{
+md-dialog md-dialog table{
     width: 40%;
 }
 
-md-select .md-select-label{
- width: 100%;   
+md-dialog md-select {
+    width: 100%;
+    padding: 0 !IMPORTANT;
+    margin-bottom: 0px;
 }
-.md-select-label{
+
+md-dialog md-select .md-select-label{
+ width: 100%;
+ height: 29px;
+ margin-bottom: 0px !IMPORTANT; 
+}
+md-dialog .md-select-label{
     padding: 0;   
 }
 
-md-input-container {
+md-dialog md-input-container {
     padding: 0;  
 }
 
-md-list-item{
+md-dialog md-list-item{
     min-height: 30px;   
     padding: 0 !IMPORTANT;
 }
@@ -339,33 +282,34 @@ md-dialog md-switch .md-label{
  font-size: 11px;   
 }
 
-.md-toolbar-tools md-input-container input{
+md-dialog .md-toolbar-tools md-input-container input{
  color: white !IMPORTANT;
 }
 
-.readA{
+
+md-dialog .readA{
     margin: 0px;
     float:left;
     width:50%;   
 }
-.readB{
+md-dialog .readB{
     margin: 0px;
     float:left;
     width:50%   
 }
 
-.editableA {
+md-dialog .editableA {
     margin: 0px;
     float:left;
     width:45%;  
 }
 
-.editableB {
+md-dialog .editableB {
     margin: 0px;
     float:left;
     width:45%;  
 }
-.editableC {
+md-dialog .editableC {
     text-align: center;
     margin: 0px;
     float:left;
