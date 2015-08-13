@@ -199,6 +199,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
             var id_osm =  data[i].id;
             marker.id_osm = id_osm;
             marker.json = data[i];
+            
             marker.on("click",function(e){
                 console.log('click marker');
                 if (e.target.json.properties.type == 'way'){
