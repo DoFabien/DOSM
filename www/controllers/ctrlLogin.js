@@ -20,11 +20,11 @@ app.controller('LoginCtrl', function ($scope,$location,$timeout,ConfigFctry,OsmF
     $scope.connexion = function (){
 
         OsmFctry.getOsmPermission($scope.user,$scope.password,function(data){
-            //console.log(data);
+        
             if(data == 400){
                 $timeout(function () {
                     ConfigFctry.setUserInfo($scope.user,$scope.password);
-                    $location.path( "/main" );
+                    $location.path( "/gps" );
                 }, 0);
 
                 console.log('ok');

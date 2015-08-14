@@ -10,12 +10,15 @@ app.config(function($routeProvider) {
         .when('/', {templateUrl: 'partial/login.html',
                     controller:'LoginCtrl'
                    })
+        .when('/gps', {templateUrl: 'partial/GpsWaiting.html',
+                    controller:'GpsWaitingCtrl'
+                   })
 });
 
 // ROOTSCOPE
 
 app.run(function($rootScope,ConfigFctry,$cordovaGeolocation,$cordovaDeviceOrientation){
-    $rootScope.position ={lat : 0, lng : 0, accuracy : 0, compass : 0};
+    $rootScope.position ={lat : 0, lng : 0, accuracy : Number.POSITIVE_INFINITY, compass : 0};
     //ON READY
     document.addEventListener("deviceready", function () {
         console.log('READY!');
