@@ -10,9 +10,9 @@
 		_updateImg: function(i, a, s) {
 			a = L.point(s).divideBy(2)._subtract(L.point(a));
 			var transform = '';
-			transform += ' translate(' + -a.x + 'px, ' + -a.y + 'px)';
+			//transform += ' translate(' + -a.x + 'px, ' + -a.y + 'px)';
 			transform += ' rotate(' + this.options.iconAngle + 'deg)';
-			transform += ' translate(' + a.x + 'px, ' + a.y + 'px)';
+			//transform += ' translate(' + a.x + 'px, ' + a.y + 'px)';
 			i.style[L.DomUtil.TRANSFORM] += transform;
 		},
 
@@ -31,8 +31,9 @@
 			_old__setPos.apply(this,[pos]);
 
 			if (this.options.iconAngle) {
-				var a = this.options.icon.options.iconAnchor;
-				var s = this.options.icon.options.iconSize;
+				var defaultIcon = new L.Icon.Default;
+				var a = this.options.icon.options.iconAnchor || defaultIcon.options.iconAnchor;
+				var s = this.options.icon.options.iconSize || defaultIcon.options.iconSize;
 				var i;
 				if (this._icon) {
 					i = this._icon;

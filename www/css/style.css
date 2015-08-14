@@ -10,6 +10,7 @@ html, body, #map {
 }
 #map {
     background-color: black;
+    z-index: 100;
 }
 
 html, body{
@@ -31,6 +32,7 @@ button {
 
 
 .div_fab_menu{
+    z-index: 900;
     margin: 0;
     position: absolute;
     top: 10px;
@@ -42,22 +44,24 @@ button {
 }
 
 .div_fab_refresh{
+    z-index: 900;
     margin: 0;
-        position: absolute;
+    position: absolute;
     bottom: 15px;
     right:0px;
 }
 #btn_refresh{
+    z-index: 900;
     background-color: #d90808;
     color: white;
     margin: 10px;
-
     outline:0px;
 }
 
 .div_fab_center{
+    z-index: 900;
     margin: 0;
-     position: absolute;
+    position: absolute;
     bottom: 81px;
     right:0px;
 }
@@ -65,11 +69,11 @@ button {
     background-color: #174dc7;
     color: white;
     margin: 10px;
-   
     outline:0px;
 }
 
 .div_fab_menu{
+    z-index: 900;
     margin: 0;
     position: absolute;
     top: 10px;
@@ -97,7 +101,7 @@ button {
 
 .div_fab_validate_geo{
     margin: 0;
-     position: absolute;
+    position: absolute;
     bottom: 10px;
     right:0; 
 }
@@ -107,7 +111,7 @@ button {
     color: white;
     z-index:10000;
     margin: 10px;
-   
+
 }
 
 
@@ -223,6 +227,10 @@ button {
 
 
 /*MdDialog*/
+.md-dialog-container
+{
+    z-index: 1000; 
+}
 md-dialog {
     width: 95% !IMPORTANT;
     max-width: 95% !IMPORTANT;
@@ -254,9 +262,9 @@ md-dialog md-select {
 }
 
 md-dialog md-select .md-select-label{
- width: 100%;
- height: 29px;
- margin-bottom: 0px !IMPORTANT; 
+    width: 100%;
+    height: 29px;
+    margin-bottom: 0px !IMPORTANT; 
 }
 md-dialog .md-select-label{
     padding: 0;   
@@ -279,11 +287,11 @@ md-dialog md-switch{
 }
 
 md-dialog md-switch .md-label{
- font-size: 11px;   
+    font-size: 11px;   
 }
 
 md-dialog .md-toolbar-tools md-input-container input{
- color: white !IMPORTANT;
+    color: white !IMPORTANT;
 }
 
 
@@ -314,4 +322,9 @@ md-dialog .editableC {
     margin: 0px;
     float:left;
     width:10%;  
+}
+
+.css-icon{
+    transform-origin: 50% 50% !IMPORTANT;
+    transition: all 0.2s ease;
 }

@@ -13,6 +13,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
              iconSize:     [24, 24],
              iconAnchor:   [12, 12]
              ,renderer : L.canvas()
+             ,className:'css-icon'
          })
         });
 
@@ -113,7 +114,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
             $scope.addNode(lat,lng);
         }
     });
-    
+
     /*AJOUT D'UN POI OSM*/
     $scope.addNode = function(lat,lng){
         var geojson = {"type":"Feature","id":"","properties":{"type":"node","id":"","tags":{name:'',shop:'*'},"relations":[],"meta":{"timestamp":"","version":"","changeset":"","user":"","uid":""}},"geometry":{"type":"Point","coordinates":[lng,lat]}};
@@ -199,9 +200,10 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
             var id_osm =  data[i].id;
             marker.id_osm = id_osm;
             marker.json = data[i];
-            
+
             marker.on("click",function(e){
                 console.log('click marker');
+                console.log(e);
                 if (e.target.json.properties.type == 'way'){
 
                     //c'est un polygon, on convertit le XML de façon différente pour conserver ses noeud
