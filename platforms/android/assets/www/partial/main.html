@@ -34,15 +34,15 @@
               <md-icon md-svg-src = 'images/SVG/ic_gps_fixed_24px.svg' class="fab_icon" ></md-icon>
     </md-button>
     </div>
-    <!--VALIDER UN DEPLACEMENT EN BAS A DROITE-->
+    <!--VALIDER UN DEPLACEMENT EN HAUT A DROITE-->
     <div class="div_fab_validate_geo" ng-show = "show_btn.update_validate">
    <md-button id ="btn_validate_geo"  class="md-button md-fab" aria-label="Valider le déplacement" ng-click="updateOsmLatLng()">
           <md-icon md-svg-src = 'images/SVG/ic_check_24px.svg' class="fab_icon" ></md-icon>
     </md-button>
    </div>
-    <!--ANNULER UN DEPLACEMENT EN BAS A GAUCHE-->
+    <!--ANNULER UN DEPLACEMENT EN HAUT A GAUCHE-->
     <div  class="div_fab_cancel_geo" ng-show = "show_btn.update_validate" >
-  <md-button id ="btn_cancel_geo" class="md-button md-fab" aria-label="Valider le déplacement" ng-click="refreshMapData()">
+  <md-button id ="btn_cancel_geo" class="md-button md-fab" aria-label="Valider le déplacement" ng-click="cancelOsmLatLng()">
           <md-icon md-svg-src = 'images/SVG/ban.svg' class="fab_icon" ></md-icon>
     </md-button>
    </div>
