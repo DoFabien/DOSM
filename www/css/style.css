@@ -249,6 +249,10 @@ button {
 {
     z-index: 1000; 
 }
+
+.md-select-menu-container{
+    z-index: 2000;
+}
 md-dialog {
     width: 95% !IMPORTANT;
     max-width: 95% !IMPORTANT;
