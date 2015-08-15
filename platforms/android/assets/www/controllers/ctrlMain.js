@@ -19,13 +19,11 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
 
     $scope.circle_position =  L.circle([$rootScope.position.lat, $rootScope.position.lng], $rootScope.position.accuracy, {
         clickable:false,
-        color: '#383a40',
-        stroke:true,
-        weight:2,
-        fillColor: '#070707',
-        fillOpacity: 0.1
+        color: '#383a40', stroke:true, weight:2,fillColor: '#070707', fillOpacity: 0.1
         ,renderer : L.canvas()
     });
+
+    $scope.bbox_data = L.rectangle([[0,0],[0,0]],{color: "#ff7800", weight: 3,fillOpacity: 0});
 
     OsmFctry.getChangeset();
     ConfigFctry.getUserInfo();
@@ -57,7 +55,8 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
     var FgroupPosition =L.featureGroup();
     $scope.marker_position.addTo(FgroupPosition);
     $scope.circle_position.addTo(FgroupPosition);
-    //console.log($scope.map );
+    $scope.bbox_data.addTo(FgroupPosition); 
+
     $scope.init = function () {
 
         $scope.map.setView(L.latLng($rootScope.position.lat, $rootScope.position.lng), 19, true);
@@ -239,9 +238,14 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
         $scope.current_action = '';
         $scope.show_btn = {bar_menu:true, btn_chargement:true,footer:false,refreshing_data:true, update_validate:false, update_cancel:false,btn_menu:true, btn_center:true};
         //         $scope.$apply();
-        OsmFctry.getGeojsonByBbox(ConfigFctry.getListOfPrimaryKey(),$scope.map .getBounds(),function (data){
+        OsmFctry.getGeojsonByBbox(ConfigFctry.getListOfPrimaryKey(),$scope.map.getBounds(),function (data){  
+            //rectangle de l'emprise des données téléchargés
+            $scope.bbox_data.setBounds($scope.map.getBounds());
+            $scope.bbox_data.redraw();
+            
             $scope.geojson_OSM = data;
             $scope.drawMarker($scope.geojson_OSM);
+
         });
     };
 
