@@ -131,7 +131,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
         $scope.$apply();
     };
 
-    
+
     $scope.dragMarker = function(marker){
         if(!$scope.$$phase) {$scope.$apply();}
 
@@ -185,7 +185,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
     $scope.cancelOsmLatLng = function (){
         $scope.show_btn = {bar_menu:true, btn_chargement:true,footer:false,refreshing_data:true, update_validate:false, update_cancel:false,btn_menu:true, btn_center:true};
         console.log($scope.original_feature_OSM);
-         $scope.geojson_OSM = $scope.refreshFeatureJson('R',$scope.geojson_OSM,$scope.original_feature_OSM);
+        $scope.geojson_OSM = $scope.refreshFeatureJson('R',$scope.geojson_OSM,$scope.original_feature_OSM);
         $scope.drawMarker($scope.geojson_OSM );       
     }
 
@@ -230,7 +230,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
             marker.on("contextmenu", function(e){ //dblclick?
                 console.log('CLICK DROIT MARKER!');
                 $scope.dragMarker(e.target);
-                
+
 
             });
 
