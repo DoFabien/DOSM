@@ -3,8 +3,19 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
 
     $scope.alert = {show:false,content:'',style:''};
     $scope.show_btn = {bar_menu:true, btn_chargement:true, btn_center:true, refreshing_data:false,footer:false, update_validate:false, update_cancel:false, btn_menu:true};
-    $scope.position = {lat : 0, lng : 0, accuracy : 0, compass : 0};
+    
+    $scope.show_alert = false;
+    $scope.menu_is_open =false;
+    $scope.current_action = '';
+    $scope.geojson_OSM = null;
+    $scope.zoom = 19;
+    
+     $scope.map = $window.L.map('map',{zoomControl:false, minZoom: 19, maxZoom: 20, touchZoom:false});
+    
+    var Fgroup = L.featureGroup();
+    var FgroupPosition =L.featureGroup();
 
+    
     $scope.marker_position =  L.marker(
         [$rootScope.position.lat, $rootScope.position.lng],
         {clickable:false,renderer : L.canvas(),iconAngle: $rootScope.position.compass , 
@@ -15,27 +26,45 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
              ,renderer : L.canvas()
              ,className:'css-icon'
          })
-        });
+        }).addTo(FgroupPosition);
 
     $scope.circle_position =  L.circle([$rootScope.position.lat, $rootScope.position.lng], $rootScope.position.accuracy, {
         clickable:false,
         color: '#383a40', stroke:true, weight:2,fillColor: '#070707', fillOpacity: 0.1
         ,renderer : L.canvas()
-    });
+    }).addTo(FgroupPosition);
+    
+    $scope.bbox_data = L.rectangle([[0,0],[0,0]],{color: "#ff7800", weight: 3,fillOpacity: 0}).addTo(FgroupPosition);
 
-    $scope.bbox_data = L.rectangle([[0,0],[0,0]],{color: "#ff7800", weight: 3,fillOpacity: 0});
+    
+        var basemaps = [
+        {name:'OSM fr', url:$window.L.tileLayer('http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',{maxZoom:20})}
+    ];
 
+        $scope.map.setView(L.latLng($rootScope.position.lat, $rootScope.position.lng), $scope.zoom, true);
+        basemaps[0].url.addTo($scope.map );
+        Fgroup.addTo($scope.map );
+        FgroupPosition.addTo($scope.map);
+    
+    
     OsmFctry.getChangeset();
     ConfigFctry.getUserInfo();
 
-    $scope.show_alert = false;
-    $scope.menu_is_open =false;
-    $scope.current_action = '';
-    $scope.geojson_OSM = null;
-
+    
     $scope.openCloseMenu = function(){
         $scope.menu_is_open = ($scope.menu_is_open) ? false : true;
     };
+    
+    $scope.zoomInOut = function(){
+       if($scope.map.getZoom()==19){ $scope.map.setZoom(20);}
+        else{ $scope.map.setZoom(19);}  
+    }
+    
+    $scope.map.on('zoomend',function(e){
+          $scope.zoom = $scope.map.getZoom();
+            console.log($scope.zoom);
+        $scope.$apply();
+    });
 
     $scope.logout = function(){
         $timeout(function () {
@@ -44,40 +73,20 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
 
     };
 
-    var basemaps = [
-        {name:'OSM fr', url:$window.L.tileLayer('http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',{maxZoom:20})}
-    ];
-    $scope.map = $window.L.map('map',{zoomControl:false});
 
-    L.control.zoom({position:'topright'}).addTo($scope.map );
 
-    var Fgroup = L.featureGroup();
-    var FgroupPosition =L.featureGroup();
-    $scope.marker_position.addTo(FgroupPosition);
-    $scope.circle_position.addTo(FgroupPosition);
-    $scope.bbox_data.addTo(FgroupPosition); 
-
-    $scope.init = function () {
-
-        $scope.map.setView(L.latLng($rootScope.position.lat, $rootScope.position.lng), 19, true);
-        basemaps[0].url.addTo($scope.map );
-        Fgroup.addTo($scope.map );
-        FgroupPosition.addTo($scope.map );
-
-    };
-    $scope.init();
+  
 
 
 
-    //ON READY
-    document.addEventListener("deviceready", function () {
+
 
         document.addEventListener("backbutton", function(e){
             if($scope.menu_is_open == true){$scope.menu_is_open = false; }
         }, false);
 
 
-    }, false);
+
 
 
     /*LES COORDONNEES ONT CHANGE*/

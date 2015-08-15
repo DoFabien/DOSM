@@ -9,7 +9,7 @@ html, body, #map {
     height:100% 
 }
 #map {
-    background-color: black;
+    background-color: lightgrey;
     z-index: 100;
 }
 
@@ -27,9 +27,14 @@ button {
 
 .leaflet-control-attribution {
     display: none;   
-
 }
 
+.fab_icon{
+    font:bold;
+    width:30px;
+    height:30px;
+    
+}
 
 .div_fab_menu{
     z-index: 900;
@@ -43,12 +48,25 @@ button {
     background-color: white;
 }
 
-.div_fab_refresh{
+.div_fab_zoom{
     z-index: 900;
     margin: 0;
     position: absolute;
     bottom: 15px;
     right:0px;
+}
+#btn_zoom{
+    margin: 10px;
+    background-color: white;
+}
+
+
+.div_fab_refresh{
+    z-index: 900;
+    margin: 0;
+    position: absolute;
+    bottom: 15px;
+    left:0px;
 }
 #btn_refresh{
     z-index: 900;
