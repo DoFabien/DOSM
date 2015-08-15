@@ -105,7 +105,7 @@ button {
 .div_fab_cancel_geo{
     margin: 0;
     position: absolute;
-    bottom: 10px;
+    top: 10px;
     left:0;
 }
 #btn_cancel_geo
@@ -120,7 +120,7 @@ button {
 .div_fab_validate_geo{
     margin: 0;
     position: absolute;
-    bottom: 10px;
+    top: 10px;
     right:0; 
 }
 #btn_validate_geo
@@ -248,6 +248,10 @@ button {
 .md-dialog-container
 {
     z-index: 1000; 
+}
+
+.md-select-menu-container{
+    z-index: 2000;
 }
 md-dialog {
     width: 95% !IMPORTANT;

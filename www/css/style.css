@@ -105,7 +105,7 @@ button {
 .div_fab_cancel_geo{
     margin: 0;
     position: absolute;
-    bottom: 10px;
+    top: 10px;
     left:0;
 }
 #btn_cancel_geo
@@ -120,7 +120,7 @@ button {
 .div_fab_validate_geo{
     margin: 0;
     position: absolute;
-    bottom: 10px;
+    top: 10px;
     right:0; 
 }
 #btn_validate_geo

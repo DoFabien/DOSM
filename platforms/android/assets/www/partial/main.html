@@ -14,7 +14,7 @@
     </md-button>
     </div>
     
-    <!--ZOOM EN HAUT A DROIT-->
+    <!--ZOOM EN BAS A DROIT-->
    <div class="div_fab_zoom">
     <md-button id="btn_zoom"  ng-click="zoomInOut()" class="md-fab md-primary md-button md-default-theme" aria-label="Zoom" >
         <md-icon ng-show="zoom != 20" md-svg-src = 'images/SVG/ic_zoom_in_24px.svg' class="fab_icon" style="color:black"></md-icon>
@@ -22,7 +22,7 @@
     </md-button>
     </div>
     
-   <!--REFRESH EN BAS DROITE-->
+   <!--REFRESH EN BAS GAUCHE-->
    <div class="div_fab_refresh" ng-show = "show_btn.btn_chargement">
     <md-button id="btn_refresh" ng-click ="refreshMapData()" ng-disabled="show_btn.refreshing_data" class="md-fab" aria-label="refresh">
          <md-icon md-svg-src = 'images/SVG/refresh.svg' ng-class="{'fa-spin':show_btn.refreshing_data}" class="fab_icon" ></md-icon>
