@@ -21,7 +21,9 @@
             <!--MODE-->
             <div>
                 <md-list>
-                    <md-list-item ><!--Clé primaire-->
+
+                    <!--Clé principale-->
+                    <md-list-item >
                         <!--editable-->
                         <div ng-if="editable" class="editableA">
                             <md-select ng-model="primary_tag.k" ng-Change='onPrimaryKeyChange(primary_tag.k)' >
@@ -39,7 +41,6 @@
                         </div>
                         <div ng-if="editable" class="editableC">
                             <i class="fa fa-code fa-2x" style="color:red" ng-click= "activateCustomTag()"></i>
-                            <!--                            <md-checkbox ng-model="customValueType" class="md-warn"> </md-checkbox>-->
                         </div>
 
                         <!--Lecture-->
@@ -49,7 +50,10 @@
                         <div ng-if="!editable" class="readB">
                             {{ current_primary_key_config.lbl && current_primary_key_config.lbl || geojson.properties.tags[primary_tag.k] }}
                         </div>
+                        <md-divider></md-divider>
                     </md-list-item>
+
+
 
 
                     <!--Tag connus-->
@@ -81,13 +85,16 @@
                             {{all_sub_tags[k].lbl ? all_sub_tags[k].lbl : k}}
                         </div>
                         <div ng-if="!editable && geojson.properties.tags[k]" class="readB">
-                           {{findSubTagLabel(k,geojson.properties.tags[k])}}
+                            {{findSubTagLabel(k,geojson.properties.tags[k])}}
                         </div>
+                        <md-divider></md-divider>
                     </md-list-item>
 
+
+
                     <!--LE RESTE DES TAGS-->
-                    <!--editable-->
                     <md-list-item ng-repeat="(k ,v ) in geojson.properties.tags" ng-if="tag_hidden.indexOf(k) == -1 && k != primary_tag.k && list_sub_tag_of_object.indexOf(k) == -1 ">
+                        <!--editable-->
                         <div ng-if="editable" class="editableA">
                             <label>{{k}}</label>
                         </div>
@@ -101,17 +108,18 @@
                             <!--Bouton pour supprimer un tag-->
                             <i class="fa fa-times fa-2x" style="color:red" ng-click= "supTag(k)"></i>
                         </div>
-                        
+
                         <!--lecture-->
-                             <div ng-if="!editable" class="readA">
+                        <div ng-if="!editable" class="readA">
                             {{k}}
                         </div>
                         <div ng-if="!editable" class="readB">
-                           {{geojson.properties.tags[k]}}
+                            {{geojson.properties.tags[k]}}
                         </div>
+                        <md-divider></md-divider>
                     </md-list-item>
-                    
-                    
+
+
                     <!--LES CHAMPS POUR AJOUTER UN NOUVEAU TAG en edition uniquement-->
                     <md-list-item ng-if="editable">
                         <div class="editableA">
@@ -125,19 +133,15 @@
                                 <label>Valeur</label>
                                 <input ng-model="newKV.v_add">
                             </md-input-container>
-
                         </div>
                         <div class="editableC">
                             <!--Bouton pour ajouter un tag-->
                             <i class="fa fa-plus-circle fa-2x" ng-click="addTag()" style="color:green;" ></i>
                         </div>
                     </md-list-item>
-
-                    <md-divider ng-if="!$last"></md-divider>
+                    <md-divider></md-divider>
                 </md-list>
             </div>
-
-
 
         </md-dialog-content>
 
@@ -160,7 +164,6 @@
             <md-button ng-show="editable && !sw_delete" class="md-raised md-primary" ng-click="ok(geojson)">OK</md-button>
             <md-button ng-show="!sw_delete" class="md-raised" ng-class="editable ? 'md-warn' :'md-primary' " ng-click="cancel()">  {{editable ? 'Annuler' : 'Fermer'}}</md-button>
 
-            <!--            <input type="checkbox" ng-show="editable"  ng-model="sw_delete"></input>-->
 
 
 
