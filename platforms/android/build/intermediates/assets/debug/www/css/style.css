@@ -1,0 +1,352 @@
+html, body, #map {
+    height:100%;
+    width:100%;
+    padding:0px;
+    margin:0px;
+} 
+
+#view{
+    height:100% 
+}
+#map {
+    background-color: lightgrey;
+    z-index: 100;
+}
+
+html, body{
+    height: 100%;
+}
+
+.fa{
+    outline:0px !IMPORTANT;   
+}
+button {
+    z-index:99999;
+}
+
+
+.leaflet-control-attribution {
+    display: none;   
+}
+
+.fab_icon{
+    font:bold;
+    width:30px;
+    height:30px;
+    
+}
+
+.div_fab_menu{
+    z-index: 900;
+    margin: 0;
+    position: absolute;
+    top: 10px;
+    left:0px;
+}
+#btn_menu{
+    margin: 10px;
+    background-color: white;
+}
+
+.div_fab_zoom{
+    z-index: 900;
+    margin: 0;
+    position: absolute;
+    bottom: 15px;
+    right:0px;
+}
+#btn_zoom{
+    margin: 10px;
+    background-color: white;
+}
+
+
+.div_fab_refresh{
+    z-index: 900;
+    margin: 0;
+    position: absolute;
+    bottom: 15px;
+    left:0px;
+}
+#btn_refresh{
+    z-index: 900;
+    background-color: #d90808;
+    color: white;
+    margin: 10px;
+    outline:0px;
+}
+
+.div_fab_center{
+    z-index: 900;
+    margin: 0;
+    position: absolute;
+    bottom: 81px;
+    right:0px;
+}
+#btn_center{
+    background-color: #174dc7;
+    color: white;
+    margin: 10px;
+    outline:0px;
+}
+
+.div_fab_menu{
+    z-index: 900;
+    margin: 0;
+    position: absolute;
+    top: 10px;
+    left:0px;
+}
+#btn_menu{
+    margin: 10px;
+    background-color: white;
+}
+
+.div_fab_cancel_geo{
+    margin: 0;
+    position: absolute;
+    top: 10px;
+    left:0;
+}
+#btn_cancel_geo
+{
+    background-color: #7e0909;
+    color: white;
+    z-index:10000;
+    margin: 10px;
+
+}
+
+.div_fab_validate_geo{
+    margin: 0;
+    position: absolute;
+    top: 10px;
+    right:0; 
+}
+#btn_validate_geo
+{
+    background-color: #22a503;
+    color: white;
+    z-index:10000;
+    margin: 10px;
+
+}
+
+
+
+.alert {
+    position:absolute;
+    outline:0px !IMPORTANT;   
+    top:0px;
+    left: 0px;
+    right: 0px;
+    z-index: 10001;
+    padding: 15px;
+    margin: 4px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+.alert-danger{
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+
+.alert-warning {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+}
+
+
+#footer {
+    position:absolute;
+    bottom:0px;
+    width:100%;
+    height: 51px;
+    z-index: 10;
+    background-color: white;
+}
+
+.padding-bottom{
+    padding-bottom: 51px !important;   
+}
+
+.center-label {
+    text-align: center; 
+    display: block;
+}
+
+#form_login button {
+    width:100%;
+}
+#form_login {
+    padding:20px;
+    text-align:center;
+
+}
+
+
+
+
+/*MENU*/
+
+.wrapper {
+    transition: -webkit-transform 0.5s ease;
+}
+
+.wrapper.mm-menu-open {
+    -webkit-transform: translateX(300px);
+}
+
+
+.mm-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    background-color: #fff;
+    width: 300px;
+    height: 100%;
+    overflow-y: auto;
+    box-shadow: 0;
+    transition: -webkit-transform 0.5s ease;
+    -webkit-transform: translateX(-100%);
+}
+
+#mm-menu ul {
+    padding-left: 5px !IMPORTANT;
+}
+.mm-menu.active {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    -webkit-transform: translateX(0);
+    /*  -ms-transform: translateX(0);
+    transform: translateX(0);*/
+}
+
+.mm-menu__link {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    margin: 4px 0;
+    padding: 12px;
+    color: #727272;
+    font-size: 16px;
+    text-decoration: none;
+    /*  -webkit-transition: background 0.5s, color 0.5s;
+    transition: background 0.5s, color 0.5s;*/
+}
+
+.mm-menu__link-text {
+    position: relative;
+    z-index: 2;
+}
+
+
+
+/*MdDialog*/
+.md-dialog-container
+{
+    z-index: 1000; 
+}
+
+.md-select-menu-container{
+    z-index: 2000;
+}
+md-dialog {
+    width: 95% !IMPORTANT;
+    max-width: 95% !IMPORTANT;
+    max-height: 95%  !IMPORTANT;
+    z-index: 1010 !IMPORTANT;
+}
+
+md-dialog .last_edition{
+    font-size: 11px;
+    font-style: italic;
+    margin-bottom: 0px;
+}
+
+md-dialog md-dialog-content{
+    padding-top: 5px !IMPORTANT;
+    padding-bottom: 5px !IMPORTANT;
+    padding-left: 15px !IMPORTANT;
+    padding-right: 15px !IMPORTANT;
+}
+
+md-dialog md-dialog table{
+    width: 40%;
+}
+
+md-dialog md-select {
+    width: 100%;
+    padding: 0 !IMPORTANT;
+    margin-bottom: 0px;
+}
+
+md-dialog md-select .md-select-label{
+    width: 100%;
+    height: 29px;
+    margin-bottom: 0px !IMPORTANT; 
+}
+md-dialog .md-select-label{
+    padding: 0;   
+}
+
+md-dialog md-input-container {
+    padding: 0;  
+}
+
+md-dialog md-list-item{
+    min-height: 30px;   
+    padding: 0 !IMPORTANT;
+}
+
+md-dialog md-switch{
+    margin: 0;
+    position: absolute;
+    left: 5px;
+    bottom: 5px;   
+}
+
+md-dialog md-switch .md-label{
+    font-size: 11px;   
+}
+
+md-dialog .md-toolbar-tools md-input-container input{
+    color: white !IMPORTANT;
+}
+
+
+md-dialog .readA{
+    margin: 0px;
+    float:left;
+    width:50%;   
+}
+md-dialog .readB{
+    margin: 0px;
+    float:left;
+    width:50%   
+}
+
+md-dialog .editableA {
+    margin: 0px;
+    float:left;
+    width:45%;  
+}
+
+md-dialog .editableB {
+    margin: 0px;
+    float:left;
+    width:45%;  
+}
+md-dialog .editableC {
+    text-align: center;
+    margin: 0px;
+    float:left;
+    width:10%;  
+}
+
+.css-icon{
+    transform-origin: 50% 50% !IMPORTANT;
+    transition: all 0.2s ease;
+}
