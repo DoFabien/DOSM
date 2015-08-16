@@ -6,7 +6,6 @@ app.controller('ModalFicheCtrl', function ($scope, $mdDialog,items,$filter,OsmFc
     $scope.type_action = items.type_action; // W create/ R consult
     $scope.sw_delete = false; // variable si true, le bouton supprimer apparait
     $scope.tag_hidden = ['source','name'];
-    $scope.subtags = ConfigFctry.getSubTags(); // TOUS les subtags
     $scope.newKV = {k_add: '', v_add:''} ; //emplacement temporaire pour ajouter un tag
     $scope.customValueType = false; // Si les tags ne suffisent pas , permet une edition manuelle (de la clé principale seulement)
     $scope.editable= (($scope.type_action == 'W') ? true : false); // en mode edition ou non
@@ -14,8 +13,8 @@ app.controller('ModalFicheCtrl', function ($scope, $mdDialog,items,$filter,OsmFc
 
     $scope.geojson = items.geojson; // l'object json dans son ensemble
 
-    $scope.all_tags = ConfigFctry.getTags(); // tous les tags et leurs Configurations
-    $scope.all_sub_tags = ConfigFctry.getSubTags();
+    $scope.all_tags = ConfigFctry.Tags; // tous les tags et leurs Configurations
+    $scope.all_sub_tags = ConfigFctry.SubTags;
 
     $scope.primary_tag = ConfigFctry.getPrimaryKeyOfObject($scope.geojson.properties.tags);/*Le type de la key de l'objet OSM ex: {k: "amenity", v: "restaurant"}  paramètre : les tags du geojson*/
 
@@ -66,7 +65,6 @@ $scope.activateCustomTag = function(){
             $scope.current_primary_key_config = ConfigFctry.getConfigTag($scope.primary_tag.k,$scope.primary_tag.v); // ligne de ConfigFctryuration du tag
             $scope.list_sub_tag_of_object = ($scope.current_primary_key_config) ? $scope.current_primary_key_config.subtags : [];
 
-            //$scope.list_sub_tag_of_object = $scope.current_primary_key_config.subtags; 
         }
     });
 

@@ -25,6 +25,8 @@ app.run(function($rootScope,ConfigFctry,$cordovaGeolocation,$cordovaDeviceOrient
     $rootScope.position.compass = 45;
     $rootScope.position.accuracy = 40;
     
+    ConfigFctry.getTags(); // load tags in ConfigFctry.Tags
+    ConfigFctry.getSubTags(); // load Subtags in ConfigFctry.SubTags
     //ON READY
     document.addEventListener("deviceready", function () {
         console.log('READY!');

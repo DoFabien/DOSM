@@ -50,8 +50,9 @@ app.factory('ConfigFctry',function(){
             localStorage.setItem("password", _password);
         },
 
-        /// Nouvelle structure
         /*Renvoie l'intégralité du json tags/tags.json*/
+        
+        Tags: [],
         getTags:function(){
             //requete asynchrone
             var result = null;
@@ -61,6 +62,7 @@ app.factory('ConfigFctry',function(){
                 async :false,
                 success: function(data){
                     result = data;
+                    factory.Tags = data;
                 }
             })
             return result;
@@ -68,18 +70,17 @@ app.factory('ConfigFctry',function(){
 
         /*Renvoie un array des 'PrimaryKeys' present dans le fichier*/        
         getListOfPrimaryKey:function(){
-            var tags = factory.getTags();
+            var tags = factory.Tags;
             var liste_primary_key = [];
             for (key in tags){
                 liste_primary_key.push(key);
             }
-            // console.log(liste_primary_key);
             return liste_primary_key;   
         },
 
         /*Renvoie un tableau d'objet contenant les paramètres des tags pour une Primary Key */
         getTagsByPrimaryKey:function(_primary_key){
-            var tags = factory.getTags();    
+            var tags = factory.Tags;    
             return tags[_primary_key]['values'];
         },
 
@@ -107,7 +108,8 @@ app.factory('ConfigFctry',function(){
             return kv;
         },
 
-        /*Renvoie les "sub-tags" dans l'intégralité*/
+        SubTags:[],
+        /*Renvoie les "sub-tags" dans l'intégralité + charge SubTags*/
         getSubTags:function(){
             var result = null;
             $.ajax({
@@ -116,6 +118,7 @@ app.factory('ConfigFctry',function(){
                 async :false,
                 success: function(data){
                     result = data;
+                    factory.SubTags = data;
                 },
                 error : function (e){
              result = e;   
