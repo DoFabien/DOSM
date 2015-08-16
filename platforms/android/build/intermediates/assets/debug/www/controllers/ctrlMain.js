@@ -64,7 +64,6 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
 
     $scope.map.on('zoomend',function(e){
         $scope.zoom = $scope.map.getZoom();
-        console.log($scope.zoom);
         $scope.$apply();
     });
 
@@ -86,7 +85,6 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
 
     /*LES COORDONNEES ONT CHANGE*/
     $rootScope.$watch('[position.lat,position.lng,position.accuracy]', function() { // au changement de geoloc
-        console.log('watched!')
         $scope.circle_position.setRadius($rootScope.position.accuracy);
         $scope.circle_position.setLatLng([$rootScope.position.lat, $rootScope.position.lng]);
         $scope.marker_position.setLatLng([$rootScope.position.lat, $rootScope.position.lng]);
@@ -103,7 +101,6 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
 
     /*CENTRE LA CARTE SUR LA POSTITION GPS*/	
     $scope.centerMapOnLocation = function(){
-        console.log($rootScope.position);
         if($rootScope.position.lat != 0){
             $scope.map.setView([$rootScope.position.lat,$rootScope.position.lng]);
         }
@@ -162,12 +159,9 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
         if (Fgroup.getLayers().length == 1){
 
             var geojson = Fgroup.getLayers()[0].json;
-            console.log(geojson);
+
             OsmFctry.UpdateOsm(geojson,function(data){
-                //  var old_version = geojson.properties.meta.version;
                 var new_version = data;
-                console.log(data);
-                console.log(geojson.properties.meta.version *1 + 1);
                 if (data != geojson.properties.meta.version *1 + 1){
                     alert('Erreur! Une autre version existe')
                 }
@@ -184,7 +178,6 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
 
     $scope.cancelOsmLatLng = function (){
         $scope.show_btn = {bar_menu:true, btn_chargement:true,footer:false,refreshing_data:true, update_validate:false, update_cancel:false,btn_menu:true, btn_center:true};
-        console.log($scope.original_feature_OSM);
         $scope.geojson_OSM = $scope.refreshFeatureJson('R',$scope.geojson_OSM,$scope.original_feature_OSM);
         $scope.drawMarker($scope.geojson_OSM );       
     }
@@ -218,7 +211,6 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
                     //c'est un polygon, on convertit le XML de façon différente pour conserver ses noeud
                     OsmFctry.getOsmElemById(e.target.json.id,function(data){
                         $scope.open($scope.$event,data.osmGeojson,'R');  
-                        console.log(data.osmGeojson);
                     });
                 }
                 else{
@@ -228,10 +220,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
 
 
             marker.on("contextmenu", function(e){ //dblclick?
-                console.log('CLICK DROIT MARKER!');
                 $scope.dragMarker(e.target);
-
-
             });
 
             marker.addTo(Fgroup);
@@ -278,7 +267,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
         }
 
         else if (_type_action == 'D'){
-            console.log('on a supprimé, on enleve l\'objet supprimé, et on redessine');
+           /* console.log('on a supprimé, on enleve l\'objet supprimé, et on redessine');*/
 
             for (var i = 0; i < OSM_json.length; i++){
                 if(OSM_json[i].id == new_feature.id){
@@ -322,8 +311,6 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
             feature = result.geojson;
 
             $scope.type_ope = result.type_ope;
-            // $scope.modalIsOpen = false;
-            console.log( $scope.type_ope );
 
             if ( $scope.type_ope  == 'W'){ //creation
                 OsmFctry.crateOsmNode(feature,function(data){
@@ -339,10 +326,10 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
 
             }
 
-            else if( $scope.type_ope  == 'D'){
+            else if( $scope.type_ope  == 'D'){ // C'est un delete, on l'enleve de nos données, on redessine les markers
                 console.log("c'est un delete!");
                 OsmFctry.deleteOsmElem(feature,function(_data){
-                    console.log(_data);
+                    /*TODO Contrôler si l'operation s'est bien derddd*/ 
                     $scope.geojson_OSM = $scope.refreshFeatureJson('D',$scope.geojson_OSM,feature);
                     $scope.drawMarker($scope.geojson_OSM );
                 });
@@ -370,18 +357,15 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
             var type_ope = object.type_ope;
             var isEditable = object.isEditable;
             if(isEditable == true){
-                console.log('on annule');
-                console.log( type_ope );
+         
                 if ( type_ope  == 'R'){  // c'est un update qui est annulé, on réinsert la feature originale
-                    console.log('update annulé!')
                     $scope.geojson_OSM = $scope.refreshFeatureJson('R',$scope.geojson_OSM,$scope.original_feature_OSM);
                     $scope.drawMarker($scope.geojson_OSM );
                 }
             }
 
             else{
-
-                console.log("c'est pas en edition, on ferme sans rien faire");
+//                console.log("c'est seulement en lecture, on ferme sans rien faire");
             }
 
         });
