@@ -306,9 +306,8 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
             templateUrl: 'partial/Modal_FicheOsm.html',//'partial/Modal_FicheOsm.html',
             controller: 'ModalFicheCtrl',
              onComplete : function(){
-                console.log( time_start - new Date().getTime());
-                        
-           }
+                console.log(new Date().getTime() - time_start );    //durée de l'ouverture de la popup   
+           },
             // backdrop: false,
             locals: {
                 items: items

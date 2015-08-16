@@ -46,7 +46,7 @@ app.run(function($rootScope,ConfigFctry,$cordovaGeolocation,$cordovaDeviceOrient
             }); 
 
         /*ORIENTATION*/
-        $rootScope.watchCompass = $cordovaDeviceOrientation.watchHeading({frequency:50});
+        $rootScope.watchCompass = $cordovaDeviceOrientation.watchHeading({frequency:150});
         $rootScope.watchCompass.then(
             null,
             function(error) {
