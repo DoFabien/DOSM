@@ -1,2 +1,0 @@
-C:\wamp\www\DOSM\platforms\android\build\intermediates\classes\debug
-C:\wamp\www\DOSM\platforms\android\build\intermediates\pre-dexed\debug\classes-14a4e59defa25481e7c3747e5e9b3dfec37dd0f9.jar

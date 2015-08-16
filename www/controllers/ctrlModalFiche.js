@@ -1,7 +1,5 @@
 //CONTROLEUR MODAL FICHE OSM
 app.controller('ModalFicheCtrl', function ($scope, $mdDialog,items,$filter,OsmFctry,ConfigFctry) {
-    $scope.flex_col_read = {'A':50, 'B':50, 'C':0}; 
-    $scope.flex_col_edit = {'A':45, 'B':45, 'C':10}; 
 
     $scope.type_action = items.type_action; // W create/ R consult
     $scope.sw_delete = false; // variable si true, le bouton supprimer apparait

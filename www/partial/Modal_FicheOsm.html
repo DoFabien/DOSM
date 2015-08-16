@@ -147,7 +147,7 @@
 
         <div class="md-actions" layout="row">
             <span flex></span>
-            <md-switch ng-show="editable" class="md-warn" ng-model="sw_delete" aria-label="Supression de l'objet">
+            <md-switch ng-show="editable && type_action != 'W'" class="md-warn" ng-model="sw_delete" aria-label="Supression de l'objet">
                 {{sw_delete ? 'Annuler' : 'Supprimer?'}}
 
             </md-switch>
