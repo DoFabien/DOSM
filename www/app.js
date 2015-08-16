@@ -20,10 +20,10 @@ app.config(function($routeProvider) {
 app.run(function($rootScope,ConfigFctry,$cordovaGeolocation,$cordovaDeviceOrientation){
     $rootScope.position ={lat : 0, lng : 0, accuracy : Number.POSITIVE_INFINITY, compass : 0};
     /*DEBUG*/
-    $rootScope.position.lat = 45.186669070708895;
-    $rootScope.position.lng = 5.716972477664117;
-    $rootScope.position.compass = 45;
-    $rootScope.position.accuracy = 40;
+//    $rootScope.position.lat = 45.186669070708895;
+//    $rootScope.position.lng = 5.716972477664117;
+//    $rootScope.position.compass = 45;
+//    $rootScope.position.accuracy = 40;
     
     ConfigFctry.getTags(); // load tags in ConfigFctry.Tags
     ConfigFctry.getSubTags(); // load Subtags in ConfigFctry.SubTags

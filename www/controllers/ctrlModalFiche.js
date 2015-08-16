@@ -24,18 +24,14 @@ app.controller('ModalFicheCtrl', function ($scope, $mdDialog,items,$filter,OsmFc
     //Config du Tag principal (shop, amenity, etc)
     /*Object de Configuration de la Primary Key actuelle */
     $scope.current_primary_key_config = ConfigFctry.getConfigTag($scope.primary_tag.k,$scope.primary_tag.v); // ligne de Configuration du tag 
-    //console.log($scope.primary_tag);
-    //  console.log($scope.current_primary_key_config);
 
     $scope.customValueType = ((!$scope.current_primary_key_config) ? true : false); // si on trouve pas le tag, on se place en mode manuel d'office
-    //$scope.customValueType = false;
 
 
     $scope.showEditable = function(){
         $scope.editable = true;
     };
 $scope.activateCustomTag = function(){
-    console.log($scope.customValueType);
     $scope.customValueType = ($scope.customValueType) ? false : true;
 
 }
@@ -46,7 +42,7 @@ $scope.activateCustomTag = function(){
         delete $scope.geojson.properties.tags[old_primary_key.k];
         $scope.geojson.properties.tags[$scope.primary_tag.k] = '*';
         old_primary_key.k =e;
-        console.log(e);
+
         //geojson.properties.tags[e] = '*'
     };
 
@@ -56,7 +52,6 @@ $scope.activateCustomTag = function(){
             //on supprimer les clé vide
             for(key in $scope.geojson.properties.tags){
                 if($scope.geojson.properties.tags[key] == ""){
-                    // console.log ($scope.geojson.properties.tags[key]); 
                     delete $scope.geojson.properties.tags[key];
                 }
             }
@@ -84,14 +79,9 @@ $scope.activateCustomTag = function(){
     }
 
     $scope.findSubTagLabel = function (_k,_v){
-        //        console.log($scope.all_sub_tags[_k].tags);
-        //            console.log(_k);
-             //  console.log($scope.all_sub_tags[_k].tags.length);
         if($scope.all_sub_tags[_k]){
             for(var i = 0; i< $scope.all_sub_tags[_k].tags.length;i++){
-            //    console.log($scope.all_sub_tags[_k].tags.v);
                 if($scope.all_sub_tags[_k].tags[i].v == _v){
-                    console.log( $scope.all_sub_tags[_k].tags[i].lbl);
                     return $scope.all_sub_tags[_k].tags[i].lbl;
                 }
             }
@@ -127,7 +117,6 @@ $scope.activateCustomTag = function(){
     };
 
     $scope.cancel = function () {
-        console.log($scope.type_action);
         $mdDialog.cancel({isEditable:$scope.editable, type_ope:$scope.type_action, geojson:$scope.geojson});
         // $modalInstance.dismiss($scope.editable);
     };
@@ -135,9 +124,6 @@ $scope.activateCustomTag = function(){
     // ajouter un type D pour delete. Dans la fiche, une case a cocher => suppression, puis boutton supprimer . 
     $scope.deleteElement = function(geojson){
          $mdDialog.hide({geojson:geojson, type_ope:'D'});
-
-        //$modalInstance.close({geojson:geojson, type_ope:'D'});
-        //console.log($modalInstance);
     };
 
     /*onBackbutton => ferme la fiche*/
