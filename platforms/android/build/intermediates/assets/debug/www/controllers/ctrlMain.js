@@ -18,6 +18,9 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
     var FgroupPosition =L.featureGroup();
 
 
+    $scope.init = function(){
+            $scope.refreshMapData();
+    }
     $scope.marker_position =  L.marker(
         [$rootScope.position.lat, $rootScope.position.lng],
         {clickable:false,renderer : L.canvas(),iconAngle: $rootScope.position.compass , 
@@ -373,11 +376,11 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
 
     };
 
-
-
     $scope.exit = function(){
         navigator.app.exitApp();   
     }
+    
+    $scope.init();
 
 });//EOF CTRL
 
