@@ -18,8 +18,6 @@ app.controller('ModalFicheCtrl', function ($scope, $mdDialog,items,$filter,OsmFc
 
     $scope.primary_tag = ConfigFctry.getPrimaryKeyOfObject($scope.geojson.properties.tags);/*Le type de la key de l'objet OSM ex: {k: "amenity", v: "restaurant"}  paramètre : les tags du geojson*/
 
-    //console.log($scope.subtags['cuisine'].tags);
-    //  $scope.types_tags = Config.getConfigTypeTag();
     /*Liste d'object des Configuration possible pour cette Primary Key*/
     $scope.types_tags = ConfigFctry.getTagsByPrimaryKey($scope.primary_tag.k); 
 

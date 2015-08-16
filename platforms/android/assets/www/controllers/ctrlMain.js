@@ -296,7 +296,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
     /*OUVERTURE DE LA POPIN MODAL*/
     $scope.open = function (ev,geojson,_type_action) {
 
-
+        var time_start = new Date().getTime();
 
         $scope.original_feature_OSM = jQuery.extend(true, {}, geojson);
         //        if ($scope.modalIsOpen) return; // si déjà ouvert, on fait rien
@@ -305,6 +305,10 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
         var modalInstance = $mdDialog.show({
             templateUrl: 'partial/Modal_FicheOsm.html',//'partial/Modal_FicheOsm.html',
             controller: 'ModalFicheCtrl',
+             onComplete : function(){
+                console.log( time_start - new Date().getTime());
+                        
+           }
             // backdrop: false,
             locals: {
                 items: items

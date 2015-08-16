@@ -75,7 +75,6 @@ app.factory('ConfigFctry',function(){
             for (key in tags){
                 liste_primary_key.push(key);
             }
-            // console.log(liste_primary_key);
             return liste_primary_key;   
         },
 
