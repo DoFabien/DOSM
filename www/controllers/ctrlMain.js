@@ -296,7 +296,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
         var items = {geojson:geojson, type_action:_type_action};
         var modalInstance = $mdDialog.show({
             templateUrl: 'partial/Modal_FicheOsm.html',//'partial/Modal_FicheOsm.html',
-            controller: 'ModalFicheCtrl',
+            controller: 'ModalFicheCtrl as ModalFicheCtrl',
              onComplete : function(){
                 console.log(new Date().getTime() - time_start );    //durée de l'ouverture de la popup   
            },

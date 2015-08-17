@@ -347,6 +347,20 @@ md-dialog .editableC {
     width:10%;  
 }
 
+.md-autocomplete-suggestions{
+    z-index: 1500;
+    color: black;
+}
+.md-input-container-md-dialog-autocomplete{
+    padding: 0;
+    margin: 0 !IMPORTANT;
+}
+
+.md-dialog-md-autocomplete{
+    min-width: 0 !IMPORTANT;
+    width: 100%
+}
+
 .css-icon{
     transform-origin: 50% 50% !IMPORTANT;
     transition: all 0.2s ease;

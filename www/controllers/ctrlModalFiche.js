@@ -1,9 +1,10 @@
 //CONTROLEUR MODAL FICHE OSM
 app.controller('ModalFicheCtrl', function ($scope, $mdDialog,items,$filter,OsmFctry,ConfigFctry) {
 
+    
     $scope.type_action = items.type_action; // W create/ R consult
     $scope.sw_delete = false; // variable si true, le bouton supprimer apparait
-    $scope.tag_hidden = ['source','name'];
+    $scope.tag_hidden = ['source','name']; // tags a ne pas afficher dans la fiche
     $scope.newKV = {k_add: '', v_add:''} ; //emplacement temporaire pour ajouter un tag
     $scope.customValueType = false; // Si les tags ne suffisent pas , permet une edition manuelle (de la clé principale seulement)
     $scope.editable= (($scope.type_action == 'W') ? true : false); // en mode edition ou non
@@ -29,10 +30,10 @@ app.controller('ModalFicheCtrl', function ($scope, $mdDialog,items,$filter,OsmFc
     $scope.showEditable = function(){
         $scope.editable = true;
     };
-$scope.activateCustomTag = function(){
-    $scope.customValueType = ($scope.customValueType) ? false : true;
+    $scope.activateCustomTag = function(){
+        $scope.customValueType = ($scope.customValueType) ? false : true;
 
-}
+    }
 
     /*Au changement de la clé principal, on supprime l'ancienne*/
     var old_primary_key  = $.extend(true, {}, $scope.primary_tag); // on clone 
@@ -62,6 +63,7 @@ $scope.activateCustomTag = function(){
     /*Supprime un tag*/
     $scope.supTag =  function (e){
         delete $scope.geojson.properties.tags[e];
+        self.searchText[e] = ''; 
     };
     /*ajoute le nouveau tag*/
     $scope.addTag = function (){
@@ -88,8 +90,6 @@ $scope.activateCustomTag = function(){
         else {
             return _v ;  
         }
-
-
         return _v;
 
     };
@@ -121,13 +121,39 @@ $scope.activateCustomTag = function(){
 
     // ajouter un type D pour delete. Dans la fiche, une case a cocher => suppression, puis boutton supprimer . 
     $scope.deleteElement = function(geojson){
-         $mdDialog.hide({geojson:geojson, type_ope:'D'});
+        $mdDialog.hide({geojson:geojson, type_ope:'D'});
     };
 
     /*onBackbutton => ferme la fiche*/
     document.addEventListener("backbutton", function(e){
-         $mdDialog.cancel({isEditable:$scope.editable, type_ope:$scope.type_action, geojson:$scope.geojson});
+        $mdDialog.cancel({isEditable:$scope.editable, type_ope:$scope.type_action, geojson:$scope.geojson});
         //$modalInstance.dismiss($scope.editable);
     }, false);
+
+    /*TEST AUTOCOMMPLETE*/
+
+
+
+    var self = this;
+    $scope.initAutocomplete = function(current_key){
+        if (!self.selectedItem){
+            self.selectedItem = [];
+        }
+        self.selectedItem[current_key] = ConfigFctry.getConfigSubTag(current_key,$scope.geojson.properties.tags[current_key]);
+
+     if (!self.searchText){
+                   self.searchText = [];
+            }
+        self.searchText[current_key] =  self.selectedItem[current_key].lbl;
+
+    }
+
+    $scope.change = function(current_key){
+
+        if(self.selectedItem[current_key]){
+            $scope.geojson.properties.tags[current_key] = self.selectedItem[current_key].v;
+        }
+
+    }
 });
 //EOF CTRL MODAL
