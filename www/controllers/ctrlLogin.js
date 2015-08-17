@@ -40,8 +40,8 @@ app.controller('LoginCtrl', function ($scope,$location,$timeout,ConfigFctry,OsmF
         });
     }
     
-        document.addEventListener("backbutton", function(e){
+/*        document.addEventListener("backbutton", function(e){
             navigator.app.exitApp(); 
-    }, false);
+    }, false);*/
 
 });

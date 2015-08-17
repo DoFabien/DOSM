@@ -293,8 +293,11 @@ md-dialog .md-select-label{
     padding: 0;   
 }
 
+.padding0{
+    padding: 0;
+}
 md-dialog md-input-container {
-    padding: 0;  
+/*    padding: 0;  */
 }
 
 md-dialog md-list-item{
@@ -313,7 +316,7 @@ md-dialog md-switch .md-label{
     font-size: 11px;   
 }
 
-md-dialog .md-toolbar-tools md-input-container input{
+.color-white{
     color: white !IMPORTANT;
 }
 
@@ -347,6 +350,10 @@ md-dialog .editableC {
     width:10%;  
 }
 
+md-dialog .md-actions .md-button{
+    z-index: 0;
+}
+
 .md-autocomplete-suggestions{
     z-index: 1500;
     color: black;
@@ -361,6 +368,44 @@ md-dialog .editableC {
     width: 100%
 }
 
+
+md-sidenav {
+    
+    width: 100%;
+     min-width: 20% !IMPORTANT; 
+     max-width: 100% !IMPORTANT; 
+        z-index: 100000;
+}
+
+.toolbar-TypeTag{
+    position: absolute;
+    top: 0;
+    height: 64px;
+    left: 0;
+    right: 0;
+    background-color: whitesmoke;
+    color: black !IMPORTANT;
+    
+}
+.content_TypeTag{
+    position: absolute;
+    top:64px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding-left: 15px;
+    padding-right: 15px;
+    overflow-y: scroll;
+}
+
+md-sidenav .filtre-TypeTag{
+    padding-left: 10px;
+    padding-right: 10px;
+    max-width: 50%;
+    color: black !Important;
+}
+
+/*Icon de positionnement*/
 .css-icon{
     transform-origin: 50% 50% !IMPORTANT;
     transition: all 0.2s ease;
