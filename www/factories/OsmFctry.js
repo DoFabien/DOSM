@@ -274,24 +274,21 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
         deleteOsmElem: function(geojson,callback){
             factory.getValidChangset(function (change_set_id){
                 var id = geojson.id;
-                //console.log(geojson);
-                // console.log(ConfigFctry.getServerAPI().url+'/api/0.6/'+id);
                 var content_delete = factory.geojson2OSM.update(geojson);
-                // console.log(content_delete);
                 var url = ConfigFctry.getServerAPI().url+'/api/0.6/'+id;
-                //var content_put = factory.geojson2OSM.update(geojson);
 
+                if(geojson.properties.type == 'node'){
                 $.ajax({
                     headers: {"Authorization": "Basic " + btoa(ConfigFctry.getUserInfo().user+':'+ConfigFctry.getUserInfo().password)},
                     type: "DELETE",
                     url: url,
-                    // dataType:'xml',
                     data:content_delete,
                     success: function(data){
                         //Precondition failed: Node 4297420791 is still used by relations 4296366138.
                         return callback(data);   
                     }
                 });//EOF ajax
+                }
             });
         }
 

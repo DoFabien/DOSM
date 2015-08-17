@@ -119,7 +119,15 @@ app.controller('ModalFicheCtrl', function ($scope, $mdDialog,$mdSidenav,items,$f
 
     // ajouter un type D pour delete. Dans la fiche, une case a cocher => suppression, puis boutton supprimer . 
     $scope.deleteElement = function(geojson){
-        $mdDialog.hide({geojson:geojson, type_ope:'D'});
+       if (geojson.properties.type != 'node'){
+            alert('Il est possible de supprimer uniquement des nœuds')
+       }
+        else if (geojson.properties.relations.length > 0){
+            alert('Cet élément fait parti d\'au moins une relation. Suppression impossible')
+        }
+        else{
+            $mdDialog.hide({geojson:geojson, type_ope:'D'});
+        }
     };
 
     /*onBackbutton => ferme la fiche*/
