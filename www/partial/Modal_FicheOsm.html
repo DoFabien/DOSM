@@ -42,7 +42,7 @@
         </div>
     </md-toolbar>
 
-    <md-dialog-content>
+    <md-dialog-content style="padding-top:0;">
         <!--        <div style="width:100%;heigth:100%">           -->
         <p class="last_edition" ng-show="type_action != 'W'">
             Modifié le : {{geojson.properties.meta.timestamp | date:'dd/MM/yyyy HH:mm'}} V:{{geojson.properties.meta.version}}  
@@ -50,13 +50,12 @@
         </p>
 
                    <!--boutton custom tag-->
-                    <div ng-if="editable">
-                        <i class="fa fa-code fa-2x" style="color:red" ng-click= "activateCustomTag()"></i>
-                    </div>
+            <i ng-if="editable" class="fa fa-code fa-2x" style="position: absolute;right: 25px;" ng-click= "activateCustomTag()"></i>
+                   
                             
                     
 
-        <div>
+        <div class="dialog-content-div">
             <md-list>
 
                 <!--Clé principale-->

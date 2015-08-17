@@ -264,7 +264,11 @@ md-dialog .last_edition{
     font-size: 11px;
     font-style: italic;
     margin-bottom: 0px;
-    margin-top: 0px;
+    position: absolute;
+    left: 0;
+    padding-left: 30px;
+    right: 30px;
+}
 }
 
 md-dialog md-dialog-content{
@@ -352,6 +356,10 @@ md-dialog .editableC {
 
 md-dialog .md-actions .md-button{
     z-index: 0;
+}
+
+.dialog-content-div{
+    margin-top: 35px;
 }
 
 .md-autocomplete-suggestions{
