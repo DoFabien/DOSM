@@ -12,36 +12,36 @@ app.controller('LoginCtrl', function ($scope,$location,$timeout,ConfigFctry,OsmF
     $scope.user = ConfigFctry.getUserInfo().user;
     $scope.password = ConfigFctry.getUserInfo().password;
 
-
-    // ConfigFctry.setServerAPI('dev');
+    $scope.error_text ='';
     $scope.alert = false;
 
 
     $scope.connexion = function (){
 
-        OsmFctry.getOsmPermission($scope.user,$scope.password,function(data){
-        
-            if(data == 400){
+        ConfigFctry.getUserDetail($scope.user,$scope.password,function(data){
+            console.log(data);
+            if(data == 200){
                 $timeout(function () {
-                    ConfigFctry.setUserInfo($scope.user,$scope.password);
+                
                     $location.path( "/gps" );
                 }, 0);
-
-                console.log('ok');
-
             }
             else{
-                $timeout(function () {
-                    $scope.alert = true; 
+                if(data==401){
+                    $scope.error_text = "Nom d'utilisateur ou mot de passe invalide";
                     $scope.password = '';
-                }, 0);
+                }
+                else if (data==404){
+                    $scope.error_text = "Connexion impossible. Problème de réseau?";
+                }
+                else {
+                    $scope.error_text = "Connexion impossible. Erreur :" + data;  
+                }
+                $scope.alert = true; 
+                $scope.$apply();
 
             }
         });
-    }
-    
-/*        document.addEventListener("backbutton", function(e){
-            navigator.app.exitApp(); 
-    }, false);*/
+    };
 
 });

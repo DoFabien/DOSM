@@ -5,9 +5,6 @@
     <br />
 
 
-
-   
-    
          <md-input-container flex>
           <label>Adresse e-mail ou nom d'utilisateur</label>
           <input spellcheck="false" ng-model="user" autofocus >
@@ -32,10 +29,10 @@
     <md-button class="md-raised md-primary" ng-click="connexion()">Se connecter</md-button>
 </div>
 
-<div id="login_error" class="alert alert-danger" role="alert" ng-show="alert">
-    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-    <span class="sr-only">Error:</span>
-    Nom d'utilisateur ou mot de passe invalide
+<div class="alert-danger" ng-show="alert" style="padding:20px;">
+    <span class="glyphicon glyphicon-exclamation-sign"></span>
+    <strong>Erreur:</strong>
+    {{error_text}} 
 </div>
 
 </form>

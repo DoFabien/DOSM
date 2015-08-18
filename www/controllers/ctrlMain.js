@@ -221,7 +221,6 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
                 }
             });
 
-
             marker.on("contextmenu", function(e){ //dblclick?
                 $scope.dragMarker(e.target);
             });
@@ -252,11 +251,11 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
 
     /*Remplace la feature du json par la nouvelle*/
     $scope.refreshFeatureJson = function (_type_action,OSM_json, new_feature){
-        /*C'est une création*/
+        /*CREATION*/
         if (_type_action == 'W'){ // c'est une création d'un nouveau noeud, on le push dans le json
             OSM_json.push(new_feature);
         }
-        /*C'est un update*/
+        /*UPDATE*/
         else if (_type_action == 'R'){
 
             for (var i = 0; i < OSM_json.length; i++){
@@ -269,10 +268,8 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
                 }
             }         
         }
-
+        /*DELETE*/
         else if (_type_action == 'D'){
-            /* console.log('on a supprimé, on enleve l\'objet supprimé, et on redessine');*/
-
             for (var i = 0; i < OSM_json.length; i++){
                 if(OSM_json[i].id == new_feature.id){
                     OSM_json.splice(i,1);
@@ -282,8 +279,6 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
         }
         return OSM_json;
     };
-
-
 
 
     /*OUVERTURE DE LA POPIN MODAL*/
@@ -323,7 +318,8 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
                         feature.id = 'node/'+data;
                         feature.properties.meta.version = 1; //on ajoute la version
                         feature.properties.meta.timestamp = new Date().toISOString(); // on ajoute la date
-                        feature.properties.meta.user = ConfigFctry.getUserInfo().user; // on ajoute l'user
+                        feature.properties.meta.user = ConfigFctry.getUserInfo().display_name; // on ajoute l'user
+                        feature.properties.meta.uid = ConfigFctry.getUserInfo().uid; // on ajoute l'uid
                         feature.properties.meta.changeset = OsmFctry.getChangeset().id; // on update le changeset
                         $scope.geojson_OSM = $scope.refreshFeatureJson( $scope.type_ope ,$scope.geojson_OSM,feature); // on rafraichit le geojson
                         $scope.drawMarker($scope.geojson_OSM );
@@ -357,7 +353,8 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
                     if ( 1 * old_version +1 == 1* new_version ){ // UPDATE OK
                         feature.properties.meta.version = new_version; //on update la version
                         feature.properties.meta.timestamp = new Date().toISOString(); // on update la date
-                        feature.properties.meta.user = ConfigFctry.getUserInfo().user; // on update l'user
+                        feature.properties.meta.user = ConfigFctry.getUserInfo().display_name; // on ajoute l'user
+                        feature.properties.meta.uid = ConfigFctry.getUserInfo().uid; // on ajoute l'uid
                         feature.properties.meta.changeset = OsmFctry.getChangeset().id; // on update le changeset
                         $scope.geojson_OSM = $scope.refreshFeatureJson( $scope.type_ope ,$scope.geojson_OSM,feature); // on rafraichi le geojson
                     }

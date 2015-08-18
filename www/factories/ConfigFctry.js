@@ -21,7 +21,9 @@ app.factory('ConfigFctry',function(){
             localStorage.setItem("server", _type);
 
         },
-        
+
+
+
         /*GEOLOC*/
         position : {lat : 0, lng : 0, accuracy : 0, compass : 0},
         getPosition :function(){
@@ -37,21 +39,44 @@ app.factory('ConfigFctry',function(){
         },
 
         /*USER*/
-        user_info :{user:'', password:''},
+
+        user_info :{user:'', password:'',uid:'',display_name:''},
         getUserInfo:function(){
-            if (factory.user_info.user ==''){
-                factory.setUserInfo(localStorage.getItem("user"),localStorage.getItem("password"));
+            if (factory.user_info.user ==''){ //Au démarage c'est vide, on récupère les variable dans le localstorage
+                factory.setUserInfo(localStorage.getItem("user"),localStorage.getItem("password"),localStorage.getItem("uid"), localStorage.getItem("display_name") );
             }
             return factory.user_info;
         },
-        setUserInfo:function(_user,_password){
-            factory.user_info ={user:_user,password:_password}; 
+        getUserDetail:function(_user,_password,callback){
+            var url = factory.getServerAPI().url+'/api/0.6/';
+            $.ajax({
+                headers: {"Authorization": "Basic " + btoa(_user+':'+_password)},
+                type: "GET",
+                url: url + 'user/details',
+                // dataType:'xml',
+                success: function(data){
+                    var x_user = data.getElementsByTagName('user')[0];
+                    var uid = x_user.getAttribute('id');
+                    var display_name = x_user.getAttribute('display_name');
+                    factory.setUserInfo(_user,_password,uid,display_name);
+                    return callback(200);
+                }
+
+                ,error: function(textStatus, XMLHttpRequest, errorThrown){
+                    return callback(textStatus.status);
+                }
+            });
+        },
+        setUserInfo:function(_user,_password,_uid,_display_name){
+            factory.user_info ={user:_user,password:_password, uid:_uid, display_name:_display_name}; 
             localStorage.setItem("user", _user);
             localStorage.setItem("password", _password);
+            localStorage.setItem("uid", _uid);
+            localStorage.setItem("display_name", _display_name);
         },
 
         /*Renvoie l'intégralité du json tags/tags.json*/
-        
+
         Tags: [],
         getTags:function(){
             //requete asynchrone
@@ -107,8 +132,8 @@ app.factory('ConfigFctry',function(){
             }
             return kv;
         },
-        
-            /*Renvoie l'objet de Configuration du Tag*/
+
+        /*Renvoie l'objet de Configuration du Tag*/
         getConfigSubTag:function(_key,_value){
             var tags = factory.SubTags[_key].tags;
             for (var i = 0;i<tags.length;i++){
@@ -132,8 +157,8 @@ app.factory('ConfigFctry',function(){
                     factory.SubTags = data;
                 },
                 error : function (e){
-             result = e;   
-            }
+                    result = e;   
+                }
             })
             return result;
         }

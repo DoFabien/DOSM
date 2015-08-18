@@ -159,9 +159,6 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
                     else{
                         return callback(textStatus.status);
                     }
-
-
-
                 }
             });
         },
