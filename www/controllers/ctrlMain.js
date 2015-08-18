@@ -311,14 +311,13 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
         //lors du clic su OK. feature en geojson
         modalInstance.then(function (result) {
 
-            //création d'un noeud
             feature = result.geojson;
 
             $scope.type_ope = result.type_ope;
-
-            if ( $scope.type_ope  == 'W'){ //creation
+               var RegIsInteger = /^\d+$/;
+            /*CREATION*/
+            if ( $scope.type_ope  == 'W'){
                 OsmFctry.crateOsmNode(feature,function(data){
-                    var RegIsInteger = /^\d+$/;
                     if( RegIsInteger.test(data)){ //OK
                         feature.properties.id = data;
                         feature.id = 'node/'+data;
@@ -328,26 +327,30 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
                         feature.properties.meta.changeset = OsmFctry.getChangeset().id; // on update le changeset
                         $scope.geojson_OSM = $scope.refreshFeatureJson( $scope.type_ope ,$scope.geojson_OSM,feature); // on rafraichit le geojson
                         $scope.drawMarker($scope.geojson_OSM );
-
                     }
                     else{
-                        $scope.showAlert(true,"Une erreur est survenue lors de l'ajout de ce point" + data,'alert-danger');
+                        $scope.showAlert(true,"<strong>Une erreur est survenue lors de l'ajout de ce point</strong>" + data,'alert-danger');
                     }
 
                 });
 
             }
-
+            
+            /*DELETE*/
             else if( $scope.type_ope  == 'D'){ // C'est un delete, on l'enleve de nos données, on redessine les markers
-                console.log("c'est un delete!");
                 OsmFctry.deleteOsmElem(feature,function(_data){
-                    /*TODO Contrôler si l'operation s'est bien derddd*/ 
+                     if( RegIsInteger.test(_data)){ // DELETE OK
                     $scope.geojson_OSM = $scope.refreshFeatureJson('D',$scope.geojson_OSM,feature);
                     $scope.drawMarker($scope.geojson_OSM );
+                     }
+                    else{ // DELETE KO
+                          $scope.showAlert(true,"<strong>Une erreur est survenue lors de la suppression de ce point</strong>" + _data,'alert-danger');
+                    }
                 });
             }
-            //update d'un objet
-            else { //update
+            
+            //UPDATE
+            else {
                 OsmFctry.UpdateOsm(feature,function(data){
                     var old_version = feature.properties.meta.version;
                     var new_version = data;
@@ -359,7 +362,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
                         $scope.geojson_OSM = $scope.refreshFeatureJson( $scope.type_ope ,$scope.geojson_OSM,feature); // on rafraichi le geojson
                     }
                     else{ //UPDATE KO
-                        $scope.showAlert(true,"</strong>Une erreur est survenue pour la mise a jour de ce point </strong>" + data,'alert-danger'); 
+                        $scope.showAlert(true,"<strong>Une erreur est survenue pour la mise a jour de ce point </strong>" + data,'alert-danger'); 
                     }
 
                 });
