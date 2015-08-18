@@ -19,7 +19,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
 
 
     $scope.init = function(){
-            $scope.refreshMapData();
+        $scope.refreshMapData();
     }
     $scope.marker_position =  L.marker(
         [$rootScope.position.lat, $rootScope.position.lng],
@@ -270,7 +270,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
         }
 
         else if (_type_action == 'D'){
-           /* console.log('on a supprimé, on enleve l\'objet supprimé, et on redessine');*/
+            /* console.log('on a supprimé, on enleve l\'objet supprimé, et on redessine');*/
 
             for (var i = 0; i < OSM_json.length; i++){
                 if(OSM_json[i].id == new_feature.id){
@@ -297,9 +297,9 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
         var modalInstance = $mdDialog.show({
             templateUrl: 'partial/Modal_FicheOsm.html',//'partial/Modal_FicheOsm.html',
             controller: 'ModalFicheCtrl as ModalFicheCtrl',
-             onComplete : function(){
+            onComplete : function(){
                 console.log(new Date().getTime() - time_start );    //durée de l'ouverture de la popup   
-           },
+            },
             // backdrop: false,
             locals: {
                 items: items
@@ -342,14 +342,21 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
                 OsmFctry.UpdateOsm(feature,function(data){
                     var old_version = feature.properties.meta.version;
                     var new_version = data;
-                    if ( 1 * old_version +1 != 1* new_version ){
-                        $scope.showAlert(true,"Une erreur est survenue pour la mise a jour de ce point",'alert-danger'); 
+                    if ( 1 * old_version +1 != 1* new_version ){ // UPDATE KO
+                        $scope.showAlert(true,"</strong>Une erreur est survenue pour la mise a jour de ce point </strong>" + data,'alert-danger'); 
+                    }
+                    else{ //UPDATE OK
+                        console.log(data);
+                        console.log(feature);
+                        feature.properties.meta.version = new_version; //on update la version
+                        feature.properties.meta.timestamp = new Date().toISOString(); // on update la date
+                        feature.properties.meta.user = ConfigFctry.getUserInfo().user; // on update l'user
+                        feature.properties.meta.changeset = OsmFctry.getChangeset().id; // on update le changeset
+                        $scope.geojson_OSM = $scope.refreshFeatureJson( $scope.type_ope ,$scope.geojson_OSM,feature); // on rafraichi le geojson
+                        console.log(feature);
+                      
                     }
 
-                    OsmFctry.getOsmElemById(feature.id,function(_data){
-                        $scope.geojson_OSM = $scope.refreshFeatureJson( $scope.type_ope ,$scope.geojson_OSM,_data.osmGeojson);
-                        $scope.drawMarker($scope.geojson_OSM );
-                    });
                 });
 
             }
@@ -360,7 +367,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
             var type_ope = object.type_ope;
             var isEditable = object.isEditable;
             if(isEditable == true){
-         
+
                 if ( type_ope  == 'R'){  // c'est un update qui est annulé, on réinsert la feature originale
                     $scope.geojson_OSM = $scope.refreshFeatureJson('R',$scope.geojson_OSM,$scope.original_feature_OSM);
                     $scope.drawMarker($scope.geojson_OSM );
@@ -368,7 +375,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
             }
 
             else{
-//                console.log("c'est seulement en lecture, on ferme sans rien faire");
+                //                console.log("c'est seulement en lecture, on ferme sans rien faire");
             }
 
         });
@@ -379,7 +386,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
     $scope.exit = function(){
         navigator.app.exitApp();   
     }
-    
+
     $scope.init();
 
 });//EOF CTRL
