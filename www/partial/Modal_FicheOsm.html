@@ -2,10 +2,7 @@
 
     <!--SIDENAV TYPE TAG-->
     <md-sidenav md-component-id="TypeTag" md-is-open="TypeTagIsOpen" class="md-sidenav-right">
-
         <md-toolbar class="md-toolbar-tools toolbar-TypeTag">
-
-
             <md-input-container class="filtre-TypeTag">
                 <label>Filtrer</label>
                 <input ng-model="search">
@@ -27,6 +24,31 @@
             </md-list> 
         </div>
     </md-sidenav>
+    
+        <!--SIDENAV SIDENAV SELECT-->
+    <md-sidenav md-component-id="SNselect" md-is-open="SNselectIsOpen" class="md-sidenav-right">
+        <md-toolbar class="md-toolbar-tools toolbar-TypeTag">
+            <md-input-container class="filtre-TypeTag">
+                <label>Filtrer</label>
+                <input ng-model="search_SNselect">
+            </md-input-container>
+            <md-button ng-click="closeSnSelect()" class="md-raised md-warn"> Fermer </md-button>
+        </md-toolbar>
+
+        <div class="content_TypeTag" ng-if="SNselectIsOpen">
+            <md-list>
+                <md-list-item class="md-3-line" ng-repeat="tag in all_sub_tags[curent_subtage_type].tags | filter:search_SNselect" ng-click="tagSNselectSelected(curent_subtage_type, tag)">
+                    <div class="md-list-item-text">
+                        <h3>{{ tag.lbl }}</h3>
+                        <h4>{{ tag.v }}</h4>
+                    </div>
+                    <md-divider ></md-divider>
+                </md-list-item>
+
+            </md-list> 
+        </div>
+    </md-sidenav>
+    
 
 
     <md-toolbar>
@@ -36,8 +58,6 @@
                 <label>Nom</label>
                 <input ng-model="geojson.properties.tags.name">
             </md-input-container>
-
-
 
         </div>
     </md-toolbar>
@@ -52,8 +72,7 @@
                    <!--boutton custom tag-->
             <i ng-if="editable" class="fa fa-code fa-2x" style="position: absolute;right: 25px;" ng-click= "activateCustomTag()"></i>
                    
-                            
-                    
+        
 
         <div class="dialog-content-div">
             <md-list>
@@ -67,22 +86,15 @@
                         </md-select>
                     </div>
                     <div ng-if="editable" class="editableB">
-                        <md-button ng-show="!customValueType" ng-click="openSnTypeTag()" class="md-primary"> {{ current_primary_key_config.lbl && current_primary_key_config.lbl || geojson.properties.tags[primary_tag.k] }} </md-button>
+<!--                        <md-button ng-show="!customValueType" ng-click="openSnTypeTag()" class="md-primary"> {{ current_primary_key_config.lbl && current_primary_key_config.lbl || geojson.properties.tags[primary_tag.k] }} </md-button>-->
 <!--                       <strong ng-show="!customValueType">{{ current_primary_key_config.lbl && current_primary_key_config.lbl || geojson.properties.tags[primary_tag.k] }}</strong>-->
-                     
+                     <div ng-show="!customValueType" ng-click="openSnTypeTag()"> <strong>{{ current_primary_key_config.lbl && current_primary_key_config.lbl || geojson.properties.tags[primary_tag.k] }} <i class="fa fa-cog"> </i></strong></div>
 
                         <!--custom tag-->
                         <md-input-container class="padding0" ng-show="customValueType">
                             <input ng-show="customValueType" type="text" ng-model="geojson.properties.tags[primary_tag.k]">
                         </md-input-container>
                     </div>
-                    <!--button pour ouvrir le SN-->
-<!--
-                    <div ng-if="editable" class="editableC">
-                        <i ng-show="!customValueType" class="fa fa-cogs fa-2x" style="color:red" ng-click="openSnTypeTag()"></i>
-                    </div>
--->
-                    
 
                     <!--Lecture-->
                     <div ng-if="!editable" class="readA">
@@ -116,22 +128,10 @@
                             <input ng-model="geojson.properties.tags[k]">
                         </md-input-container>
                         <!--autocomplete-->
-                        <md-input-container ng-if = "all_sub_tags[k].type == 'autocomplete' && !customValueType" class="md-input-container-md-dialog-autocomplete padding0">
-                            <md-autocomplete class ="md-dialog-md-autocomplete"
-                                             md-selected-item="ModalFicheCtrl.selectedItem[k]" 
-                                             md-search-text="ModalFicheCtrl.searchText[k]" 
-                                             md-items="item in all_sub_tags[k].tags | filter:ModalFicheCtrl.searchText[k]"  
-                                             md-item-text="ModalFicheCtrl.selectedItem[k].lbl"
-                                             md-selected-item-change="change(k)"
-                                             md-select-on-match="false"
-                                             md-min-length="0"
-                                             md-autoselect="true"
-                                             md-autoselect="false"
-                                             ng-init="initAutocomplete(k)">
-                                <md-item-template>
-                                    <span md-highlight-text="searchText" md-highlight-flags="^i">{{item.lbl}}</span>
-                                </md-item-template>
-                            </md-autocomplete>
+                        <md-input-container ng-if = "all_sub_tags[k].type == 'list' && !customValueType" class="padding0">
+                        <div ng-show="!customValueType" ng-click="openSnSelect(k)"> <strong>{{findSubTagLabel(k,geojson.properties.tags[k])}} <i class="fa fa-cog"> </i></strong></div>
+<!--                         <span ng-show="!customValueType" ng-click="openSnSelect(k)"> {{findSubTagLabel(k,geojson.properties.tags[k])}}  <i class="fa fa-code fa-2x"></i> </span>-->
+<!--                          <md-button ng-show="!customValueType" ng-click="openSnSelect(k)" class="md-primary"> {{findSubTagLabel(k,geojson.properties.tags[k])}} </md-button>-->
                         </md-input-container>
 
                         <!--custom value! -->

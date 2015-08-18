@@ -17,6 +17,10 @@ html, body{
     height: 100%;
 }
 
+div{
+    outline:0px;
+}
+
 .fa{
     outline:0px !IMPORTANT;   
 }
@@ -33,7 +37,7 @@ button {
     font:bold;
     width:30px;
     height:30px;
-    
+
 }
 
 .div_fab_menu{
@@ -301,7 +305,7 @@ md-dialog .md-select-label{
     padding: 0;
 }
 md-dialog md-input-container {
-/*    padding: 0;  */
+    /*    padding: 0;  */
 }
 
 md-dialog md-list-item{
@@ -362,27 +366,14 @@ md-dialog .md-actions .md-button{
     margin-top: 35px;
 }
 
-.md-autocomplete-suggestions{
-    z-index: 1500;
-    color: black;
-}
-.md-input-container-md-dialog-autocomplete{
-    padding: 0;
-    margin: 0 !IMPORTANT;
-}
 
-.md-dialog-md-autocomplete{
-    min-width: 0 !IMPORTANT;
-    width: 100%
-}
-
-
+/*SIDE NAV*/
 md-sidenav {
-    
+
     width: 100%;
-     min-width: 20% !IMPORTANT; 
-     max-width: 100% !IMPORTANT; 
-        z-index: 100000;
+    min-width: 20% !IMPORTANT; 
+    max-width: 100% !IMPORTANT; 
+    z-index: 100000;
 }
 
 .toolbar-TypeTag{
@@ -393,7 +384,7 @@ md-sidenav {
     right: 0;
     background-color: whitesmoke;
     color: black !IMPORTANT;
-    
+
 }
 .content_TypeTag{
     position: absolute;

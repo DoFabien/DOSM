@@ -28,6 +28,7 @@ app.controller('ModalFicheCtrl', function ($scope, $mdDialog,$mdSidenav,items,$f
     $scope.customValueType = ((!$scope.current_primary_key_config) ? true : false); // si on trouve pas le tag, on se place en mode manuel d'office
 
 
+
     $scope.showEditable = function(){
         $scope.editable = true;
     };
@@ -119,9 +120,9 @@ app.controller('ModalFicheCtrl', function ($scope, $mdDialog,$mdSidenav,items,$f
 
     // ajouter un type D pour delete. Dans la fiche, une case a cocher => suppression, puis boutton supprimer . 
     $scope.deleteElement = function(geojson){
-       if (geojson.properties.type != 'node'){
+        if (geojson.properties.type != 'node'){
             alert('Il est possible de supprimer uniquement des nœuds')
-       }
+        }
         else if (geojson.properties.relations.length > 0){
             alert('Cet élément fait parti d\'au moins une relation. Suppression impossible')
         }
@@ -132,39 +133,19 @@ app.controller('ModalFicheCtrl', function ($scope, $mdDialog,$mdSidenav,items,$f
 
     /*onBackbutton => ferme la fiche*/
     document.addEventListener("backbutton", function(e){
-        
+
         if($scope.TypeTagIsOpen){
             console.log($scope.TypeTagIsOpen);
-              $scope.closeSnTypeTag();
+            $scope.closeSnTypeTag();
         }
-       else if(!$scope.TypeTagIsOpen){
+        else if(!$scope.TypeTagIsOpen){
             console.log($scope.TypeTagIsOpen);
-         $mdDialog.cancel({isEditable:$scope.editable, type_ope:$scope.type_action, geojson:$scope.geojson});
+            $mdDialog.cancel({isEditable:$scope.editable, type_ope:$scope.type_action, geojson:$scope.geojson});
         }
-   
-       
+
+
     }, false);
 
-    /*AUTOCOMMPLETE*/
-    var self = this;
-    $scope.initAutocomplete = function(current_key){
-        if (!self.selectedItem){
-            self.selectedItem = [];
-        }
-        self.selectedItem[current_key] = ConfigFctry.getConfigSubTag(current_key,$scope.geojson.properties.tags[current_key]);
-
-        if (!self.searchText){
-            self.searchText = [];
-        }
-        self.searchText[current_key] =  self.selectedItem[current_key].lbl;
-
-    }
-
-    $scope.change = function(current_key){
-        if(self.selectedItem[current_key]){
-            $scope.geojson.properties.tags[current_key] = self.selectedItem[current_key].v;
-        }
-    }
 
     /*SIDNAV POUR SELECTIONNER TypeTag*/
     $scope.openSnTypeTag = function() {
@@ -174,11 +155,29 @@ app.controller('ModalFicheCtrl', function ($scope, $mdDialog,$mdSidenav,items,$f
     $scope.closeSnTypeTag = function () {
         $mdSidenav('TypeTag').close()
     }
-    
+
     $scope.tagSelected = function(key, tag){
         $scope.geojson.properties.tags[key] = tag.key;
         $scope.search = '';
         $scope.closeSnTypeTag();
+    }
+
+    /*SIDNAV SELECT POUR LES SUBTAGS*/
+
+    $scope.openSnSelect = function(type_tag) {
+        $scope.curent_subtage_type = type_tag; //Type de subtags necessaire pour la SNselect
+        $mdSidenav('SNselect').toggle();
+    };
+
+    $scope.closeSnSelect = function () {
+        $mdSidenav('SNselect').close()
+    }
+
+    $scope.tagSNselectSelected = function(key, tag){
+        $scope.geojson.properties.tags[key] = tag.v;
+        $scope.search_SNselect = '';
+        $scope.curent_subtage_type = null;
+        $scope.closeSnSelect();
     }
 
 });//EOF CTRL MODAL

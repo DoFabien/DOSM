@@ -1,5 +1,5 @@
 {
-    "cuisine": {"type":"autocomplete","lbl":"Type de cuisine", "tags":[
+    "cuisine": {"type":"list","lbl":"Type de cuisine", "tags":[
         {"v":"","lbl":" NC"},
         {"v":"barbecue","lbl":"Barbecue"},
         {"v":"steak_house","lbl":"Beef Steak"},
