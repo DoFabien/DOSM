@@ -252,6 +252,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
 
     /*Remplace la feature du json par la nouvelle*/
     $scope.refreshFeatureJson = function (_type_action,OSM_json, new_feature){
+        /*C'est une création*/
         if (_type_action == 'W'){ // c'est une création d'un nouveau noeud, on le push dans le json
             OSM_json.push(new_feature);
         }
@@ -317,14 +318,22 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
 
             if ( $scope.type_ope  == 'W'){ //creation
                 OsmFctry.crateOsmNode(feature,function(data){
-                    console.log(data); 
-                    /*     if(!IsNumeric(data)){
-                        $scope.showAlert(true,"Une erreur est survenue pour la mise a jour de ce point",'alert-danger');
-                    }*/
-                    OsmFctry.getOsmElemById('node/'+data,function(_data){
-                        $scope.geojson_OSM = $scope.refreshFeatureJson( $scope.type_ope ,$scope.geojson_OSM,_data.osmGeojson);
+                    var RegIsInteger = /^\d+$/;
+                    if( RegIsInteger.test(data)){ //OK
+                        feature.properties.id = data;
+                        feature.id = 'node/'+data;
+                        feature.properties.meta.version = 1; //on ajoute la version
+                        feature.properties.meta.timestamp = new Date().toISOString(); // on ajoute la date
+                        feature.properties.meta.user = ConfigFctry.getUserInfo().user; // on ajoute l'user
+                        feature.properties.meta.changeset = OsmFctry.getChangeset().id; // on update le changeset
+                        $scope.geojson_OSM = $scope.refreshFeatureJson( $scope.type_ope ,$scope.geojson_OSM,feature); // on rafraichit le geojson
                         $scope.drawMarker($scope.geojson_OSM );
-                    });
+
+                    }
+                    else{
+                        $scope.showAlert(true,"Une erreur est survenue lors de l'ajout de ce point" + data,'alert-danger');
+                    }
+
                 });
 
             }
@@ -342,19 +351,15 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
                 OsmFctry.UpdateOsm(feature,function(data){
                     var old_version = feature.properties.meta.version;
                     var new_version = data;
-                    if ( 1 * old_version +1 != 1* new_version ){ // UPDATE KO
-                        $scope.showAlert(true,"</strong>Une erreur est survenue pour la mise a jour de ce point </strong>" + data,'alert-danger'); 
-                    }
-                    else{ //UPDATE OK
-                        console.log(data);
-                        console.log(feature);
+                    if ( 1 * old_version +1 == 1* new_version ){ // UPDATE OK
                         feature.properties.meta.version = new_version; //on update la version
                         feature.properties.meta.timestamp = new Date().toISOString(); // on update la date
                         feature.properties.meta.user = ConfigFctry.getUserInfo().user; // on update l'user
                         feature.properties.meta.changeset = OsmFctry.getChangeset().id; // on update le changeset
                         $scope.geojson_OSM = $scope.refreshFeatureJson( $scope.type_ope ,$scope.geojson_OSM,feature); // on rafraichi le geojson
-                        console.log(feature);
-                      
+                    }
+                    else{ //UPDATE KO
+                        $scope.showAlert(true,"</strong>Une erreur est survenue pour la mise a jour de ce point </strong>" + data,'alert-danger'); 
                     }
 
                 });

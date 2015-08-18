@@ -24,10 +24,7 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
                 var tags_xml = '';
                 for (var k in tags_json){ // TODO : si k se terminer _1, _2, _N, supprimer la fin (le geojson ne peut pas avoir 2 fois la meme clé, le XML si.??? Duplication de clé
                     if(k != '' && tags_json[k] != ''){
-                        //regexp sur k
-                        var patt = new RegExp("_[0-9]+");
-                        console.log(patt.test(k));
-
+                        
                         tags_xml += '<tag k="'+k+'" v="'+tags_json[k]+'"/>';
                     }
                 }
