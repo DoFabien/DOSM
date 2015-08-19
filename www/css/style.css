@@ -26,9 +26,7 @@ div{
 .fa{
     outline:0px !IMPORTANT;   
 }
-button {
-    z-index:99999;
-}
+
 
 
 .leaflet-control-attribution {
@@ -307,9 +305,10 @@ md-dialog .md-select-label{
 .padding0{
     padding: 0;
 }
-md-dialog md-input-container {
-    /*    padding: 0;  */
+margin0{
+    margin: 0
 }
+
 
 md-dialog md-list-item{
     min-height: 30px;   
@@ -369,6 +368,9 @@ md-dialog .md-actions .md-button{
     margin-top: 35px;
 }
 
+md-dialog  md-list-item button{
+    padding: 0 !important;
+}
 
 /*SIDE NAV*/
 md-sidenav {
