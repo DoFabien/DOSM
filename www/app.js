@@ -13,6 +13,9 @@ app.config(function($routeProvider) {
         .when('/gps', {templateUrl: 'partial/GpsWaiting.html',
                     controller:'GpsWaitingCtrl'
                    })
+     .when('/setting', {templateUrl: 'partial/Setting.html',
+                    controller:'SettingCtrl'
+                   })
 });
 
 // ROOTSCOPE
@@ -32,8 +35,8 @@ app.run(function($rootScope,ConfigFctry,$cordovaGeolocation,$cordovaDeviceOrient
         console.log('READY!');
         /*GEOLOCATION*/
         var watchOptions = {frequency : 1000, timeout : 5000, enableHighAccuracy: true};
-        $rootScope.watch = $cordovaGeolocation.watchPosition(watchOptions);
-        $rootScope.watch.then(
+        $rootScope.watchGpsGps= $cordovaGeolocation.watchPosition(watchOptions);
+        $rootScope.watchGpsGps.then(
             null,
             function(err) {
                 console.log(err);

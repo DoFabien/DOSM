@@ -391,6 +391,12 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
     $scope.exit = function(){
         navigator.app.exitApp();   
     }
+    
+    $scope.toSetting = function(){
+           $timeout(function () {
+            $location.path( "/setting" );
+        }, 0);
+    }
 
     $scope.init();
 
