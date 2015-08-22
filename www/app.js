@@ -30,13 +30,12 @@ app.run(function($rootScope,ConfigFctry,$cordovaGeolocation,$cordovaDeviceOrient
     
     ConfigFctry.getTags(); // load tags in ConfigFctry.Tags
     ConfigFctry.getSubTags(); // load Subtags in ConfigFctry.SubTags
-    //ON READY
-    document.addEventListener("deviceready", function () {
-        console.log('READY!');
-        /*GEOLOCATION*/
-        var watchOptions = {frequency : 1000, timeout : 5000, enableHighAccuracy: true};
-        $rootScope.watchGpsGps= $cordovaGeolocation.watchPosition(watchOptions);
-        $rootScope.watchGpsGps.then(
+    
+    /*GEOLOCATION*/
+    $rootScope.watchGeolocation = function(watchOptions){
+        
+        $rootScope.watchGps= $cordovaGeolocation.watchPosition(watchOptions);
+        $rootScope.watchGps.then(
             null,
             function(err) {
                 console.log(err);
@@ -47,6 +46,19 @@ app.run(function($rootScope,ConfigFctry,$cordovaGeolocation,$cordovaDeviceOrient
                 $rootScope.position.lng = result.coords.longitude;
                 $rootScope.position.accuracy = result.coords.accuracy;
             }); 
+    }
+    
+   
+   
+    
+    //ON READY
+    document.addEventListener("deviceready", function () {
+         $rootScope.watchGeolocation( {frequency : 1000, timeout : 5000, enableHighAccuracy: true});
+    
+        console.log('READY!');
+        
+        
+      
 
         /*ORIENTATION*/
         $rootScope.watchCompass = $cordovaDeviceOrientation.watchHeading({frequency:150});
