@@ -224,7 +224,7 @@
         {"key": "*", "lbl": "_NC", "lbl_alt": "", "icon": "", "prefix": "", "iconColor": "", "markerColor": "black", "alert": "", "subtags": [] }
     ]},
 
-    "craft":{"type":"craft", "lbl": "Artisanat  ", "values":[
+    "craft":{"type":"craft", "lbl": "Artisanat", "values":[
         {"key": "basket_maker", "lbl": "Vannier", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "gray", "markerColor": "purple", "alert": "", "subtags": [] },
         {"key": "beekeeper", "lbl": "Apiculteur", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "gray", "markerColor": "purple", "alert": "", "subtags": [] },
         {"key": "blacksmith", "lbl": "Forgeron", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "gray", "markerColor": "purple", "alert": "", "subtags": [] },
@@ -273,7 +273,7 @@
         {"key": "*", "lbl": "_NC", "lbl_alt": "", "icon": "", "prefix": "", "iconColor": "", "markerColor": "black", "alert": "", "subtags": [] }
 
     ]},
-    "tourism":{"type":"tourism", "lbl": "Tourisme   ", "values":[
+    "tourism":{"type":"tourism", "lbl": "Tourisme", "values":[
         {"key": "alpine_hut", "lbl": "Refuge de montagne", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "white", "markerColor": "darkpurple", "alert": "", "subtags": [] },
         {"key": "attraction", "lbl": "Attraction touristique", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "white", "markerColor": "darkpurple", "alert": "", "subtags": [] },
         {"key": "artwork", "lbl": "Œuvre d'art", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "white", "markerColor": "darkpurple", "alert": "", "subtags": [] },

@@ -120,8 +120,24 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
 
     /*AJOUT D'UN POI OSM*/
     $scope.addNode = function(lat,lng){
-        var geojson = {"type":"Feature","id":"","properties":{"type":"node","id":"","tags":{name:'',shop:'*'},"relations":[],"meta":{"timestamp":"","version":"","changeset":"","user":"","uid":""}},"geometry":{"type":"Point","coordinates":[lng,lat]}};
+        var geojson = {"type":"Feature","id":"","properties":{"type":"node","id":"","tags":{name:''},"relations":[],"meta":{"timestamp":"","version":"","changeset":"","user":"","uid":""}},"geometry":{"type":"Point","coordinates":[lng,lat]}};
+        for (var k in ConfigFctry.Tags){
+            console.log(k);
+        var key_default = null;
+            if (ConfigFctry.Tags[k].display){
+                key_default = k;
+              
+                break;
+            }
+        }
+        if (key_default){
+                  geojson.properties.tags[key_default]= '*';
         $scope.open($scope.$event,geojson,'W');
+        }
+        else{
+            alert('Oh, il faut au moins un type à afficher!')
+        }
+    
     };
 
 

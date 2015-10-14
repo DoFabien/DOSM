@@ -7,14 +7,11 @@ app.controller('SettingCtrl', function ($scope,$rootScope,$location,$timeout,Con
         }, 0);
     }
     
-    $scope.enableHighAccuracy = ($scope.enableHighAccuracy) ? true : false;
-      $scope.$watch('enableHighAccuracy', function() {
-        //$scope.server = $scope.switch_server == true ? 'prod' : 'dev'; 
-        //ConfigFctry.setServerAPI($scope.server);
-           $rootScope.watchGps.clearWatch();
-           $rootScope.watchGeolocation( {frequency : 1000, timeout : 5000, enableHighAccuracy: $scope.enableHighAccuracy});
-          console.log($scope.enableHighAccuracy);
-    });
-    
+//$scope.primarykeys = ConfigFctry.getListOfPrimaryKey();
+$scope.all_tags = ConfigFctry.Tags;  
+
+    $scope.excludeChange = function(k,value){
+        ConfigFctry.setExcludePrimaryKeys(k,value);
+    }
     
 });

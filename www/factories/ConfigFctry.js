@@ -76,7 +76,6 @@ app.factory('ConfigFctry',function(){
         },
 
         /*Renvoie l'intégralité du json tags/tags.json*/
-
         Tags: [],
         getTags:function(){
             //requete asynchrone
@@ -86,21 +85,66 @@ app.factory('ConfigFctry',function(){
                 dataType:'json', 
                 async :false,
                 success: function(data){
+
+                    var exclude_keys = factory.getExcludePrimaryKeys();
+                    for (key in data){
+                        if (exclude_keys.indexOf(key) !=-1){
+                            data[key].display = false;
+                        }
+                        else {
+                            data[key].display = true;
+                        }
+                    }
+
                     result = data;
                     factory.Tags = data;
                 }
             })
+
+
+
             return result;
         },
 
-        /*Renvoie un array des 'PrimaryKeys' present dans le fichier*/        
+        /*Renvoie un array des 'PrimaryKeys' present dans le fichier => ["shop", "amenity", "public_transport", "emergency", "leisure", "craft", "tourism"] Moins les keys exclut*/        
         getListOfPrimaryKey:function(){
             var tags = factory.Tags;
             var liste_primary_key = [];
+            var exclude_keys = factory.getExcludePrimaryKeys();
             for (key in tags){
-                liste_primary_key.push(key);
+                if (exclude_keys.indexOf(key) ==-1){
+                    liste_primary_key.push(key);
+                }
+
             }
+
             return liste_primary_key;   
+        },
+        /*Renvoie un tableau des 'PrimaryKey' a ignorer*/
+        exclude_primary_keys :[],
+        getExcludePrimaryKeys: function(){
+            
+            if (localStorage.getItem("excludePrimaryKeys")){
+                  factory.exclude_primary_keys = localStorage.getItem("excludePrimaryKeys").split('|');
+                }
+            else{
+                localStorage.setItem("excludePrimaryKeys",'');
+                factory.exclude_primary_keys = [];
+            }
+          
+            //return ['amenity','craft'];
+            return factory.exclude_primary_keys;
+        },
+        setExcludePrimaryKeys : function(key,add){ //add = false { add} else remove
+            if (!add){
+                if (factory.exclude_primary_keys.indexOf(key) == -1){
+                    factory.exclude_primary_keys.push(key)
+                }
+            }
+            else {
+                factory.exclude_primary_keys.splice(factory.exclude_primary_keys.indexOf(key),1)
+            }
+            localStorage.setItem("excludePrimaryKeys", factory.exclude_primary_keys.join('|'));
         },
 
         /*Renvoie un tableau d'objet contenant les paramètres des tags pour une Primary Key */
@@ -108,6 +152,7 @@ app.factory('ConfigFctry',function(){
             var tags = factory.Tags;    
             return tags[_primary_key]['values'];
         },
+
 
         /*Renvoie l'objet de Configuration du Tag*/
         getConfigTag:function(_key,_value){

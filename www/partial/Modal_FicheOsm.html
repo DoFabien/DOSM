@@ -82,7 +82,7 @@
                     <!--editable-->
                     <div ng-if="editable" class="editableA">
                         <md-select ng-model="primary_tag.k" ng-Change='onPrimaryKeyChange(primary_tag.k)' >
-                            <md-option ng-repeat="(k,v) in all_tags" value="{{k}}">{{v.lbl}}</md-option>
+                            <md-option ng-repeat="(k,v) in all_tags" ng-show="v.display" value="{{k}}">{{v.lbl}}</md-option>
                         </md-select>
                     </div>
                     <div ng-if="editable" class="editableB">
