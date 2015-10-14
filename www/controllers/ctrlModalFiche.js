@@ -1,7 +1,11 @@
 //CONTROLEUR MODAL FICHE OSM
 app.controller('ModalFicheCtrl', function ($scope, $mdDialog,$mdSidenav,items,$filter,OsmFctry,ConfigFctry,$mdUtil, $log) {
 
-
+   $scope.search = function (row) {
+        return (angular.lowercase(row.key).indexOf(angular.lowercase($scope.query) || '') !== -1 ||
+                angular.lowercase(row.lbl).indexOf(angular.lowercase($scope.query) || '') !== -1 ||
+                angular.lowercase(row.lbl_alt).indexOf(angular.lowercase($scope.query) || '') !== -1);
+    };
 
     $scope.type_action = items.type_action; // W create/ R consult
     $scope.sw_delete = false; // variable si true, le bouton supprimer apparait

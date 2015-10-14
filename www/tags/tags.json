@@ -251,7 +251,7 @@
         {"key": "painter", "lbl": "Peintre", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "gray", "markerColor": "purple", "alert": "", "subtags": [] },
         {"key": "parquet_layer", "lbl": "Poseur de patquet", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "gray", "markerColor": "purple", "alert": "", "subtags": [] },
         {"key": "photographer", "lbl": "Photographe", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "gray", "markerColor": "purple", "alert": "", "subtags": [] },
-        {"key": "photographic_laboratory", "lbl": " Laboratoire photo", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "gray", "markerColor": "purple", "alert": "", "subtags": [] },
+        {"key": "photographic_laboratory", "lbl": "Laboratoire photo", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "gray", "markerColor": "purple", "alert": "", "subtags": [] },
         {"key": "plasterer", "lbl": "Plâtrier", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "gray", "markerColor": "purple", "alert": "", "subtags": [] },
         {"key": "plumber", "lbl": "Plombier", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "gray", "markerColor": "purple", "alert": "", "subtags": [] },
         {"key": "pottery", "lbl": "Potier", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "gray", "markerColor": "purple", "alert": "", "subtags": [] },

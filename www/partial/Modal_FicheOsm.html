@@ -5,7 +5,7 @@
         <md-toolbar class="md-toolbar-tools toolbar-TypeTag">
             <md-input-container class="filtre-TypeTag">
                 <label>Filtrer</label>
-                <input ng-model="search">
+                <input ng-model="query" ng-model-options='{ debounce: 300 }'>
             </md-input-container>
             <md-button ng-click="closeSnTypeTag()" class="md-raised md-warn"> Fermer </md-button>
         </md-toolbar>
