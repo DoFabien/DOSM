@@ -90,6 +90,7 @@
         {"key": "video_games", "lbl": "Location, vente de jeux vidéo", "lbl_alt": "", "icon": "fa-gamepad", "prefix": "fa", "iconColor": "white", "markerColor": "red", "alert": "", "subtags": [] },
         {"key": "curtain", "lbl": "Magasin de rideaux ou tentures", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "white", "markerColor": "red", "alert": "", "subtags": [] },
         {"key": "antiques", "lbl": "Antiquaire, brocante", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "white", "markerColor": "red", "alert": "", "subtags": [] },
+         {"key": "alcohol", "lbl": "Vente d'alcool", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "white", "markerColor": "red", "alert": "Magasin de vente d'alcool propriété du gouvernement ou sous licence. N'existe pas en France", "subtags": [] },
         {"key": "*", "lbl": "_NC", "lbl_alt": "", "icon": "", "prefix": "", "iconColor": "", "markerColor": "lightblue", "alert": "", "subtags": [] }
     ]},
 

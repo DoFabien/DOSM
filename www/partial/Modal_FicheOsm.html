@@ -1,4 +1,4 @@
-<md-dialog aria-label="Fiche OSM">
+<md-dialog aria-label="Fiche OSM" style="min-height:85%" >
 
     <!--SIDENAV TYPE TAG-->
     <md-sidenav md-component-id="TypeTag" md-is-open="TypeTagIsOpen" class="md-sidenav-right">
@@ -62,17 +62,20 @@
         </div>
     </md-toolbar>
 
-    <md-dialog-content style="padding-top:0;">
-        <!--        <div style="width:100%;heigth:100%">           -->
+
+   
+    <md-dialog-content>
+  
+        
         <p class="last_edition" ng-show="type_action != 'W'">
             Modifié le : {{geojson.properties.meta.timestamp | date:'dd/MM/yyyy HH:mm'}} V:{{geojson.properties.meta.version}}  
             <br> Par : {{geojson.properties.meta.user}}
+            <i ng-if="editable" class="fa fa-code fa-2x" style="position: absolute;top: 0;right: 0;"  ng-click= "activateCustomTag()"></i>
         </p>
-
-                   <!--boutton custom tag-->
-            <i ng-if="editable" class="fa fa-code fa-2x" style="position: absolute;right: 25px;" ng-click= "activateCustomTag()"></i>
-                   
-        
+  
+          <div class="alert alert-warning" ng-show="current_primary_key_config.alert != ''" style="position:relative;">
+    {{current_primary_key_config.alert}}
+     </div>    
 
         <div class="dialog-content-div">
             <md-list>
@@ -82,7 +85,7 @@
                     <!--editable-->
                     <div ng-if="editable" class="editableA">
                         <md-select ng-model="primary_tag.k" ng-Change='onPrimaryKeyChange(primary_tag.k)' >
-                            <md-option ng-repeat="(k,v) in all_tags" ng-show="v.display" value="{{k}}">{{v.lbl}}</md-option>
+                            <md-option ng-repeat="(k,v) in all_tags" ng-show="v.display" value="{{k}}">{{(!customValueType) ? v.lbl : k }}</md-option>
                         </md-select>
                     </div>
                     <div ng-if="editable" class="editableB">
@@ -112,7 +115,7 @@
                 <md-list-item ng-repeat="k in list_sub_tag_of_object" ng-if="geojson.properties.tags[k] || editable"> <!--Si y'a pas de valeur, on ne l'affiche pas à la lecture-->
                     <!--Editable-->
                     <div ng-if="editable" class="editableA">
-                        <label>{{all_sub_tags[k].lbl}}</label>
+                        <label>{{(!customValueType) ? all_sub_tags[k].lbl : k}}</label>
                     </div>
                     <div ng-if="editable" class="editableB">
                         <!--SELECT-->
@@ -214,7 +217,7 @@
         <span flex></span>
 
 
-        <md-button ng-show = "!editable" type="button" class="md-button md-primary " ng-click='showEditable()' style="position:absolute; left:0px; bottom:0px;" >
+        <md-button ng-show = "!editable" type="button" class="md-button md-primary " ng-click='showEditable()'  >
             <md-icon md-svg-src = 'images/SVG/pencil-square-o.svg' style="font:bold;width:30px;height:30px;"></md-icon>
         </md-button>
 

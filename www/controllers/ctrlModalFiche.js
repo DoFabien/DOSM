@@ -38,7 +38,7 @@ app.controller('ModalFicheCtrl', function ($scope, $mdDialog,$mdSidenav,items,$f
     };
     $scope.activateCustomTag = function(){
         $scope.customValueType = ($scope.customValueType) ? false : true;
-
+     
     }
 
     /*Au changement de la clé principal, on supprime l'ancienne*/
@@ -60,7 +60,7 @@ app.controller('ModalFicheCtrl', function ($scope, $mdDialog,$mdSidenav,items,$f
                     delete $scope.geojson.properties.tags[key];
                 }
             }
-            $scope.current_primary_key_config = ConfigFctry.getConfigTag($scope.primary_tag.k,$scope.primary_tag.v); // ligne de ConfigFctryuration du tag
+            $scope.current_primary_key_config = ConfigFctry.getConfigTag($scope.primary_tag.k,$scope.primary_tag.v); // ligne de Configuration du tag
             $scope.list_sub_tag_of_object = ($scope.current_primary_key_config) ? $scope.current_primary_key_config.subtags : [];
 
         }
@@ -162,7 +162,7 @@ app.controller('ModalFicheCtrl', function ($scope, $mdDialog,$mdSidenav,items,$f
 
     $scope.tagSelected = function(key, tag){
         $scope.geojson.properties.tags[key] = tag.key;
-        $scope.search = '';
+        $scope.query = '';
         $scope.closeSnTypeTag();
     }
 

@@ -266,13 +266,15 @@ md-dialog {
 }
 
 md-dialog .last_edition{
+    position: relative;
     font-size: 11px;
     font-style: italic;
-    margin-bottom: 0px;
+    margin-bottom: 0;
+   /*
     position: absolute;
     left: 0;
     padding-left: 30px;
-    right: 30px;
+    right: 30px;*/
 }
 }
 
@@ -365,7 +367,9 @@ md-dialog .md-actions .md-button{
 }
 
 .dialog-content-div{
+/*
     margin-top: 35px;
+*/
 }
 
 md-dialog  md-list-item button{
@@ -391,6 +395,18 @@ md-sidenav {
     color: black !IMPORTANT;
 
 }
+
+md-dialog .md-actions{
+    position: absolute; 
+    bottom: 0; 
+    width: 100%;
+}
+
+md-dialog md-dialog-content{
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-bottom: 52px;
+}
 .content_TypeTag{
     position: absolute;
     top:64px;
@@ -412,5 +428,5 @@ md-sidenav .filtre-TypeTag{
 /*Icon de positionnement*/
 .css-icon{
     transform-origin: 50% 50% !IMPORTANT;
-    transition: all 0.2s ease;
+    /*transition: all 0.2s ease;*/
 }
