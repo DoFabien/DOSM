@@ -181,7 +181,7 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
 
         createOSMChangeSet:function(comments,callback){
             var url = ConfigFctry.getServerAPI().url+'/api/0.6/changeset/create';
-            var content_put = '<osm><changeset><tag k="created_by" v="DOSM"/><tag k="comment" v="Just some test"/></changeset></osm>';
+            var content_put = '<osm><changeset><tag k="created_by" v="DOSM"/><tag k="comment" v="'+comments+'"/></changeset></osm>';
             $.ajax({
                 headers: {"Authorization": "Basic " + btoa(ConfigFctry.getUserInfo().user+':'+ConfigFctry.getUserInfo().password)},
                 type: "PUT",
@@ -198,8 +198,7 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
         getValidChangset:function(callback){
             //si il n'existe pas
             if (factory.getChangeset().id == null || factory.getChangeset().id == '' ){
-                console.log("n'existe pas");
-                factory.createOSMChangeSet('un commentaire',function(id_new_CS){
+                factory.createOSMChangeSet('Just some test',function(id_new_CS){
                     factory.setChangeset(id_new_CS,Date.now());
                     callback(factory.getChangeset().id);
 
@@ -209,7 +208,7 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
                 console.log("bientot périmé");
                 factory.getStatutChangeSet(factory.changeset.id,function(data){
                     if (data.open == "false"){ //c'est fermé, on en crée un nouveau
-                        factory.createOSMChangeSet('un commentaire',function(id_new_CS){
+                        factory.createOSMChangeSet('Just some test',function(id_new_CS){
                             factory.setChangeset(id_new_CS,Date.now());
 
 

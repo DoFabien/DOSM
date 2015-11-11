@@ -1,5 +1,5 @@
 <div class="alert" ng-class="alert.style" ng-show="alert.show" ng-click="alert.show=false">
- {{alert.content}}
+    {{alert.content}}
 </div>
 
 
@@ -7,73 +7,85 @@
 
     <div id="map"> </div>
 
-   <!--MENU EN HAUT A GAUCHE-->
-   <div class="div_fab_menu" ng-show = "show_btn.btn_menu">
-    <md-button id="btn_menu"  ng-click="openCloseMenu()" class="md-fab md-primary md-button md-default-theme" aria-label="Menu" >
-        <md-icon md-svg-src = 'images/SVG/ic_list_24px.svg' class="fab_icon"  style="color:black;"></md-icon>
-    </md-button>
+    <!--MENU EN HAUT A GAUCHE-->
+    <div class="div_fab_menu" ng-show = "show_btn.btn_menu">
+        <md-button id="btn_menu"  ng-click="openCloseMenu()" class="md-fab md-primary md-button md-default-theme" aria-label="Menu" >
+            <md-icon md-svg-src = 'images/SVG/ic_list_24px.svg' class="fab_icon"  style="color:black;"></md-icon>
+        </md-button>
     </div>
-    
+
     <!--ZOOM EN BAS A DROIT-->
-   <div class="div_fab_zoom">
-    <md-button id="btn_zoom"  ng-click="zoomInOut()" class="md-fab md-primary md-button md-default-theme" aria-label="Zoom" >
-        <md-icon ng-show="zoom != 20" md-svg-src = 'images/SVG/ic_zoom_in_24px.svg' class="fab_icon" style="color:black"></md-icon>
-        <md-icon ng-show="zoom == 20" md-svg-src = 'images/SVG/ic_zoom_out_24px.svg' class="fab_icon" style="color:black"></md-icon>
-    </md-button>
+    <div class="div_fab_zoom">
+        <md-button id="btn_zoom"  ng-click="zoomInOut()" class="md-fab md-primary md-button md-default-theme" aria-label="Zoom" >
+            <md-icon ng-show="zoom != 20" md-svg-src = 'images/SVG/ic_zoom_in_24px.svg' class="fab_icon" style="color:black"></md-icon>
+            <md-icon ng-show="zoom == 20" md-svg-src = 'images/SVG/ic_zoom_out_24px.svg' class="fab_icon" style="color:black"></md-icon>
+        </md-button>
     </div>
-    
-   <!--REFRESH EN BAS GAUCHE-->
-   <div class="div_fab_refresh" ng-show = "show_btn.btn_chargement">
-    <md-button id="btn_refresh" ng-click ="refreshMapData()" ng-disabled="show_btn.refreshing_data" class="md-fab" aria-label="refresh">
-         <md-icon md-svg-src = 'images/SVG/refresh.svg' ng-class="{'fa-spin':show_btn.refreshing_data}" class="fab_icon" ></md-icon>
-    </md-button>
+
+    <!--REFRESH EN BAS GAUCHE-->
+    <div class="div_fab_refresh" ng-show = "show_btn.btn_chargement">
+        <md-button id="btn_refresh" ng-click ="refreshMapData()" ng-disabled="show_btn.refreshing_data" class="md-fab" aria-label="refresh">
+            <md-icon md-svg-src = 'images/SVG/refresh.svg' ng-class="{'fa-spin':show_btn.refreshing_data}" class="fab_icon" ></md-icon>
+        </md-button>
     </div>
     <!--CENTRER POSTION EN BAS DROITE-->
     <div class="div_fab_center" ng-show = "show_btn.btn_center">
-    <md-button id ="btn_center"   type="button" class="md-fab md-button" ng-click='centerMapOnLocation()' aria-label="Center position">
-              <md-icon md-svg-src = 'images/SVG/ic_gps_fixed_24px.svg' class="fab_icon" ></md-icon>
-    </md-button>
+        <md-button id ="btn_center"   type="button" class="md-fab md-button" ng-click='centerMapOnLocation()' aria-label="Center position">
+            <md-icon md-svg-src = 'images/SVG/ic_gps_fixed_24px.svg' class="fab_icon" ></md-icon>
+        </md-button>
     </div>
     <!--VALIDER UN DEPLACEMENT EN HAUT A DROITE-->
     <div class="div_fab_validate_geo" ng-show = "show_btn.update_validate">
-   <md-button id ="btn_validate_geo"  class="md-button md-fab" aria-label="Valider le déplacement" ng-click="updateOsmLatLng()">
-          <md-icon md-svg-src = 'images/SVG/ic_check_24px.svg' class="fab_icon" ></md-icon>
-    </md-button>
-   </div>
+        <md-button id ="btn_validate_geo"  class="md-button md-fab" aria-label="Valider le déplacement" ng-click="updateOsmLatLng()">
+            <md-icon md-svg-src = 'images/SVG/ic_check_24px.svg' class="fab_icon" ></md-icon>
+        </md-button>
+    </div>
     <!--ANNULER UN DEPLACEMENT EN HAUT A GAUCHE-->
     <div  class="div_fab_cancel_geo" ng-show = "show_btn.update_validate" >
-  <md-button id ="btn_cancel_geo" class="md-button md-fab" aria-label="Valider le déplacement" ng-click="cancelOsmLatLng()">
-          <md-icon md-svg-src = 'images/SVG/ban.svg' class="fab_icon" ></md-icon>
-    </md-button>
-   </div>
+        <md-button id ="btn_cancel_geo" class="md-button md-fab" aria-label="Valider le déplacement" ng-click="cancelOsmLatLng()">
+            <md-icon md-svg-src = 'images/SVG/ban.svg' class="fab_icon" ></md-icon>
+        </md-button>
+    </div>
 
 </div><!-- /wrapper -->
 
+<md-list md-swipe-left="openCloseMenu()">
 
-<nav id="mm-menu" class="mm-menu" ng-class="menu_is_open ? 'active' :'' ">
-
-    <ul>
-        <li >
-            <a class="mm-menu__link" >
+    <nav id="mm-menu" class="mm-menu" ng-class="menu_is_open ? 'active' :'' ">
+         <md-toolbar class="md-toolbar-tools" ng-click="openCloseMenu()" >
+            <div style="width:250px">DOSM </div> <i class="fa fa-angle-double-left fa-lg"></i>
+        </md-toolbar>
+        
+        <md-list-item class="md-3-line" ng-click="null" >
+            <div class="md-title" >
                 <span class="mm-menu__link-text"><i class="fa fa-smile-o fa-lg"></i> Profile</span>
-            </a>
-        </li>
-        <li>
-            <a class="mm-menu__link">
-                <span class="mm-menu__link-text"><i class="fa fa-cog fa-lg"></i> Settings</span>
-            </a>
-        </li>
-        <li ng-click="logout()">
-            <a class="mm-menu__link">
-                <span class="mm-menu__link-text"><i class="fa fa-sign-out fa-lg"></i> Se deconnecter</span>
-            </a>
-        </li>
-        <li ng-click="exit()">
-            <a class="mm-menu__link">
-                <span class="mm-menu__link-text"><i class="fa fa-times-circle-o fa-lg"></i> Quitter</span>
-            </a>
-        </li>
-    </ul>
-</nav>
+            </div>
+            <md-divider ></md-divider>
+        </md-list-item>
+        
+         <md-list-item class="md-3-line" ng-click="toSetting()" >
+            <div class="md-title" >
+                 <span class="mm-menu__link-text"><i class="fa fa-cog fa-lg"></i> Settings</span>
+            </div>
+            <md-divider ></md-divider>
+        </md-list-item>
+        
+        <md-list-item class="md-3-line" ng-click="logout()" >
+            <div class="md-title" >
+                 <span class="mm-menu__link-text"><i class="fa fa-sign-out fa-lg"></i> Se deconnecter</span>
+            </div>
+            <md-divider ></md-divider>
+        </md-list-item>
+
+          <md-list-item class="md-3-line" ng-click="exit()" >
+            <div class="md-title" >
+                 <span class="mm-menu__link-text"><i class="fa fa-times-circle-o fa-lg"></i> Quitter</span>
+            </div>
+            <md-divider ></md-divider>
+        </md-list-item>
+       
+        </md-list> 
+
+    </nav>
 
 

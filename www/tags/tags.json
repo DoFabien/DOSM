@@ -90,6 +90,7 @@
         {"key": "video_games", "lbl": "Location, vente de jeux vidéo", "lbl_alt": "", "icon": "fa-gamepad", "prefix": "fa", "iconColor": "white", "markerColor": "red", "alert": "", "subtags": [] },
         {"key": "curtain", "lbl": "Magasin de rideaux ou tentures", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "white", "markerColor": "red", "alert": "", "subtags": [] },
         {"key": "antiques", "lbl": "Antiquaire, brocante", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "white", "markerColor": "red", "alert": "", "subtags": [] },
+         {"key": "alcohol", "lbl": "Vente d'alcool", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "white", "markerColor": "red", "alert": "Magasin de vente d'alcool propriété du gouvernement ou sous licence. N'existe pas en France", "subtags": [] },
         {"key": "*", "lbl": "_NC", "lbl_alt": "", "icon": "", "prefix": "", "iconColor": "", "markerColor": "lightblue", "alert": "", "subtags": [] }
     ]},
 
@@ -224,7 +225,7 @@
         {"key": "*", "lbl": "_NC", "lbl_alt": "", "icon": "", "prefix": "", "iconColor": "", "markerColor": "black", "alert": "", "subtags": [] }
     ]},
 
-    "craft":{"type":"craft", "lbl": "Artisanat  ", "values":[
+    "craft":{"type":"craft", "lbl": "Artisanat", "values":[
         {"key": "basket_maker", "lbl": "Vannier", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "gray", "markerColor": "purple", "alert": "", "subtags": [] },
         {"key": "beekeeper", "lbl": "Apiculteur", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "gray", "markerColor": "purple", "alert": "", "subtags": [] },
         {"key": "blacksmith", "lbl": "Forgeron", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "gray", "markerColor": "purple", "alert": "", "subtags": [] },
@@ -251,7 +252,7 @@
         {"key": "painter", "lbl": "Peintre", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "gray", "markerColor": "purple", "alert": "", "subtags": [] },
         {"key": "parquet_layer", "lbl": "Poseur de patquet", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "gray", "markerColor": "purple", "alert": "", "subtags": [] },
         {"key": "photographer", "lbl": "Photographe", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "gray", "markerColor": "purple", "alert": "", "subtags": [] },
-        {"key": "photographic_laboratory", "lbl": " Laboratoire photo", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "gray", "markerColor": "purple", "alert": "", "subtags": [] },
+        {"key": "photographic_laboratory", "lbl": "Laboratoire photo", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "gray", "markerColor": "purple", "alert": "", "subtags": [] },
         {"key": "plasterer", "lbl": "Plâtrier", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "gray", "markerColor": "purple", "alert": "", "subtags": [] },
         {"key": "plumber", "lbl": "Plombier", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "gray", "markerColor": "purple", "alert": "", "subtags": [] },
         {"key": "pottery", "lbl": "Potier", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "gray", "markerColor": "purple", "alert": "", "subtags": [] },
@@ -273,7 +274,7 @@
         {"key": "*", "lbl": "_NC", "lbl_alt": "", "icon": "", "prefix": "", "iconColor": "", "markerColor": "black", "alert": "", "subtags": [] }
 
     ]},
-    "tourism":{"type":"tourism", "lbl": "Tourisme   ", "values":[
+    "tourism":{"type":"tourism", "lbl": "Tourisme", "values":[
         {"key": "alpine_hut", "lbl": "Refuge de montagne", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "white", "markerColor": "darkpurple", "alert": "", "subtags": [] },
         {"key": "attraction", "lbl": "Attraction touristique", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "white", "markerColor": "darkpurple", "alert": "", "subtags": [] },
         {"key": "artwork", "lbl": "Œuvre d'art", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "white", "markerColor": "darkpurple", "alert": "", "subtags": [] },

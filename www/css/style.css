@@ -3,6 +3,8 @@ html, body, #map {
     width:100%;
     padding:0px;
     margin:0px;
+    overflow-x: hidden;
+    overflow-y: hidden;
 } 
 
 #view{
@@ -24,9 +26,7 @@ div{
 .fa{
     outline:0px !IMPORTANT;   
 }
-button {
-    z-index:99999;
-}
+
 
 
 .leaflet-control-attribution {
@@ -218,8 +218,9 @@ button {
     -webkit-transform: translateX(-100%);
 }
 
-#mm-menu ul {
-    padding-left: 5px !IMPORTANT;
+nav md-list-item div{
+    padding-top:7px;
+    padding-bottom: 7px;
 }
 .mm-menu.active {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
@@ -265,13 +266,15 @@ md-dialog {
 }
 
 md-dialog .last_edition{
+    position: relative;
     font-size: 11px;
     font-style: italic;
-    margin-bottom: 0px;
+    margin-bottom: 0;
+   /*
     position: absolute;
     left: 0;
     padding-left: 30px;
-    right: 30px;
+    right: 30px;*/
 }
 }
 
@@ -304,9 +307,10 @@ md-dialog .md-select-label{
 .padding0{
     padding: 0;
 }
-md-dialog md-input-container {
-    /*    padding: 0;  */
+margin0{
+    margin: 0
 }
+
 
 md-dialog md-list-item{
     min-height: 30px;   
@@ -363,9 +367,14 @@ md-dialog .md-actions .md-button{
 }
 
 .dialog-content-div{
+/*
     margin-top: 35px;
+*/
 }
 
+md-dialog  md-list-item button{
+    padding: 0 !important;
+}
 
 /*SIDE NAV*/
 md-sidenav {
@@ -385,6 +394,18 @@ md-sidenav {
     background-color: whitesmoke;
     color: black !IMPORTANT;
 
+}
+
+md-dialog .md-actions{
+    position: absolute; 
+    bottom: 0; 
+    width: 100%;
+}
+
+md-dialog md-dialog-content{
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-bottom: 52px;
 }
 .content_TypeTag{
     position: absolute;
@@ -407,5 +428,5 @@ md-sidenav .filtre-TypeTag{
 /*Icon de positionnement*/
 .css-icon{
     transform-origin: 50% 50% !IMPORTANT;
-    transition: all 0.2s ease;
+    /*transition: all 0.2s ease;*/
 }

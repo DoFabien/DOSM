@@ -1,7 +1,11 @@
 //CONTROLEUR MODAL FICHE OSM
 app.controller('ModalFicheCtrl', function ($scope, $mdDialog,$mdSidenav,items,$filter,OsmFctry,ConfigFctry,$mdUtil, $log) {
 
-
+   $scope.search = function (row) {
+        return (angular.lowercase(row.key).indexOf(angular.lowercase($scope.query) || '') !== -1 ||
+                angular.lowercase(row.lbl).indexOf(angular.lowercase($scope.query) || '') !== -1 ||
+                angular.lowercase(row.lbl_alt).indexOf(angular.lowercase($scope.query) || '') !== -1);
+    };
 
     $scope.type_action = items.type_action; // W create/ R consult
     $scope.sw_delete = false; // variable si true, le bouton supprimer apparait
@@ -34,7 +38,7 @@ app.controller('ModalFicheCtrl', function ($scope, $mdDialog,$mdSidenav,items,$f
     };
     $scope.activateCustomTag = function(){
         $scope.customValueType = ($scope.customValueType) ? false : true;
-
+     
     }
 
     /*Au changement de la clé principal, on supprime l'ancienne*/
@@ -56,7 +60,7 @@ app.controller('ModalFicheCtrl', function ($scope, $mdDialog,$mdSidenav,items,$f
                     delete $scope.geojson.properties.tags[key];
                 }
             }
-            $scope.current_primary_key_config = ConfigFctry.getConfigTag($scope.primary_tag.k,$scope.primary_tag.v); // ligne de ConfigFctryuration du tag
+            $scope.current_primary_key_config = ConfigFctry.getConfigTag($scope.primary_tag.k,$scope.primary_tag.v); // ligne de Configuration du tag
             $scope.list_sub_tag_of_object = ($scope.current_primary_key_config) ? $scope.current_primary_key_config.subtags : [];
 
         }
@@ -158,7 +162,7 @@ app.controller('ModalFicheCtrl', function ($scope, $mdDialog,$mdSidenav,items,$f
 
     $scope.tagSelected = function(key, tag){
         $scope.geojson.properties.tags[key] = tag.key;
-        $scope.search = '';
+        $scope.query = '';
         $scope.closeSnTypeTag();
     }
 
