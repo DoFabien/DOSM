@@ -1,6 +1,6 @@
 {
     "shop":{"type":"shop", "lbl": "Commerce", "values":[
-        {"key": "travel_agency", "lbl": "Agence de voyage", "lbl_alt": "", "icon": "travel-agency", "prefix": "map-icon", "iconColor": "white", "markerColor": "red", "alert": "", "subtags": [], "subtags": [] },
+        {"key": "travel_agency", "lbl": "Agence de voyage", "lbl_alt": "", "icon": "travel-agency", "prefix": "map-icon", "iconColor": "white", "markerColor": "red", "alert": "", "subtags": []},
         {"key": "estate_agent", "lbl": "Agent immobilier", "lbl_alt": "", "icon": "real-estate-agency", "prefix": "map-icon", "iconColor": "white", "markerColor": "red", "alert": "", 
          "subtags": ["operator"] },
         {"key": "insurance", "lbl": "Assurance", "lbl_alt": "", "icon": "insurance-agency", "prefix": "map-icon", "iconColor": "white", "markerColor": "red", "alert": "", 
@@ -185,6 +185,8 @@
         {"key": "reception_area", "lbl": "Zone de réception", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "white", "markerColor": "orange", "alert": "", "subtags": [] },
         {"key": "school", "lbl": "Ecole", "lbl_alt": "", "icon": "school", "prefix": "map-icon", "iconColor": "white", "markerColor": "orange", "alert": "", "subtags": ["school:FR"] },
         {"key": "college", "lbl": "Établissement d'enseignement supérieur", "lbl_alt": "", "icon": "fa-graduation-cap", "prefix": "fa", "iconColor": "white", "markerColor": "orange", "alert": "", "subtags": [] },
+        {"key": "swingerclub", "lbl": "Club echangiste", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "white", "markerColor": "purple", "alert": "", "subtags": [] },
+
         {"key": "*", "lbl": "_NC", "lbl_alt": "", "icon": "", "prefix": "", "iconColor": "", "markerColor": "black", "alert": "", "subtags": [] }
     ]},
 
