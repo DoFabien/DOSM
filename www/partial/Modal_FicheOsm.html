@@ -73,7 +73,7 @@
             <i ng-if="editable" class="fa fa-code fa-2x" style="position: absolute;top: 0;right: 0;"  ng-click= "activateCustomTag()"></i>
         </p>
   
-          <div class="alert alert-warning" ng-show="current_primary_key_config.alert != ''" style="position:relative;">
+          <div class="alert alert-warning" ng-show="current_primary_key_config.alert != '' && current_primary_key_config.alert" style="position:relative;">
     {{current_primary_key_config.alert}}
      </div>    
 
