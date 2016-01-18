@@ -44,6 +44,7 @@ app.controller('ModalFicheCtrl', function ($scope, $mdDialog,$mdSidenav,items,$f
     /*Au changement de la clé principal, on supprime l'ancienne*/
     var old_primary_key  = $.extend(true, {}, $scope.primary_tag); // on clone 
     $scope.onPrimaryKeyChange = function(e){
+        console.log('select!');
         delete $scope.geojson.properties.tags[old_primary_key.k];
         $scope.geojson.properties.tags[$scope.primary_tag.k] = '*';
         old_primary_key.k =e;

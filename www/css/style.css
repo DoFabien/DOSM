@@ -255,14 +255,27 @@ nav md-list-item div{
     z-index: 1000; 
 }
 
-.md-select-menu-container{
-    z-index: 2000;
+md-list-item md-input-container{
+ margin-bottom: 0;   
+     margin-top: 0; 
+    width: 100%;
 }
+
+md-backdrop.md-select-backdrop {
+z-index:1003;
+}
+
+.md-select-menu-container {
+z-index:1004;
+}
+
+
+
 md-dialog {
     width: 95% !IMPORTANT;
     max-width: 95% !IMPORTANT;
     max-height: 95%  !IMPORTANT;
-    z-index: 1010 !IMPORTANT;
+    z-index: 1000 !IMPORTANT;
 }
 
 md-dialog .last_edition{
@@ -292,22 +305,27 @@ md-dialog md-dialog table{
 md-dialog md-select {
     width: 100%;
     padding: 0 !IMPORTANT;
-    margin-bottom: 0px;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
-md-dialog md-select .md-select-label{
+/*md-dialog md-select .md-select-label{
     width: 100%;
     height: 29px;
     margin-bottom: 0px !IMPORTANT; 
 }
 md-dialog .md-select-label{
     padding: 0;   
-}
+}*/
 
 .padding0{
     padding: 0;
 }
-margin0{
+
+.width100{
+     width: 100%;   
+}
+.margin0{
     margin: 0
 }
 
@@ -405,6 +423,8 @@ md-dialog .md-actions{
 md-dialog md-dialog-content{
     padding-top: 0;
     padding-bottom: 0;
+    margin-left: 6px;
+    margin-right: 6px;
     margin-bottom: 52px;
 }
 .content_TypeTag{
