@@ -255,6 +255,18 @@ nav md-list-item div{
     z-index: 1000; 
 }
 
+md-input-container.padding0.md-input-has-value {
+    height: 30px;
+}
+md-list-item.md-no-style.md-button.padding0.md-clickable {
+    margin-bottom: 0;
+    margin-top: 0;
+}
+button.md-no-style.md-button.md-ink-ripple {
+    height: 32px;
+    /* margin: 0px; */
+}
+
 md-list-item md-input-container{
  margin-bottom: 0;   
      margin-top: 0; 
