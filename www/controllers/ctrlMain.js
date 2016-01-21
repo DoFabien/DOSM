@@ -12,7 +12,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
 
     $scope.zoom = 19;
 
-    $scope.map = $window.L.map('map',{zoomControl:false, minZoom: 19, maxZoom: 20, touchZoom:false});
+    $scope.map = $window.L.map('map',{zoomControl:false, minZoom: 19, maxZoom: 20});
 
     var Fgroup = L.featureGroup();
     var FgroupPosition =L.featureGroup();
@@ -23,20 +23,18 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
     }
     $scope.marker_position =  L.marker(
         [$rootScope.position.lat, $rootScope.position.lng],
-        {clickable:false,renderer : L.canvas(),iconAngle: $rootScope.position.compass , 
+        {clickable:false,iconAngle: $rootScope.position.compass , 
          icon: L.icon({
              iconUrl: 'images/fleche_24.png',
              iconSize:     [24, 24],
              iconAnchor:   [12, 12]
-             ,renderer : L.canvas()
              ,className:'css-icon'
          })
         }).addTo(FgroupPosition);
 
     $scope.circle_position =  L.circle([$rootScope.position.lat, $rootScope.position.lng], $rootScope.position.accuracy, {
         clickable:false,
-        color: '#383a40', stroke:true, weight:2,fillColor: '#070707', fillOpacity: 0.1
-        ,renderer : L.canvas()
+        color: '#ffffff', stroke:true, weight:2,fillColor: '#2922dd', fillOpacity: 0.1
     }).addTo(FgroupPosition);
 
     $scope.bbox_data = L.rectangle([[0,0],[0,0]],{color: "#ff7800", weight: 3,fillOpacity: 0}).addTo(FgroupPosition);
