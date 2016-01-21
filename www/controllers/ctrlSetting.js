@@ -9,9 +9,9 @@ app.controller('SettingCtrl', function ($scope,$rootScope,$location,$timeout,Con
     
 //$scope.primarykeys = ConfigFctry.getListOfPrimaryKey();
 $scope.all_tags = ConfigFctry.Tags;  
-
     $scope.excludeChange = function(k,value){
         ConfigFctry.setExcludePrimaryKeys(k,value);
     }
-    
 });
+
+//ConfigFctry.setBaseMap('bm_osm_fr'); //to do: add select BM

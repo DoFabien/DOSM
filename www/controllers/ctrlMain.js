@@ -40,14 +40,26 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
     $scope.bbox_data = L.rectangle([[0,0],[0,0]],{color: "#ff7800", weight: 3,fillOpacity: 0}).addTo(FgroupPosition);
 
 
-    var basemaps = [
-        {name:'OSM fr', url:$window.L.tileLayer('http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',{maxZoom:20})}
-    ];
+
 
     $scope.map.setView(L.latLng($rootScope.position.lat, $rootScope.position.lng), $scope.zoom, true);
-    basemaps[0].url.addTo($scope.map );
     Fgroup.addTo($scope.map );
     FgroupPosition.addTo($scope.map);
+    
+    ConfigFctry.setBaseMap('bm_osm_fr');
+    console.log(ConfigFctry.getBaseMap());
+
+    var bm_osm_fr = L.tileLayer('http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',{maxZoom:20});
+    var bm_bright_gl = L.mapboxGL({accessToken: 'j',style: 'Mapbox-GL/styles/bright-v8.json'});
+    
+    if(ConfigFctry.getBaseMap() == 'bm_bright_gl'){
+       bm_bright_gl.addTo($scope.map); 
+    }
+    else{
+        bm_osm_fr.addTo($scope.map);
+    }
+    //bm_osm_fr.addTo($scope.map);
+    
 
 
     OsmFctry.getChangeset();
@@ -147,33 +159,33 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
 
 
     $scope.dragMarker = function(marker){
-        
+
         if(!$scope.$$phase) {$scope.$apply();}
 
         if (marker.json.properties.type == 'way'){
             $scope.showAlert(true,"Impossible de déplacer l'élément car c'est un polygone",'alert-warning');
         }
         else {
-            
+
             $scope.show_btn = {bar_menu:false, btn_chargement:false,footer:true, update_validate:true, update_cancel:true};
             if(!$scope.$$phase) {$scope.$apply();}
-           
+
             Fgroup.clearLayers(); 
             $scope.original_feature_OSM = jQuery.extend(true, {}, marker.json);
-           
+
             marker.off("click");
-            
+
             $scope.current_action = 'Drag';
-             
+
             marker.on('click',function(e){
-             this.stopBouncing(); 
+                this.stopBouncing(); 
                 marker.off("click");
-                 marker.dragging.enable();
-                
+                marker.dragging.enable();
+
             });
             marker.addTo(Fgroup);
             marker.bounce();
-            
+
 
             marker.on('dragend',function(e){
                 e.target.json.geometry.coordinates[0] = e.target.getLatLng().lng;

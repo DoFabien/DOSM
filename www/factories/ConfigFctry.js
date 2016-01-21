@@ -120,6 +120,24 @@ app.factory('ConfigFctry',function(){
 
             return liste_primary_key;   
         },
+        
+        /*Renvoie la base map*/
+        
+        getBaseMap:function(){
+            if (localStorage.getItem("BaseMap")){
+                return localStorage.getItem("BaseMap");
+            }
+            else{
+                factory.setBaseMap('bm_osm_fr');
+                return 'bm_osm_fr';
+            }
+            
+        },
+        
+        setBaseMap:function(basemap){
+            localStorage.setItem("BaseMap",basemap);
+        },
+        
         /*Renvoie un tableau des 'PrimaryKey' a ignorer*/
         exclude_primary_keys :[],
         getExcludePrimaryKeys: function(){
