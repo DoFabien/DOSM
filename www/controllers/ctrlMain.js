@@ -34,7 +34,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
 
     $scope.circle_position =  L.circle([$rootScope.position.lat, $rootScope.position.lng], $rootScope.position.accuracy, {
         clickable:false,
-        color: '#ffffff', stroke:true, weight:2,fillColor: '#2922dd', fillOpacity: 0.1
+        color: '#14107b', stroke:true, weight:2,fillColor: '#5652be', fillOpacity: 0.1
     }).addTo(FgroupPosition);
 
     $scope.bbox_data = L.rectangle([[0,0],[0,0]],{color: "#ff7800", weight: 3,fillOpacity: 0}).addTo(FgroupPosition);
