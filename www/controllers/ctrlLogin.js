@@ -45,8 +45,6 @@ app.controller('LoginCtrl', function ($scope,$location,$timeout,ConfigFctry,OsmF
         });
     };
     
-      if ($scope.user && $scope.password){
-        $scope.connexion();
-    }
+
 
 });

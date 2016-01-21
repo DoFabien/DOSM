@@ -37,7 +37,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
         color: '#14107b', stroke:true, weight:2,fillColor: '#5652be', fillOpacity: 0.1
     }).addTo(FgroupPosition);
 
-    $scope.bbox_data = L.rectangle([[0,0],[0,0]],{color: "#ff7800", weight: 3,fillOpacity: 0}).addTo(FgroupPosition);
+    $scope.bbox_data = L.rectangle([[0,0],[0,0]],{color: "#ff7800", weight: 3,fillOpacity: 0,clickable:false}).addTo(FgroupPosition);
 
 
 
@@ -121,6 +121,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
 
     /*ON LONG TOUCH ON THE MAP*/
     $scope.map.on("contextmenu", function(e){
+        console.log('ok');
         var lat =e.latlng.lat;
         var lng = e.latlng.lng;
         if($scope.current_action != 'Drag'){
