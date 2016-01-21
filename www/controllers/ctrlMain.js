@@ -123,21 +123,21 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
         var geojson = {"type":"Feature","id":"","properties":{"type":"node","id":"","tags":{name:''},"relations":[],"meta":{"timestamp":"","version":"","changeset":"","user":"","uid":""}},"geometry":{"type":"Point","coordinates":[lng,lat]}};
         for (var k in ConfigFctry.Tags){
             console.log(k);
-        var key_default = null;
+            var key_default = null;
             if (ConfigFctry.Tags[k].display){
                 key_default = k;
-              
+
                 break;
             }
         }
         if (key_default){
-                  geojson.properties.tags[key_default]= '*';
-        $scope.open($scope.$event,geojson,'W');
+            geojson.properties.tags[key_default]= '*';
+            $scope.open($scope.$event,geojson,'W');
         }
         else{
             alert('Oh, il faut au moins un type à afficher!')
         }
-    
+
     };
 
 
@@ -149,22 +149,33 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
 
 
     $scope.dragMarker = function(marker){
+        
         if(!$scope.$$phase) {$scope.$apply();}
 
         if (marker.json.properties.type == 'way'){
             $scope.showAlert(true,"Impossible de déplacer l'élément car c'est un polygone",'alert-warning');
         }
         else {
+            
             $scope.show_btn = {bar_menu:false, btn_chargement:false,footer:true, update_validate:true, update_cancel:true};
             if(!$scope.$$phase) {$scope.$apply();}
-
+           
             Fgroup.clearLayers(); 
             $scope.original_feature_OSM = jQuery.extend(true, {}, marker.json);
-
+           
             marker.off("click");
+            
             $scope.current_action = 'Drag';
+             
+            marker.on('click',function(e){
+             this.stopBouncing(); 
+                marker.off("click");
+                 marker.dragging.enable();
+                
+            });
             marker.addTo(Fgroup);
-            marker.dragging.enable();
+            marker.bounce();
+            
 
             marker.on('dragend',function(e){
                 e.target.json.geometry.coordinates[0] = e.target.getLatLng().lng;
@@ -220,20 +231,27 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
                 marker_style = L.AwesomeMarkers.icon({icon: style_tag.icon,iconColor:style_tag.iconColor, markerColor: style_tag.markerColor, prefix: style_tag.prefix });
             }
             var marker = L.marker([lat,lng],{icon:marker_style,draggable:false});
+            marker.setBouncingOptions({exclusive : true,bounceSpeed:35});
 
             var id_osm =  data[i].id;
             marker.id_osm = id_osm;
             marker.json = data[i];
 
             marker.on("click",function(e){
+                this.bounce(1);
                 if (e.target.json.properties.type == 'way'){
                     //c'est un polygon, on convertit le XML de façon différente pour conserver ses noeud
                     OsmFctry.getOsmElemById(e.target.json.id,function(data){
-                        $scope.open($scope.$event,data.osmGeojson,'R');  
+                        $timeout(function() {
+                            $scope.open($scope.$event,data.osmGeojson,'R');
+                        }, 100);
                     });
                 }
                 else{
-                    $scope.open($scope.$event,e.target.json,'R');
+                    $timeout(function() { // pause pour laisser l'annimation se terminer
+                        $scope.open($scope.$event,e.target.json,'R');
+                    }, 100);
+
                 }
             });
 
@@ -325,7 +343,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
             feature = result.geojson;
 
             $scope.type_ope = result.type_ope;
-               var RegIsInteger = /^\d+$/;
+            var RegIsInteger = /^\d+$/;
             /*CREATION*/
             if ( $scope.type_ope  == 'W'){
                 OsmFctry.crateOsmNode(feature,function(data){
@@ -347,20 +365,20 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
                 });
 
             }
-            
+
             /*DELETE*/
             else if( $scope.type_ope  == 'D'){ // C'est un delete, on l'enleve de nos données, on redessine les markers
                 OsmFctry.deleteOsmElem(feature,function(_data){
-                     if( RegIsInteger.test(_data)){ // DELETE OK
-                    $scope.geojson_OSM = $scope.refreshFeatureJson('D',$scope.geojson_OSM,feature);
-                    $scope.drawMarker($scope.geojson_OSM );
-                     }
+                    if( RegIsInteger.test(_data)){ // DELETE OK
+                        $scope.geojson_OSM = $scope.refreshFeatureJson('D',$scope.geojson_OSM,feature);
+                        $scope.drawMarker($scope.geojson_OSM );
+                    }
                     else{ // DELETE KO
-                          $scope.showAlert(true,"<strong>Une erreur est survenue lors de la suppression de ce point</strong>" + _data,'alert-danger');
+                        $scope.showAlert(true,"<strong>Une erreur est survenue lors de la suppression de ce point</strong>" + _data,'alert-danger');
                     }
                 });
             }
-            
+
             //UPDATE
             else {
                 OsmFctry.UpdateOsm(feature,function(data){
@@ -407,9 +425,9 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
     $scope.exit = function(){
         navigator.app.exitApp();   
     }
-    
+
     $scope.toSetting = function(){
-           $timeout(function () {
+        $timeout(function () {
             $location.path( "/setting" );
         }, 0);
     }
