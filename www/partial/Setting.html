@@ -6,13 +6,26 @@
 <div class="content_TypeTag" >
     <md-list>
 
+        <md-list-item class="md-3-line"  >
+            <div class="md-list-item-text">
+                <h2>Fond de carte</h2>
 
+                <md-radio-group ng-model="base_map_selected" class="md-primary">
+                    <md-radio-button ng-repeat="(k,v) in bases_maps" ng-value="k" class="md-primary" >
+                       {{v.name}}
+                        <!--
+<md-radio-button value="Apple" class="md-primary">Apple</md-radio-button>
+-->
+                    </md-radio-button>
+                </md-radio-group>
 
-
+            </div>
+            <md-divider ></md-divider>
+        </md-list-item>
 
         <md-list-item class="md-3-line"  >
             <div class="md-list-item-text">
-               <h3>Elément à afficher</h3>
+                <h2>Elément à afficher</h2>
                 <md-switch  ng-repeat="(k,v) in all_tags" class="md-primary" aria-label="{{v.lbl}}" ng-model="v.display" ng-change="excludeChange(k,v.display)">
                     <h3>{{v.lbl}}</h3>
                 </md-switch>

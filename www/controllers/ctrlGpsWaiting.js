@@ -3,6 +3,7 @@ app.controller('GpsWaitingCtrl', function ($scope,$location,$timeout,$rootScope)
     $scope.watch_satus_gps = $rootScope.$watch('[position.lat,position.lng,position.accuracy]', function() { // au changement de geoloc
         console.log($rootScope.position.accuracy );
         $scope.gpsIsReady();
+        $scope.accuracy =$rootScope.position.accuracy
     });
 
     $scope.gpsIsReady = function(){

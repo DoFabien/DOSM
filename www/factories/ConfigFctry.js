@@ -122,6 +122,14 @@ app.factory('ConfigFctry',function(){
         },
         
         /*Renvoie la base map*/
+        bases_map: {
+            bm_osm_fr: {name:'OSM fr', layer :L.tileLayer('http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',{maxZoom:20})},
+            bm_bright_gl: {name:'MapboxGL Bright', layer: L.mapboxGL({accessToken: 'j',style: 'Mapbox-GL/styles/bright-v8.json'}) }
+            },
+        
+        getBasesMaps:function(){
+          return factory.bases_map;  
+        },
         
         getBaseMap:function(){
             if (localStorage.getItem("BaseMap")){
