@@ -12,7 +12,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
 
     $scope.zoom = 19;
 
-    $scope.map = $window.L.map('map',{zoomControl:false, minZoom: 19, maxZoom: 20});
+    var map = $window.L.map('map',{zoomControl:false, minZoom: 19, maxZoom: 20});
 
     var Fgroup = L.featureGroup();
     var FgroupPosition =L.featureGroup();
@@ -42,13 +42,15 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
 
 
 
-    $scope.map.setView(L.latLng($rootScope.position.lat, $rootScope.position.lng), $scope.zoom, true);
-    Fgroup.addTo($scope.map );
-    FgroupPosition.addTo($scope.map);
+    map.setView(L.latLng($rootScope.position.lat, $rootScope.position.lng), $scope.zoom, true);
+    Fgroup.addTo(map );
+    FgroupPosition.addTo(map);
     
 
-    var base_map = ConfigFctry.getBasesMaps()[ConfigFctry.getBaseMap()].layer;
-    base_map.addTo($scope.map)
+    var base_map =  $.extend(true, {}, ConfigFctry.getBasesMaps()[ConfigFctry.getBaseMap()].layer);
+   
+    console.log(base_map);
+    base_map.addTo(map)
 
     OsmFctry.getChangeset();
     ConfigFctry.getUserInfo();
@@ -59,12 +61,12 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
     };
 
     $scope.zoomInOut = function(){
-        if($scope.map.getZoom()==19){ $scope.map.setZoom(20);}
-        else{ $scope.map.setZoom(19);}  
+        if(map.getZoom()==19){ map.setZoom(20);}
+        else{ map.setZoom(19);}  
     }
 
-    $scope.map.on('zoomend',function(e){
-        $scope.zoom = $scope.map.getZoom();
+    map.on('zoomend',function(e){
+        $scope.zoom = map.getZoom();
         $scope.$apply();
     });
 
@@ -103,12 +105,12 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
     /*CENTRE LA CARTE SUR LA POSTITION GPS*/	
     $scope.centerMapOnLocation = function(){
         if($rootScope.position.lat != 0){
-            $scope.map.setView([$rootScope.position.lat,$rootScope.position.lng]);
+            map.setView([$rootScope.position.lat,$rootScope.position.lng]);
         }
     };
 
     /*ON LONG TOUCH ON THE MAP*/
-    $scope.map.on("contextmenu", function(e){
+    map.on("contextmenu", function(e){
         console.log('ok');
         var lat =e.latlng.lat;
         var lng = e.latlng.lng;
@@ -268,11 +270,11 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
         $scope.current_action = '';
         $scope.show_btn = {bar_menu:true, btn_chargement:true,footer:false,refreshing_data:true, update_validate:false, update_cancel:false,btn_menu:true, btn_center:true};
         if(!$scope.$$phase) {$scope.$apply();}
-        OsmFctry.getGeojsonByBbox(ConfigFctry.getListOfPrimaryKey(),$scope.map.getBounds(),function (data){ 
+        OsmFctry.getGeojsonByBbox(ConfigFctry.getListOfPrimaryKey(),map.getBounds(),function (data){ 
             $scope.show_btn.refreshing_data = false;
             if(!$scope.$$phase) {$scope.$apply();}
             //rectangle de l'emprise des données téléchargés
-            $scope.bbox_data.setBounds($scope.map.getBounds());
+            $scope.bbox_data.setBounds(map.getBounds());
             $scope.bbox_data.redraw();
 
             $scope.geojson_OSM = data;
