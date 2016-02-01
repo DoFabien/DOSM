@@ -54,9 +54,9 @@
     <md-toolbar>
         <div class="md-toolbar-tools">   
             <h2 ng-show = "!editable"   ng-model="geojson.properties.tags.name">  {{geojson.properties.tags.name && geojson.properties.tags.name !='' ? geojson.properties.tags.name : "Sans nom"}}</h2>
-            <md-input-container class="padding0 color-white" flex ng-show = "editable">
+            <md-input-container class="padding0 color-white" flex ng-show = "editable" >
                 <label>Nom</label>
-                <input ng-model="geojson.properties.tags.name">
+                <input ng-model="geojson.properties.tags.name" style="color: white;">
             </md-input-container>
 
         </div>

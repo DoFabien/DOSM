@@ -171,12 +171,21 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
             marker.on('click',function(e){
                 this.stopBouncing(); 
                 marker.off("click");
-                marker.dragging.enable();
+               // marker.dragging.enable();
 
             });
             marker.addTo(Fgroup);
             marker.bounce();
+            marker.dragging.enable();
 
+               marker.on('dragstart',function(e){
+                this.stopBouncing(); 
+                marker.off("click");
+                marker.off("dragstart");
+                
+               // marker.dragging.enable();
+
+            });
 
             marker.on('dragend',function(e){
                 e.target.json.geometry.coordinates[0] = e.target.getLatLng().lng;

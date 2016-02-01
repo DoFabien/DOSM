@@ -1,5 +1,5 @@
 
-var app = angular.module('myApp', ['ngRoute','ngCordova','ngMaterial']);
+var app = angular.module('myApp', ['ngRoute','ngCordova','ngMaterial','ngAnimate']);
 
 app.config(function($routeProvider) {
 
@@ -16,6 +16,13 @@ app.config(function($routeProvider) {
         .when('/setting', {templateUrl: 'partial/Setting.html',
                            controller:'SettingCtrl'
                           })
+});
+
+
+app.config(function($mdThemingProvider) {
+  $mdThemingProvider.theme('default')
+    .primaryPalette('indigo')
+    .accentPalette('blue-grey');
 });
 
 // ROOTSCOPE
