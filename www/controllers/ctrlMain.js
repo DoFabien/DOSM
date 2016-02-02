@@ -233,12 +233,13 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
 
             var type_key = kv.k;
             var type_value =kv.v;
-
+            /*Si c'est un way on lui affiche un petit W*/
+            var marker_number = (data[i].properties.type == 'way' ? 'W' : 0);
             var style_tag = ConfigFctry.getConfigTag(type_key,type_value);
 
-            var marker_style = L.AwesomeMarkers.icon({icon: '',iconColor:'', markerColor: 'black', prefix: '' }); // valeur par defaut
+            var marker_style = L.AwesomeMarkers.icon({icon: '',iconColor:'', markerColor: 'black', prefix: '',number: marker_number }); // valeur par defaut
             if (style_tag != null){ //=> on l'a pas trouvé
-                marker_style = L.AwesomeMarkers.icon({icon: style_tag.icon,iconColor:style_tag.iconColor, markerColor: style_tag.markerColor, prefix: style_tag.prefix });
+                marker_style = L.AwesomeMarkers.icon({icon: style_tag.icon,iconColor:style_tag.iconColor, markerColor: style_tag.markerColor, prefix: style_tag.prefix,number: marker_number });
             }
             var marker = L.marker([lat,lng],{icon:marker_style,draggable:false});
             marker.setBouncingOptions({exclusive : true,bounceSpeed:35});

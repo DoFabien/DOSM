@@ -429,6 +429,12 @@ md-sidenav .filtre-TypeTag{
     color: black !Important;
 }
 
+
+
+.awesome-markers-number {
+    font-weight: bold;
+    background-color: #174DC7 !IMPORTANT;   
+}
 /*Icon de positionnement*/
 .css-icon{
     transform-origin: 50% 50% !IMPORTANT;
