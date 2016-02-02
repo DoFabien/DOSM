@@ -47,9 +47,9 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
     FgroupPosition.addTo(map);
     
 
-    var base_map =  $.extend(true, {}, ConfigFctry.getBasesMaps()[ConfigFctry.getBaseMap()].layer);
+    var base_map =  $.extend(true, {}, ConfigFctry.getBasesMaps()[ConfigFctry.getBaseMap()].layer); //clone
+  //console.log(ConfigFctry.getChangesetComment());
    
-    console.log(base_map);
     base_map.addTo(map)
 
     OsmFctry.getChangeset();
@@ -338,7 +338,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
             templateUrl: 'partial/Modal_FicheOsm.html',//'partial/Modal_FicheOsm.html',
             controller: 'ModalFicheCtrl as ModalFicheCtrl',
             onComplete : function(){
-                console.log(new Date().getTime() - time_start );    //durée de l'ouverture de la popup   
+               // console.log(new Date().getTime() - time_start );    //durée de l'ouverture de la popup   
             },
             // backdrop: false,
             locals: {

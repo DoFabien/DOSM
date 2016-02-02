@@ -22,8 +22,6 @@ app.factory('ConfigFctry',function(){
 
         },
 
-
-
         /*GEOLOC*/
         position : {lat : 0, lng : 0, accuracy : 0, compass : 0},
         getPosition :function(){
@@ -120,17 +118,17 @@ app.factory('ConfigFctry',function(){
 
             return liste_primary_key;   
         },
-        
+
         /*Renvoie la base map*/
         bases_map: {
             bm_osm_fr: {name:'OSM fr', layer :L.tileLayer('http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',{maxZoom:20})},
             bm_bright_gl: {name:'MapboxGL Bright', layer: L.mapboxGL({accessToken: 'j',style: 'Mapbox-GL/styles/bright-v8.json'}) }
-            },
-        
-        getBasesMaps:function(){
-          return factory.bases_map;  
         },
-        
+
+        getBasesMaps:function(){
+            return factory.bases_map;  
+        },
+
         getBaseMap:function(){
             if (localStorage.getItem("BaseMap")){
                 return localStorage.getItem("BaseMap");
@@ -139,25 +137,40 @@ app.factory('ConfigFctry',function(){
                 factory.setBaseMap('bm_osm_fr');
                 return 'bm_osm_fr';
             }
-            
+
         },
-        
+
         setBaseMap:function(basemap){
             localStorage.setItem("BaseMap",basemap);
         },
         
+        getChangesetComment: function(){
+              if (localStorage.getItem("ChangesetComment")){
+                return localStorage.getItem("ChangesetComment").trim();
+            }
+            else{
+                factory.setChangesetComment('Sortie terrain');
+                return 'Sortie terrain';
+            }
+            
+        },
+        setChangesetComment: function(comment){
+            localStorage.setItem("ChangesetComment",comment.trim().replace('"','"'));
+        },
+        
+
         /*Renvoie un tableau des 'PrimaryKey' a ignorer*/
         exclude_primary_keys :[],
         getExcludePrimaryKeys: function(){
-            
+
             if (localStorage.getItem("excludePrimaryKeys")){
-                  factory.exclude_primary_keys = localStorage.getItem("excludePrimaryKeys").split('|');
-                }
+                factory.exclude_primary_keys = localStorage.getItem("excludePrimaryKeys").split('|');
+            }
             else{
                 localStorage.setItem("excludePrimaryKeys",'');
                 factory.exclude_primary_keys = [];
             }
-          
+
             //return ['amenity','craft'];
             return factory.exclude_primary_keys;
         },
