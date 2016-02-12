@@ -1,6 +1,6 @@
 //CONTROLER LOGIN
 app.controller('LoginCtrl', function ($scope,$location,$timeout,ConfigFctry,OsmFctry) {
-    console.log( ConfigFctry.getServerAPI().type);   
+    OsmFctry.clearGeojsonOsm();
     $scope.switch_server = ConfigFctry.getServerAPI().type == 'prod' ? true : false;
 
     $scope.$watch('switch_server', function() {

@@ -2,6 +2,81 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
 
 
     var factory = {
+        geojson_OSM:null, //stockage des données en json
+
+        getGeojsonOsm: function(){
+            return factory.geojson_OSM;  
+        },
+        setGeojsonOsm :function(data){
+            if (!factory.getGeojsonOsm()){
+                factory.geojson_OSM = data;  
+            }
+            else{ 
+                for (var i = 0; i<data.length;i++){
+                    var feature_id = data[i].id;
+                    //  console.log(feature_id); 
+                    for (var j = 0; j<factory.geojson_OSM.length;j++){
+                        if (feature_id == factory.geojson_OSM[j].id){ //la feature existe déjà dans nos données, on la remplace
+
+                            factory.geojson_OSM[j] = data[i];
+                            break;
+                        }
+                        if (j == factory.geojson_OSM.length -1){   //la feature n'existe pas, on l'ajoute
+                            factory.geojson_OSM.push(data[i]);
+                            console.log('Nouvelle feature!'); 
+                        }
+                    }
+                }
+            }
+        },
+        
+        clearGeojsonOsm:function(){
+            factory.geojson_OSM = null;
+            factory.bbox_data = null;
+            
+        },
+        
+        addFeatureToGeojsonOsm:function(feature){
+            factory.geojson_OSM.push(feature);
+            console.log('add feature!');
+        },
+        updateFeatureToGeojsonOsm:function(feature){
+            var feature_id = feature.id;
+            for (var j = 0; j<factory.geojson_OSM.length;j++){
+                if (feature_id == factory.geojson_OSM[j].id){ //la feature existe déjà dans nos données, on la remplace
+                    if(feature.properties.type == 'way'){ // si c'est un plolygon, on récupère l'ancienne géométrie
+                        feature.geometry.coordinates =factory.geojson_OSM[j].geometry.coordinates;
+                    }
+                    factory.geojson_OSM[j] = feature;
+                    break;
+                }
+            }
+            console.log('update feature!');
+        },
+        deleteFeatureToGeojsonOsm: function(feature){
+            var feature_id = feature.id;
+            for (var j = 0; j<factory.geojson_OSM.length;j++){
+                if (feature_id == factory.geojson_OSM[j].id){ 
+                    if(feature.properties.type != 'way'){ // On ne peut pas supprimer un polygon
+                        factory.geojson_OSM.splice(j,1);
+                        console.log('delete feature!');
+                    }
+                    break;
+                }
+            }
+
+
+        },
+        
+        bbox_data: null,
+        getBboxData : function(){
+            return factory.bbox_data;
+            
+    },
+        setBboxData:function(bbox){
+           factory.bbox_data = bbox; 
+        },
+        
 
         changeset : {id:'', datechange:0},
         getChangeset:function(){
@@ -24,7 +99,7 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
                 var tags_xml = '';
                 for (var k in tags_json){ // TODO : si k se terminer _1, _2, _N, supprimer la fin (le geojson ne peut pas avoir 2 fois la meme clé, le XML si.??? Duplication de clé
                     if(k != '' && tags_json[k] != ''){
-                        
+
                         tags_xml += '<tag k="'+k+'" v="'+tags_json[k]+'"/>';
                     }
                 }
@@ -103,9 +178,9 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
         },
 
         getGeojsonByBbox:function(_ks,l_bounds,callback){
-
             var bb = (l_bounds.getWest()+','+l_bounds.getSouth()+','+l_bounds.getEast()+','+l_bounds.getNorth());
             var url = ConfigFctry.getServerAPI().url+'/api/0.6/';
+            
             $.ajax({
                 type: "GET",
                 url: url +'map?bbox='+ bb,
@@ -116,25 +191,14 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
                     for (var i = 0;i<features.length;i++){
                         feature_tag = features[i].properties.tags;
                         if ( features[i].geometry.type == 'Point'){
-                            for (var key in feature_tag){
-                                if(_ks.indexOf(key) != -1 ){
-                                    elements.push(features[i]);
-                                    break;
-                                }
-                            }
+                            elements.push(features[i]);
                         }
 
                         else if (features[i].geometry.type == 'Polygon'){
-                            var center = L.polygon(features[i].geometry.coordinates[0]).getBounds().getCenter();
+                            var center = L.polygon(features[i].geometry.coordinates[0]).getBounds().getCenter(); //turf=>
                             features[i].geometry.coordinates = [center.lat,center.lng];
                             features[i].geometry.type = 'Point';
-
-                            for (var k in feature_tag){
-                                if(_ks.indexOf(k) != -1 ){
-                                    elements.push(features[i]);
-                                    break;
-                                }
-                            }
+                            elements.push(features[i]);
                         }
                     }
                     return callback(elements);   
@@ -180,7 +244,7 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
         },
 
         createOSMChangeSet:function(callback){
-           
+
             var url = ConfigFctry.getServerAPI().url+'/api/0.6/changeset/create';
             var content_put = '<osm><changeset><tag k="created_by" v="DOSM"/><tag k="comment" v="'+ConfigFctry.getChangesetComment()+'"/></changeset></osm>';
             $.ajax({
@@ -189,7 +253,7 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
                 url: url,
                 data:content_put,
                 error:function(er){
-                  return er;
+                    return er;
                 },
                 success: function(data){
                     return callback(data);   
@@ -274,16 +338,16 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
                 var url = ConfigFctry.getServerAPI().url+'/api/0.6/'+id;
 
                 if(geojson.properties.type == 'node'){
-                $.ajax({
-                    headers: {"Authorization": "Basic " + btoa(ConfigFctry.getUserInfo().user+':'+ConfigFctry.getUserInfo().password)},
-                    type: "DELETE",
-                    url: url,
-                    data:content_delete,
-                    success: function(data){
-                        //Precondition failed: Node 4297420791 is still used by relations 4296366138.
-                        return callback(data);   
-                    }
-                });//EOF ajax
+                    $.ajax({
+                        headers: {"Authorization": "Basic " + btoa(ConfigFctry.getUserInfo().user+':'+ConfigFctry.getUserInfo().password)},
+                        type: "DELETE",
+                        url: url,
+                        data:content_delete,
+                        success: function(data){
+                            //Precondition failed: Node 4297420791 is still used by relations 4296366138.
+                            return callback(data);   
+                        }
+                    });//EOF ajax
                 }
             });
         }
