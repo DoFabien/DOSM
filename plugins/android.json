@@ -15,6 +15,30 @@
                         {
                             "xml": "<feature name=\"Compass\"><param name=\"android-package\" value=\"org.apache.cordova.deviceorientation.CompassListener\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<preference name=\"webView\" value=\"org.crosswalk.engine.XWalkWebViewEngine\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<preference default=\"16+\" name=\"xwalkVersion\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<preference default=\"--disable-pull-to-refresh-effect\" name=\"xwalkCommandLine\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<preference default=\"embedded\" name=\"xwalkMode\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<preference default=\"true\" name=\"xwalkMultipleApk\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Geolocation\"><param name=\"android-package\" value=\"org.apache.cordova.geolocation.Geolocation\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -29,6 +53,14 @@
                         {
                             "xml": "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />",
                             "count": 2
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\" />",
+                            "count": 1
                         }
                     ]
                 }
@@ -39,10 +71,13 @@
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "fr.dogeo.dosm"
         },
-        "cordova-plugin-geolocation": {
+        "cordova-plugin-device-orientation": {
             "PACKAGE_NAME": "fr.dogeo.dosm"
         },
-        "cordova-plugin-device-orientation": {
+        "cordova-plugin-crosswalk-webview": {
+            "PACKAGE_NAME": "fr.dogeo.dosm"
+        },
+        "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "fr.dogeo.dosm"
         }
     },

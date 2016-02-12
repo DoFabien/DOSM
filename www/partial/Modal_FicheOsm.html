@@ -54,9 +54,9 @@
     <md-toolbar>
         <div class="md-toolbar-tools">   
             <h2 ng-show = "!editable"   ng-model="geojson.properties.tags.name">  {{geojson.properties.tags.name && geojson.properties.tags.name !='' ? geojson.properties.tags.name : "Sans nom"}}</h2>
-            <md-input-container class="padding0 color-white" flex ng-show = "editable">
+            <md-input-container class="padding0 color-white" flex ng-show = "editable" >
                 <label>Nom</label>
-                <input ng-model="geojson.properties.tags.name">
+                <input ng-model="geojson.properties.tags.name" style="color: white;">
             </md-input-container>
 
         </div>
@@ -91,7 +91,7 @@
                     <div ng-if="editable" class="editableB">
 <!--                        <md-button ng-show="!customValueType" ng-click="openSnTypeTag()" class="md-primary"> {{ current_primary_key_config.lbl && current_primary_key_config.lbl || geojson.properties.tags[primary_tag.k] }} </md-button>-->
 <!--                       <strong ng-show="!customValueType">{{ current_primary_key_config.lbl && current_primary_key_config.lbl || geojson.properties.tags[primary_tag.k] }}</strong>-->
-                     <md-list-item ng-show="!customValueType" class="md-no-style md-button padding0 margin0" ng-click="openSnTypeTag()"> <strong>{{ current_primary_key_config.lbl && current_primary_key_config.lbl || geojson.properties.tags[primary_tag.k] }} <i class="fa fa-cog"> </i></strong></md-list-item>
+                     <md-list-item ng-show="!customValueType" class="md-no-style md-button padding0" style="margin-top:0;margin-bottom:0" ng-click="openSnTypeTag()"> <strong>{{ current_primary_key_config.lbl && current_primary_key_config.lbl || geojson.properties.tags[primary_tag.k] }} <i class="fa fa-cog"> </i></strong></md-list-item>
 
                         <!--custom tag-->
                         <md-input-container class="padding0" ng-show="customValueType">
@@ -131,7 +131,7 @@
                             <input ng-model="geojson.properties.tags[k]">
                         </md-input-container>
                         <!--LIST-->
-                        <md-input-container ng-if = "all_sub_tags[k].type == 'list' && !customValueType" class="padding0 margin0">
+                        <md-input-container ng-if = "all_sub_tags[k].type == 'list' && !customValueType" class="padding0 margin0" style="margin-top:0;margin-bottom:0">
                         <md-list-item class="md-no-style md-button" ng-show="!customValueType" ng-click="openSnSelect(k)"> <strong>{{findSubTagLabel(k,geojson.properties.tags[k])}} <i class="fa fa-cog"> </i></strong></md-list-item>
 <!--                         <span ng-show="!customValueType" ng-click="openSnSelect(k)"> {{findSubTagLabel(k,geojson.properties.tags[k])}}  <i class="fa fa-code fa-2x"></i> </span>-->
 <!--                          <md-button ng-show="!customValueType" ng-click="openSnSelect(k)" class="md-primary"> {{findSubTagLabel(k,geojson.properties.tags[k])}} </md-button>-->

@@ -1,5 +1,5 @@
 
-var app = angular.module('myApp', ['ngRoute','ngCordova','ngMaterial']);
+var app = angular.module('myApp', ['ngRoute','ngCordova','ngMaterial','ngAnimate']);
 
 app.config(function($routeProvider) {
 
@@ -11,54 +11,57 @@ app.config(function($routeProvider) {
                     controller:'LoginCtrl'
                    })
         .when('/gps', {templateUrl: 'partial/GpsWaiting.html',
-                    controller:'GpsWaitingCtrl'
-                   })
-     .when('/setting', {templateUrl: 'partial/Setting.html',
-                    controller:'SettingCtrl'
-                   })
+                       controller:'GpsWaitingCtrl'
+                      })
+        .when('/setting', {templateUrl: 'partial/Setting.html',
+                           controller:'SettingCtrl'
+                          })
+});
+
+
+app.config(function($mdThemingProvider) {
+  $mdThemingProvider.theme('default')
+    .primaryPalette('indigo')
+    .accentPalette('blue-grey');
 });
 
 // ROOTSCOPE
 
-app.run(function($rootScope,ConfigFctry,$cordovaGeolocation,$cordovaDeviceOrientation){
-    $rootScope.position ={lat : 0, lng : 0, accuracy : Number.POSITIVE_INFINITY, compass : 0};
-    /*DEBUG*/
-//    $rootScope.position.lat = 45.186669070708895;
-//    $rootScope.position.lng = 5.716972477664117;
-//    $rootScope.position.compass = 45;
-//    $rootScope.position.accuracy = 40;
-    
+app.run(function($rootScope,ConfigFctry,$cordovaGeolocation,$cordovaDeviceOrientation,$window){
+    var isCordovaApp = !!window.cordova;
+    if ( !isCordovaApp ) { //www in explorer for debugging
+        $rootScope.position ={lat : 45.186669070708895, lng : 5.716972477664117, accuracy : 40, compass : 45};
+    }
+    else{
+        $rootScope.position ={lat : 0, lng : 0, accuracy : Number.POSITIVE_INFINITY, compass : 0};
+    }
+
     ConfigFctry.getTags(); // load tags in ConfigFctry.Tags
     ConfigFctry.getSubTags(); // load Subtags in ConfigFctry.SubTags
-    
-    /*GEOLOCATION*/
-    $rootScope.watchGeolocation = function(watchOptions){
-        
-        $rootScope.watchGps= $cordovaGeolocation.watchPosition(watchOptions);
-        $rootScope.watchGps.then(
-            null,
-            function(err) {
-                console.log(err);
-            },
-            function(result) {
-               // ConfigFctry.setPositionLatLng(result.coords.latitude,result.coords.longitude,result.coords.accuracy)
-                $rootScope.position.lat = result.coords.latitude;
-                $rootScope.position.lng = result.coords.longitude;
-                $rootScope.position.accuracy = result.coords.accuracy;
-            }); 
-    }
-    
-   
-   
-    
+
+
+
+
+
+
     //ON READY
     document.addEventListener("deviceready", function () {
-         $rootScope.watchGeolocation( {frequency : 1000, timeout : 5000, enableHighAccuracy: true});
-    
         console.log('READY!');
-        
-        
-      
+
+        /*GEOLOCATION*/
+        window.navigator.geolocation.watchPosition(
+            function (position) {
+                $rootScope.position.lat = position.coords.latitude;
+                $rootScope.position.lng = position.coords.longitude;
+                $rootScope.position.accuracy = position.coords.accuracy;
+               
+            },
+            function(error){
+                alert(error)
+            },
+            {maximumAge:3000, timeout:30000, enableHighAccuracy:true});
+
+
 
         /*ORIENTATION*/
         $rootScope.watchCompass = $cordovaDeviceOrientation.watchHeading({frequency:150});

@@ -179,16 +179,19 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
 
         },
 
-        createOSMChangeSet:function(comments,callback){
+        createOSMChangeSet:function(callback){
+           
             var url = ConfigFctry.getServerAPI().url+'/api/0.6/changeset/create';
-            var content_put = '<osm><changeset><tag k="created_by" v="DOSM"/><tag k="comment" v="'+comments+'"/></changeset></osm>';
+            var content_put = '<osm><changeset><tag k="created_by" v="DOSM"/><tag k="comment" v="'+ConfigFctry.getChangesetComment()+'"/></changeset></osm>';
             $.ajax({
                 headers: {"Authorization": "Basic " + btoa(ConfigFctry.getUserInfo().user+':'+ConfigFctry.getUserInfo().password)},
                 type: "PUT",
                 url: url,
                 data:content_put,
+                error:function(er){
+                  return er;
+                },
                 success: function(data){
-
                     return callback(data);   
                 }
             });
@@ -198,7 +201,7 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
         getValidChangset:function(callback){
             //si il n'existe pas
             if (factory.getChangeset().id == null || factory.getChangeset().id == '' ){
-                factory.createOSMChangeSet('Just some test',function(id_new_CS){
+                factory.createOSMChangeSet(function(id_new_CS){
                     factory.setChangeset(id_new_CS,Date.now());
                     callback(factory.getChangeset().id);
 
@@ -208,7 +211,7 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
                 console.log("bientot périmé");
                 factory.getStatutChangeSet(factory.changeset.id,function(data){
                     if (data.open == "false"){ //c'est fermé, on en crée un nouveau
-                        factory.createOSMChangeSet('Just some test',function(id_new_CS){
+                        factory.createOSMChangeSet(function(id_new_CS){
                             factory.setChangeset(id_new_CS,Date.now());
 
 

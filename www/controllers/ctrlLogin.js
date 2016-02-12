@@ -8,13 +8,14 @@ app.controller('LoginCtrl', function ($scope,$location,$timeout,ConfigFctry,OsmF
         ConfigFctry.setServerAPI($scope.server);
     });
 
-    console.log(ConfigFctry.getUserInfo());
+   // console.log(ConfigFctry.getUserInfo());
     $scope.user = ConfigFctry.getUserInfo().user;
     $scope.password = ConfigFctry.getUserInfo().password;
 
     $scope.error_text ='';
     $scope.alert = false;
 
+  
 
     $scope.connexion = function (){
 
@@ -43,5 +44,7 @@ app.controller('LoginCtrl', function ($scope,$location,$timeout,ConfigFctry,OsmF
             }
         });
     };
+    
+
 
 });

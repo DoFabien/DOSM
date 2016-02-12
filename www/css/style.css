@@ -106,35 +106,7 @@ div{
     background-color: white;
 }
 
-.div_fab_cancel_geo{
-    margin: 0;
-    position: absolute;
-    top: 10px;
-    left:0;
-}
-#btn_cancel_geo
-{
-    background-color: #7e0909;
-    color: white;
-    z-index:10000;
-    margin: 10px;
 
-}
-
-.div_fab_validate_geo{
-    margin: 0;
-    position: absolute;
-    top: 10px;
-    right:0; 
-}
-#btn_validate_geo
-{
-    background-color: #22a503;
-    color: white;
-    z-index:10000;
-    margin: 10px;
-
-}
 
 
 
@@ -255,14 +227,39 @@ nav md-list-item div{
     z-index: 1000; 
 }
 
-.md-select-menu-container{
-    z-index: 2000;
+md-input-container.padding0.md-input-has-value {
+    height: 30px;
 }
+md-list-item.md-no-style.md-button.padding0.md-clickable {
+    margin-bottom: 0;
+    margin-top: 0;
+}
+button.md-no-style.md-button.md-ink-ripple {
+    height: 32px;
+    /* margin: 0px; */
+}
+
+md-list-item md-input-container{
+ margin-bottom: 0;   
+     margin-top: 0; 
+    width: 100%;
+}
+
+md-backdrop.md-select-backdrop {
+z-index:1003;
+}
+
+.md-select-menu-container {
+z-index:1004;
+}
+
+
+
 md-dialog {
     width: 95% !IMPORTANT;
     max-width: 95% !IMPORTANT;
     max-height: 95%  !IMPORTANT;
-    z-index: 1010 !IMPORTANT;
+    z-index: 1000 !IMPORTANT;
 }
 
 md-dialog .last_edition{
@@ -292,22 +289,27 @@ md-dialog md-dialog table{
 md-dialog md-select {
     width: 100%;
     padding: 0 !IMPORTANT;
-    margin-bottom: 0px;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
-md-dialog md-select .md-select-label{
+/*md-dialog md-select .md-select-label{
     width: 100%;
     height: 29px;
     margin-bottom: 0px !IMPORTANT; 
 }
 md-dialog .md-select-label{
     padding: 0;   
-}
+}*/
 
 .padding0{
     padding: 0;
 }
-margin0{
+
+.width100{
+     width: 100%;   
+}
+.margin0{
     margin: 0
 }
 
@@ -405,6 +407,8 @@ md-dialog .md-actions{
 md-dialog md-dialog-content{
     padding-top: 0;
     padding-bottom: 0;
+    margin-left: 6px;
+    margin-right: 6px;
     margin-bottom: 52px;
 }
 .content_TypeTag{
@@ -430,3 +434,15 @@ md-sidenav .filtre-TypeTag{
     transform-origin: 50% 50% !IMPORTANT;
     /*transition: all 0.2s ease;*/
 }
+
+
+.slideDown.ng-hide-remove  { animation:0.5s slideInDown ease; }
+.slideDown.ng-hide-add {animation:0.5s slideOutUp ease;}
+
+.slideLeft.ng-hide-remove  { animation:0.5s slideInLeft ease; }
+.slideLeft.ng-hide-add {animation:0.5s slideOutLeft ease;}
+
+.slideRight.ng-hide-remove  { animation:0.5s slideInRight ease; }
+.slideRight.ng-hide-add {animation:0.5s slideOutRight ease;}
+
+
