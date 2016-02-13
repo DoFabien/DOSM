@@ -196,7 +196,7 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
                         }
 
                         else if (features[i].geometry.type == 'Polygon'){
-                            features[i].properties.way_geometry = features[i].geometry; //on stocke la géometrie du polygon
+                            features[i].properties.way_geometry = $.extend(true, {},turf.flip(features[i].geometry)); //on stocke la géometrie du polygon
                             var way_geojson = L.multiPolygon(features[i].geometry.coordinates).toGeoJSON();
                             var center_way = turf.flip(turf.pointOnSurface(way_geojson)).geometry.coordinates; //pointOnSurface => point SUR le polygon
                             features[i].geometry.coordinates = center_way;

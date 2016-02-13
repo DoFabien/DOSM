@@ -11,6 +11,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
 
     var map = $window.L.map('map',{zoomControl:false, minZoom: 19, maxZoom: 20});
     var Fgroup = L.featureGroup();
+    var FgroupWay =  L.featureGroup().addTo(map);
     var FgroupPosition =L.featureGroup();
 
 
@@ -149,48 +150,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
     };
 
 
-    $scope.dragMarker = function(marker){
 
-        if(!$scope.$$phase) {$scope.$apply();}
-
-        if (marker.json.properties.type == 'way'){
-            $scope.showAlert(true,"Impossible de déplacer l'élément car c'est un polygone",'alert-warning');
-        }
-        else {
-
-            $scope.show_btn = {bar_menu:false, btn_chargement:false,footer:true, update_validate:true, update_cancel:true};
-            if(!$scope.$$phase) {$scope.$apply();}
-            Fgroup.clearLayers(); 
-            $scope.original_feature_OSM = jQuery.extend(true, {}, marker.json);
-
-            marker.off("click");
-
-            $scope.current_action = 'Drag';
-
-            marker.on('click',function(e){
-                this.stopBouncing(); 
-                marker.off("click");
-                // marker.dragging.enable();
-
-            });
-            marker.addTo(Fgroup);
-            marker.bounce();
-            marker.dragging.enable();
-
-            marker.on('dragstart',function(e){
-                this.stopBouncing(); 
-                marker.off("click");
-                marker.off("dragstart");
-
-            });
-
-            marker.on('dragend',function(e){
-                e.target.json.geometry.coordinates[0] = e.target.getLatLng().lng;
-                e.target.json.geometry.coordinates[1] = e.target.getLatLng().lat;
-            });
-
-        }
-    };
 
     $scope.updateOsmLatLng = function (){
         if (Fgroup.getLayers().length == 1){
@@ -223,9 +183,9 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
         var list_of_PK_enable = ConfigFctry.getListOfPrimaryKey();
 
         Fgroup.clearLayers();
-        for (var i = 0; i<data.length; i++){
+        for (var i = 0; i<data.length; i++){ //parcourt les données
 
-            var kv = ConfigFctry.getPrimaryKeyOfObject(data[i].properties.tags);
+            var kv = ConfigFctry.getPrimaryKeyOfObject(data[i].properties.tags); //trouve la clé principal (shop, amenity, etc..)
             var type_key = kv.k;
 
             if(list_of_PK_enable.indexOf(type_key) != -1 ){ //Si le tag principal est activé, on le dessine sur la carte
@@ -252,13 +212,25 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
                 var id_osm =  data[i].id;
                 marker.id_osm = id_osm;
                 marker.json = data[i];
-                marker.on("click",function(e){
-                    this.bounce(1);
+                marker.on("click", markerOnClick);
+
+                marker.on("contextmenu", markerOnContextmenu);
+
+                marker.addTo(Fgroup);
+            }
+        }
+    };
+    
+    var markerOnClick = function(e){
+              this.bounce(1);
+                    FgroupWay.clearLayers();
                     if (e.target.json.properties.type == 'way'){
+                         showWayPolygon(e.target);
                         //c'est un polygon, on convertit le XML de façon différente pour conserver ses noeud
-                        OsmFctry.getOsmElemById(e.target.json.id,function(data){
+                        OsmFctry.getOsmElemById(e.target.json.id,function(data){ //todo : supprimer cette requête
                             $timeout(function() {
                                 $scope.open($scope.$event,data.osmGeojson,'R');
+                                console.log(data.osmGeojson);
                             }, 100);
                         });
                     }
@@ -268,17 +240,63 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
                         }, 100);
 
                     }
-                });
-
-                marker.on("contextmenu", function(e){ //dblclick?
-                    $scope.dragMarker(e.target);
-                });
-
-                marker.addTo(Fgroup);
-            }
-        }
     };
 
+    var markerOnContextmenu = function(e){
+        var marker = e.target;
+        if (marker.json.properties.type == 'node'){
+            FgroupWay.clearLayers();
+            $scope.dragMarker(marker);
+        }
+        else if (marker.json.properties.type == 'way'){
+            // $scope.showAlert(true,"Impossible de déplacer l'élément car c'est un polygone",'alert-warning');
+            marker.bounce(1);
+            showWayPolygon(marker);
+
+        }
+    };
+    
+    var showWayPolygon = function(marker){
+            FgroupWay.clearLayers();
+            var way_geometry = marker.json.properties.way_geometry.coordinates;
+            L.multiPolygon(way_geometry).addTo(FgroupWay);
+    }
+
+    $scope.dragMarker = function(marker){
+
+        if(!$scope.$$phase) {$scope.$apply();}
+
+        $scope.show_btn = {bar_menu:false, btn_chargement:false,footer:true, update_validate:true, update_cancel:true};
+        if(!$scope.$$phase) {$scope.$apply();}
+        Fgroup.clearLayers(); 
+        $scope.original_feature_OSM = jQuery.extend(true, {}, marker.json);
+
+        marker.off("click");
+
+        $scope.current_action = 'Drag';
+
+        marker.on('click',function(e){
+            this.stopBouncing(); 
+            marker.off("click");
+            // marker.dragging.enable();
+
+        });
+        marker.addTo(Fgroup);
+        marker.bounce();
+        marker.dragging.enable();
+
+        marker.on('dragstart',function(e){
+            this.stopBouncing(); 
+            marker.off("click");
+            marker.off("dragstart");
+
+        });
+
+        marker.on('dragend',function(e){
+            e.target.json.geometry.coordinates[0] = e.target.getLatLng().lng;
+            e.target.json.geometry.coordinates[1] = e.target.getLatLng().lat;
+        });
+    };
     //load data & draw markers
     $scope.refreshMapData = function(){
         $scope.current_action = '';
@@ -289,26 +307,22 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
             if(!$scope.$$phase) {$scope.$apply();}
 
             //l'emprise des données téléchargés
-
-            if(!OsmFctry.getBboxData()){
+            if(!OsmFctry.getBboxData()){ //aucune données de chargée, on initialise le mutlipolygon
                 OsmFctry.setBboxData(L.multiPolygon([L.rectangle(map.getBounds())._latlngs],{color: "#ff7800", weight: 3,fillOpacity: 0,clickable:false, invert: true}));
                 OsmFctry.getBboxData().addTo(FgroupPosition);
             }
 
-            else{
+            else{//il y a déjà un MP, on le fusionne avec la bbox courante
                 var bbbox_data_geojson = OsmFctry.getBboxData().toGeoJSON();
                 var current_bbox_geojson = L.rectangle(map.getBounds()).toGeoJSON();
                 var fc = turf.featurecollection([bbbox_data_geojson,current_bbox_geojson]);
                 var merged = turf.merge(fc);  
                 var latlngs = turf.flip(merged).geometry.coordinates;
-
                 OsmFctry.setBboxData( OsmFctry.getBboxData().setLatLngs(latlngs));
 
 
 
             }
-
-
 
             OsmFctry.setGeojsonOsm(data);
             drawMarkers(OsmFctry.getGeojsonOsm() );
