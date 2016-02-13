@@ -20,7 +20,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
 
         }
         else{
-            $scope.drawMarkers(OsmFctry.getGeojsonOsm() );
+            drawMarkers(OsmFctry.getGeojsonOsm() );
             OsmFctry.getBboxData().addTo(FgroupPosition);
             console.log(OsmFctry.getBboxData());
         }
@@ -206,7 +206,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
 
                 OsmFctry.getOsmElemById(geojson.id,function(_data){
                     OsmFctry.updateFeatureToGeojsonOsm(_data.osmGeojson);
-                    $scope.drawMarkers(OsmFctry.getGeojsonOsm());
+                    drawMarkers(OsmFctry.getGeojsonOsm());
                 });
             });
         }
@@ -215,10 +215,10 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
     $scope.cancelOsmLatLng = function (){
         $scope.show_btn = {bar_menu:true, btn_chargement:true,footer:false,refreshing_data:true, update_validate:false, update_cancel:false,btn_menu:true, btn_center:true};
         OsmFctry.updateFeatureToGeojsonOsm($scope.original_feature_OSM);
-        $scope.drawMarkers(OsmFctry.getGeojsonOsm() );       
+        drawMarkers(OsmFctry.getGeojsonOsm() );       
     }
 
-    $scope.drawMarkers = function (data){
+    var drawMarkers = function (data){
         $scope.show_btn.refreshing_data =false;
         var list_of_PK_enable = ConfigFctry.getListOfPrimaryKey();
 
@@ -311,7 +311,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
 
 
             OsmFctry.setGeojsonOsm(data);
-            $scope.drawMarkers(OsmFctry.getGeojsonOsm() );
+            drawMarkers(OsmFctry.getGeojsonOsm() );
 
         });
     };
@@ -360,7 +360,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
                         feature.properties.meta.uid = ConfigFctry.getUserInfo().uid; // on ajoute l'uid
                         feature.properties.meta.changeset = OsmFctry.getChangeset().id; // on update le changeset
                         OsmFctry.addFeatureToGeojsonOsm(feature);
-                        $scope.drawMarkers(OsmFctry.getGeojsonOsm() );
+                        drawMarkers(OsmFctry.getGeojsonOsm() );
                     }
                     else{
                         $scope.showAlert(true,"<strong>Une erreur est survenue lors de l'ajout de ce point</strong>" + data,'alert-danger');
@@ -375,7 +375,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
                 OsmFctry.deleteOsmElem(feature,function(_data){
                     if( RegIsInteger.test(_data)){ // DELETE OK
                         OsmFctry.deleteFeatureToGeojsonOsm(feature);
-                        $scope.drawMarkers(OsmFctry.getGeojsonOsm() );
+                        drawMarkers(OsmFctry.getGeojsonOsm() );
                     }
                     else{ // DELETE KO
                         $scope.showAlert(true,"<strong>Une erreur est survenue lors de la suppression de ce point</strong>" + _data,'alert-danger');
@@ -395,7 +395,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
                         feature.properties.meta.uid = ConfigFctry.getUserInfo().uid; // on ajoute l'uid
                         feature.properties.meta.changeset = OsmFctry.getChangeset().id; // on update le changeset
                         OsmFctry.updateFeatureToGeojsonOsm(feature);
-                        $scope.drawMarkers(OsmFctry.getGeojsonOsm() );
+                        drawMarkers(OsmFctry.getGeojsonOsm() );
                     }
                     else{ //UPDATE KO
                         $scope.showAlert(true,"<strong>Une erreur est survenue pour la mise a jour de ce point </strong>" + data,'alert-danger'); 
@@ -413,7 +413,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
             if(isEditable == true){
                 if ( type_ope  == 'R'){  // c'est un update qui est annulé, on réinsert la feature originale
                     OsmFctry.UpdateFeatureToGeojsonOsm($scope.original_feature_OSM);
-                    $scope.drawMarkers(OsmFctry.getGeojsonOsm() );
+                    drawMarkers(OsmFctry.getGeojsonOsm() );
                 }
             }
         });

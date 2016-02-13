@@ -189,14 +189,17 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
                     var features =osmtogeojson(data).features;
 
                     for (var i = 0;i<features.length;i++){
+                       
                         feature_tag = features[i].properties.tags;
                         if ( features[i].geometry.type == 'Point'){
                             elements.push(features[i]);
                         }
 
                         else if (features[i].geometry.type == 'Polygon'){
-                            var center = L.polygon(features[i].geometry.coordinates[0]).getBounds().getCenter(); //turf=>
-                            features[i].geometry.coordinates = [center.lat,center.lng];
+                            features[i].properties.way_geometry = features[i].geometry; //on stocke la géometrie du polygon
+                            var way_geojson = L.multiPolygon(features[i].geometry.coordinates).toGeoJSON();
+                            var center_way = turf.flip(turf.pointOnSurface(way_geojson)).geometry.coordinates; //pointOnSurface => point SUR le polygon
+                            features[i].geometry.coordinates = center_way;
                             features[i].geometry.type = 'Point';
                             elements.push(features[i]);
                         }
