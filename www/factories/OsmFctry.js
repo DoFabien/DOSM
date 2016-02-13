@@ -29,13 +29,13 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
                 }
             }
         },
-        
+
         clearGeojsonOsm:function(){
             factory.geojson_OSM = null;
             factory.bbox_data = null;
-            
+
         },
-        
+
         addFeatureToGeojsonOsm:function(feature){
             factory.geojson_OSM.push(feature);
             console.log('add feature!');
@@ -67,16 +67,16 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
 
 
         },
-        
+
         bbox_data: null,
         getBboxData : function(){
             return factory.bbox_data;
-            
-    },
-        setBboxData:function(bbox){
-           factory.bbox_data = bbox; 
+
         },
-        
+        setBboxData:function(bbox){
+            factory.bbox_data = bbox; 
+        },
+
 
         changeset : {id:'', datechange:0},
         getChangeset:function(){
@@ -180,16 +180,15 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
         getGeojsonByBbox:function(_ks,l_bounds,callback){
             var bb = (l_bounds.getWest()+','+l_bounds.getSouth()+','+l_bounds.getEast()+','+l_bounds.getNorth());
             var url = ConfigFctry.getServerAPI().url+'/api/0.6/';
-            
+
             $.ajax({
                 type: "GET",
                 url: url +'map?bbox='+ bb,
                 success: function(data){
                     var elements = [];
-                    var features =osmtogeojson(data).features;
+                    var features = osmUpdateNdrefToFeatures(data,osmtogeojson(data).features);
 
                     for (var i = 0;i<features.length;i++){
-                       
                         feature_tag = features[i].properties.tags;
                         if ( features[i].geometry.type == 'Point'){
                             elements.push(features[i]);

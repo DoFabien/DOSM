@@ -220,26 +220,18 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
             }
         }
     };
-    
-    var markerOnClick = function(e){
-              this.bounce(1);
-                    FgroupWay.clearLayers();
-                    if (e.target.json.properties.type == 'way'){
-                         showWayPolygon(e.target);
-                        //c'est un polygon, on convertit le XML de façon différente pour conserver ses noeud
-                        OsmFctry.getOsmElemById(e.target.json.id,function(data){ //todo : supprimer cette requête
-                            $timeout(function() {
-                                $scope.open($scope.$event,data.osmGeojson,'R');
-                                console.log(data.osmGeojson);
-                            }, 100);
-                        });
-                    }
-                    else{
-                        $timeout(function() { // pause pour laisser l'annimation se terminer
-                            $scope.open($scope.$event,e.target.json,'R');
-                        }, 100);
 
-                    }
+    var markerOnClick = function(e){
+        this.bounce(1);
+        FgroupWay.clearLayers();
+        if (e.target.json.properties.type == 'way'){
+            showWayPolygon(e.target);
+        }
+
+        $timeout(function() { // pause pour laisser l'annimation se terminer
+            $scope.open($scope.$event,e.target.json,'R');
+        }, 100);
+
     };
 
     var markerOnContextmenu = function(e){
@@ -255,11 +247,11 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
 
         }
     };
-    
+
     var showWayPolygon = function(marker){
-            FgroupWay.clearLayers();
-            var way_geometry = marker.json.properties.way_geometry.coordinates;
-            L.multiPolygon(way_geometry).addTo(FgroupWay);
+        FgroupWay.clearLayers();
+        var way_geometry = marker.json.properties.way_geometry.coordinates;
+        L.multiPolygon(way_geometry).addTo(FgroupWay);
     }
 
     $scope.dragMarker = function(marker){
