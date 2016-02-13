@@ -17,12 +17,12 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
     $scope.init = function(){
         if(!OsmFctry.getGeojsonOsm()){ // Si il n'y a pas de données.
             $scope.refreshMapData();
-           
+
         }
         else{
             $scope.drawMarkers(OsmFctry.getGeojsonOsm() );
             OsmFctry.getBboxData().addTo(FgroupPosition);
-             console.log(OsmFctry.getBboxData());
+            console.log(OsmFctry.getBboxData());
         }
     }
     $scope.marker_position =  L.marker(
@@ -237,8 +237,13 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
                 var marker_number = (data[i].properties.type == 'way' ? 'W' : 0);
                 var style_tag = ConfigFctry.getConfigTag(type_key,type_value);
 
-                var marker_style = L.AwesomeMarkers.icon({icon: '',iconColor:'', markerColor: 'black', prefix: '',number: marker_number }); // valeur par defaut
+                var marker_style = L.AwesomeMarkers.icon({icon: 'fa-question-circle',iconColor:'white', markerColor: 'black', prefix: 'fa',number: marker_number }); // valeur par defaut
                 if (style_tag != null){ //=> on l'a pas trouvé
+                    if(!style_tag.icon || style_tag.icon == ''){ // pas d'icon défini
+                        style_tag.icon = 'fa-circle';
+                        style_tag.prefix = 'fa';
+                        style_tag.iconColor = 'white';
+                    }
                     marker_style = L.AwesomeMarkers.icon({icon: style_tag.icon,iconColor:style_tag.iconColor, markerColor: style_tag.markerColor, prefix: style_tag.prefix,number: marker_number });
                 }
                 var marker = L.marker([lat,lng],{icon:marker_style,draggable:false});
@@ -295,14 +300,14 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
                 var current_bbox_geojson = L.rectangle(map.getBounds()).toGeoJSON();
                 var fc = turf.featurecollection([bbbox_data_geojson,current_bbox_geojson]);
                 var merged = turf.merge(fc);  
-               var latlngs = turf.flip(merged).geometry.coordinates;
-                
-               OsmFctry.setBboxData( OsmFctry.getBboxData().setLatLngs(latlngs));
+                var latlngs = turf.flip(merged).geometry.coordinates;
 
-                
+                OsmFctry.setBboxData( OsmFctry.getBboxData().setLatLngs(latlngs));
+
+
 
             }
-          
+
 
 
             OsmFctry.setGeojsonOsm(data);
