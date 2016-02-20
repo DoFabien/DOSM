@@ -291,29 +291,27 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
     };
     //load data & draw markers
     $scope.refreshMapData = function(){
+        var current_bbox = map.getBounds();
         $scope.current_action = '';
         $scope.show_btn = {bar_menu:true, btn_chargement:true,footer:false,refreshing_data:true, update_validate:false, update_cancel:false,btn_menu:true, btn_center:true};
         if(!$scope.$$phase) {$scope.$apply();}
-        OsmFctry.getGeojsonByBbox(ConfigFctry.getListOfPrimaryKey(),map.getBounds(),function (data){ 
+        OsmFctry.getGeojsonByBbox(ConfigFctry.getListOfPrimaryKey(),current_bbox,function (data){ 
             $scope.show_btn.refreshing_data = false;
             if(!$scope.$$phase) {$scope.$apply();}
 
             //l'emprise des données téléchargés
             if(!OsmFctry.getBboxData()){ //aucune données de chargée, on initialise le mutlipolygon
-                OsmFctry.setBboxData(L.multiPolygon([L.rectangle(map.getBounds())._latlngs],{color: "#ff7800", weight: 3,fillOpacity: 0,clickable:false, invert: true}));
+                OsmFctry.setBboxData(L.multiPolygon([L.rectangle(current_bbox)._latlngs],{color: "#ff7800", weight: 3,fillOpacity: 0,clickable:false, invert: true}));
                 OsmFctry.getBboxData().addTo(FgroupPosition);
             }
 
-            else{//il y a déjà un MP, on le fusionne avec la bbox courante
+            else{//il y a déjà un MP, on le fusionne avec la bbox courante //TODO : passé devant!
                 var bbbox_data_geojson = OsmFctry.getBboxData().toGeoJSON();
-                var current_bbox_geojson = L.rectangle(map.getBounds()).toGeoJSON();
+                var current_bbox_geojson = L.rectangle(current_bbox).toGeoJSON();
                 var fc = turf.featurecollection([bbbox_data_geojson,current_bbox_geojson]);
                 var merged = turf.merge(fc);  
                 var latlngs = turf.flip(merged).geometry.coordinates;
                 OsmFctry.setBboxData( OsmFctry.getBboxData().setLatLngs(latlngs));
-
-
-
             }
 
             OsmFctry.setGeojsonOsm(data);
