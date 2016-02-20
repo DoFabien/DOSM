@@ -193,8 +193,12 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
                 var lng = data[i].geometry.coordinates[0];
                 var type_value =kv.v;
 
-                /*Si c'est un way on lui affiche un petit W*/
-                var marker_number = (data[i].properties.type == 'way' ? 'W' : 0);
+                /*Si c'est un way on lui affiche un petit P (polygon) ou un petit L*/
+                  var marker_number = 0;
+                if (data[i].properties.type == 'way'){
+                    marker_number = (data[i].properties.way_geometry.type == 'Polygon' ? 'P' : 'L');
+                }
+              
                 var style_tag = ConfigFctry.getConfigTag(type_key,type_value);
 
                 var marker_style = L.AwesomeMarkers.icon({icon: 'fa-question-circle',iconColor:'white', markerColor: 'black', prefix: 'fa',number: marker_number }); // valeur par defaut
@@ -225,7 +229,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
         this.bounce(1);
         FgroupWay.clearLayers();
         if (e.target.json.properties.type == 'way'){
-            showWayPolygon(e.target);
+            showWay(e.target);
         }
 
         $timeout(function() { // pause pour laisser l'annimation se terminer
@@ -243,15 +247,20 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
         else if (marker.json.properties.type == 'way'){
             // $scope.showAlert(true,"Impossible de déplacer l'élément car c'est un polygone",'alert-warning');
             marker.bounce(1);
-            showWayPolygon(marker);
+            showWay(marker);
 
         }
     };
 
-    var showWayPolygon = function(marker){
+    var showWay = function(marker){
         FgroupWay.clearLayers();
         var way_geometry = marker.json.properties.way_geometry.coordinates;
-        L.multiPolygon(way_geometry).addTo(FgroupWay);
+        if (marker.json.properties.way_geometry.type =="LineString"){
+            L.polyline(way_geometry).addTo(FgroupWay);
+        }
+        else if (marker.json.properties.way_geometry.type =="Polygon"){
+            L.multiPolygon(way_geometry).addTo(FgroupWay);
+        }
     }
 
     $scope.dragMarker = function(marker){

@@ -23,7 +23,6 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
                         }
                         if (j == factory.geojson_OSM.length -1){   //la feature n'existe pas, on l'ajoute
                             factory.geojson_OSM.push(data[i]);
-                            console.log('Nouvelle feature!'); 
                         }
                     }
                 }
@@ -194,14 +193,15 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
                             elements.push(features[i]);
                         }
 
-                        else if (features[i].geometry.type == 'Polygon'){
+                        else if (features[i].geometry.type == 'Polygon' || features[i].geometry.type == 'LineString'){
                             features[i].properties.way_geometry = $.extend(true, {},turf.flip(features[i].geometry)); //on stocke la géometrie du polygon
-                            var way_geojson = L.multiPolygon(features[i].geometry.coordinates).toGeoJSON();
+                            var way_geojson = (features[i].geometry.type == 'Polygon') ? L.multiPolygon(features[i].geometry.coordinates).toGeoJSON() : L.polyline(features[i].geometry.coordinates).toGeoJSON();
                             var center_way = turf.flip(turf.pointOnSurface(way_geojson)).geometry.coordinates; //pointOnSurface => point SUR le polygon
                             features[i].geometry.coordinates = center_way;
                             features[i].geometry.type = 'Point';
                             elements.push(features[i]);
                         }
+              
                     }
                     return callback(elements);   
                 }
