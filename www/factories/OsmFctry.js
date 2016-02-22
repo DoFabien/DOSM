@@ -7,18 +7,29 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
         getGeojsonOsm: function(){
             return factory.geojson_OSM;  
         },
-        setGeojsonOsm :function(data){
-            if (!factory.getGeojsonOsm()){
+        setGeojsonOsm :function(data,bbox_geojson){
+
+            if (!factory.getGeojsonOsm()){ //Il n'y a pas de data
                 factory.geojson_OSM = data;  
             }
-            else{ 
+
+            else{ //on a déjà des données
+
+                //  le cas où une feature a été supprimé entre temps, on doit la supprimer de nos données:
+                var id_features_deleted = [];
+                for (var i = 0; i<factory.geojson_OSM.length;i++){ // si la feature est dans la BBOX, on la push
+                    if(turf.inside(factory.geojson_OSM[i], bbox_geojson)){
+                        id_features_deleted.push(factory.geojson_OSM[i].id)
+                    }
+                }
+
                 for (var i = 0; i<data.length;i++){
                     var feature_id = data[i].id;
-                    //  console.log(feature_id); 
+                    var ind_id = id_features_deleted.indexOf(feature_id);
                     for (var j = 0; j<factory.geojson_OSM.length;j++){
                         if (feature_id == factory.geojson_OSM[j].id){ //la feature existe déjà dans nos données, on la remplace
-
                             factory.geojson_OSM[j] = data[i];
+                            id_features_deleted.splice(id_features_deleted.indexOf(feature_id), 1); //la feature existe toujours, on la supprime du tableau
                             break;
                         }
                         if (j == factory.geojson_OSM.length -1){   //la feature n'existe pas, on l'ajoute
@@ -26,6 +37,19 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
                         }
                     }
                 }
+
+                //parcours les features qui ont été supprimées pour les supprimer de nos données.
+                for(var i=0;i<id_features_deleted.length;i++){ 
+                    var id_to_delete = id_features_deleted[i];
+                    for(var j=0;j<factory.geojson_OSM.length;j++){
+                        if(factory.geojson_OSM[j].id == id_to_delete){
+                            factory.geojson_OSM.splice(j,1);
+                            break;
+                        }
+                    }
+
+                }
+
             }
         },
 
@@ -201,7 +225,7 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
                             features[i].geometry.type = 'Point';
                             elements.push(features[i]);
                         }
-              
+
                     }
                     return callback(elements);   
                 }

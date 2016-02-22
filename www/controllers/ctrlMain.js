@@ -175,6 +175,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
     $scope.cancelOsmLatLng = function (){
         $scope.show_btn = {bar_menu:true, btn_chargement:true,footer:false,refreshing_data:true, update_validate:false, update_cancel:false,btn_menu:true, btn_center:true};
         OsmFctry.updateFeatureToGeojsonOsm($scope.original_feature_OSM);
+        $scope.current_action = '';
         drawMarkers(OsmFctry.getGeojsonOsm() );       
     }
 
@@ -301,6 +302,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
     //load data & draw markers
     $scope.refreshMapData = function(){
         var current_bbox = map.getBounds();
+         var current_bbox_geojson = L.rectangle(current_bbox).toGeoJSON();
         $scope.current_action = '';
         $scope.show_btn = {bar_menu:true, btn_chargement:true,footer:false,refreshing_data:true, update_validate:false, update_cancel:false,btn_menu:true, btn_center:true};
         if(!$scope.$$phase) {$scope.$apply();}
@@ -314,16 +316,17 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
                 OsmFctry.getBboxData().addTo(FgroupPosition);
             }
 
-            else{//il y a déjà un MP, on le fusionne avec la bbox courante //TODO : passé devant!
+            else{//il y a déjà un MP, on le fusionne avec la bbox courante //
                 var bbbox_data_geojson = OsmFctry.getBboxData().toGeoJSON();
-                var current_bbox_geojson = L.rectangle(current_bbox).toGeoJSON();
+               
                 var fc = turf.featurecollection([bbbox_data_geojson,current_bbox_geojson]);
                 var merged = turf.merge(fc);  
                 var latlngs = turf.flip(merged).geometry.coordinates;
                 OsmFctry.setBboxData( OsmFctry.getBboxData().setLatLngs(latlngs));
+    
             }
 
-            OsmFctry.setGeojsonOsm(data);
+            OsmFctry.setGeojsonOsm(data,current_bbox_geojson);
             drawMarkers(OsmFctry.getGeojsonOsm() );
 
         });
