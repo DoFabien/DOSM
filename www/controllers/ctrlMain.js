@@ -155,19 +155,16 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
     $scope.updateOsmLatLng = function (){
         if (Fgroup.getLayers().length == 1){
 
-            var geojson = Fgroup.getLayers()[0].json;
-            OsmFctry.UpdateOsm(geojson,function(data){
+            var feature = Fgroup.getLayers()[0].json;
+            OsmFctry.UpdateOsm(feature,function(status,data){
                 var new_version = data;
-                if (data != geojson.properties.meta.version *1 + 1){
-                    alert('Erreur! Une autre version existe')
+                if (status != 200){
+                    alert(data)
                 }
                 $scope.show_btn = {bar_menu:true, btn_chargement:true, btn_center:true, refreshing_data:false,footer:false, update_validate:false, update_cancel:false, btn_menu:true};
                 $scope.$apply();
+                drawMarkers(OsmFctry.getGeojsonOsm());
 
-                OsmFctry.getOsmElemById(geojson.id,function(_data){
-                    OsmFctry.updateFeatureToGeojsonOsm(_data.osmGeojson);
-                    drawMarkers(OsmFctry.getGeojsonOsm());
-                });
             });
         }
     }
@@ -306,10 +303,11 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
         $scope.current_action = '';
         $scope.show_btn = {bar_menu:true, btn_chargement:true,footer:false,refreshing_data:true, update_validate:false, update_cancel:false,btn_menu:true, btn_center:true};
         if(!$scope.$$phase) {$scope.$apply();}
-        OsmFctry.getGeojsonByBbox(ConfigFctry.getListOfPrimaryKey(),current_bbox,function (data){ 
+        
+        OsmFctry.getGeojsonByBbox(ConfigFctry.getListOfPrimaryKey(),current_bbox,function (status,data){
+            if (status == 200){
             $scope.show_btn.refreshing_data = false;
             if(!$scope.$$phase) {$scope.$apply();}
-
             //l'emprise des données téléchargés
             if(!OsmFctry.getBboxData()){ //aucune données de chargée, on initialise le mutlipolygon
                 OsmFctry.setBboxData(L.multiPolygon([L.rectangle(current_bbox)._latlngs],{color: "#ff7800", weight: 3,fillOpacity: 0,clickable:false, invert: true}));
@@ -323,12 +321,14 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
                 var merged = turf.merge(fc);  
                 var latlngs = turf.flip(merged).geometry.coordinates;
                 OsmFctry.setBboxData( OsmFctry.getBboxData().setLatLngs(latlngs));
-    
             }
-
             OsmFctry.setGeojsonOsm(data,current_bbox_geojson);
             drawMarkers(OsmFctry.getGeojsonOsm() );
-
+            }
+            else {
+                 $scope.show_btn.refreshing_data = false;
+                $scope.showAlert(true,"<strong>Une erreur est survenue lors de la mise à jour des données</strong>" + data,'alert-danger');
+            }
         });
     };
 
@@ -363,11 +363,10 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
             feature = result.geojson;
 
             $scope.type_ope = result.type_ope;
-            var RegIsInteger = /^\d+$/;
             /*CREATION*/
             if ( $scope.type_ope  == 'W'){
-                OsmFctry.crateOsmNode(feature,function(data){
-                    if( RegIsInteger.test(data)){ //OK
+                OsmFctry.crateOsmNode(feature,function(status,data){
+                    if( status == 200){ //OK
                         feature.properties.id = data;
                         feature.id = 'node/'+data;
                         feature.properties.meta.version = 1; //on ajoute la version
@@ -388,8 +387,8 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
 
             /*DELETE*/
             else if( $scope.type_ope  == 'D'){ // C'est un delete, on l'enleve de nos données, on redessine les markers
-                OsmFctry.deleteOsmElem(feature,function(_data){
-                    if( RegIsInteger.test(_data)){ // DELETE OK
+                OsmFctry.deleteOsmElem(feature,function(_status,_data){
+                    if(_status == 200){ // DELETE OK
                         OsmFctry.deleteFeatureToGeojsonOsm(feature);
                         drawMarkers(OsmFctry.getGeojsonOsm() );
                     }
@@ -401,10 +400,10 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
 
             //UPDATE
             else {
-                OsmFctry.UpdateOsm(feature,function(data){
+                OsmFctry.UpdateOsm(feature,function(status,data){
                     var old_version = feature.properties.meta.version;
                     var new_version = data;
-                    if ( 1 * old_version +1 == 1* new_version ){ // UPDATE OK
+                    if ( status == 200 ){ // UPDATE OK
                         feature.properties.meta.version = new_version; //on update la version
                         feature.properties.meta.timestamp = new Date().toISOString(); // on update la date
                         feature.properties.meta.user = ConfigFctry.getUserInfo().display_name; // on ajoute l'user
