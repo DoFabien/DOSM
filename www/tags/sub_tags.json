@@ -104,6 +104,25 @@
     "operator":{"type":"text","lbl":"Opérateur", "tags":[
     ]},
 
+    "bicycle_parking":{"type":"select","lbl":"Type", "tags":[
+        {"v":"","lbl":" NC"},
+        {"v":"stands","lbl":"Arceau/Sheffield"},
+        {"v":"shed","lbl":"Abri dédié"},
+        {"v":"lockers","lbl":"Box individuel"},
+        {"v":"bollard","lbl":"Bollard"},
+        {"v":"wall_loops","lbl":"Pinces-roues"},
+        {"v":"informal","lbl":"Informel"}
+    ]},
+
+    "capacity":{"type":"number","lbl":"Capacité", "tags":[
+    ]},
+    
+    "covered":{"type":"select","lbl":"Couvert", "tags":[
+        {"v":"","lbl":" NC"},
+        {"v":"yes","lbl":"Oui"},
+        {"v":"no","lbl":"Non"}
+    ]},
+
     "butcher":{"type":"select","lbl":"Spécialité", "tags":[
         {"v":"","lbl":" NC"},
         {"v":"pork","lbl":"Charcuterie"},
@@ -112,12 +131,14 @@
         {"v":"halal","lbl":"Halal"},
         {"v":"kosher","lbl":"Kascher"}
     ]},
+    
     "organic":{"type":"select","lbl":"Biologique", "tags":[
         {"v":"","lbl":" NC"},
         {"v":"yes","lbl":"Oui"},
         {"v":"no","lbl":"Non"},
         {"v":"only","lbl":"Uniquement"}
     ]},
+    
     "pastry_shop":{"type":"select","lbl":"Pâtisseries", "tags":[
         {"v":"","lbl":" NC"},
         {"v":"yes","lbl":"Oui"},

@@ -7,26 +7,49 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
         getGeojsonOsm: function(){
             return factory.geojson_OSM;  
         },
-        setGeojsonOsm :function(data){
-            if (!factory.getGeojsonOsm()){
+        setGeojsonOsm :function(data,bbox_geojson){
+
+            if (!factory.getGeojsonOsm()){ //Il n'y a pas de data
                 factory.geojson_OSM = data;  
             }
-            else{ 
+
+            else{ //on a déjà des données
+
+                //  le cas où une feature a été supprimé entre temps, on doit la supprimer de nos données:
+                var id_features_deleted = [];
+                for (var i = 0; i<factory.geojson_OSM.length;i++){ // si la feature est dans la BBOX, on la push
+                    if(turf.inside(factory.geojson_OSM[i], bbox_geojson)){
+                        id_features_deleted.push(factory.geojson_OSM[i].id)
+                    }
+                }
+
                 for (var i = 0; i<data.length;i++){
                     var feature_id = data[i].id;
-                    //  console.log(feature_id); 
+                    var ind_id = id_features_deleted.indexOf(feature_id);
                     for (var j = 0; j<factory.geojson_OSM.length;j++){
                         if (feature_id == factory.geojson_OSM[j].id){ //la feature existe déjà dans nos données, on la remplace
-
                             factory.geojson_OSM[j] = data[i];
+                            id_features_deleted.splice(id_features_deleted.indexOf(feature_id), 1); //la feature existe toujours, on la supprime du tableau
                             break;
                         }
                         if (j == factory.geojson_OSM.length -1){   //la feature n'existe pas, on l'ajoute
                             factory.geojson_OSM.push(data[i]);
-                            console.log('Nouvelle feature!'); 
                         }
                     }
                 }
+
+                //parcours les features qui ont été supprimées pour les supprimer de nos données.
+                for(var i=0;i<id_features_deleted.length;i++){ 
+                    var id_to_delete = id_features_deleted[i];
+                    for(var j=0;j<factory.geojson_OSM.length;j++){
+                        if(factory.geojson_OSM[j].id == id_to_delete){
+                            factory.geojson_OSM.splice(j,1);
+                            break;
+                        }
+                    }
+
+                }
+
             }
         },
 
@@ -154,16 +177,15 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
             }
         },
 
-        getOsmElemById:function(id,callback){
+        //ne sert plus à rien
+        /*        getOsmElemById:function(id,callback){
             var type = id.split('/')[0];
-
             var url = ConfigFctry.getServerAPI().url+'/api/0.6/';
             $.ajax({
                 type: "GET",
                 url: url + id,
                 dataType:'xml',
-                success: function(data){
-
+                  success: function(data, textStatus, xhr){
                     var osm_elem = data;
                     if(type=='node'){
                         var geojson_elem = osmtogeojson(data).features ;// ne fonctionne que pour les points. Pour les ways prendre la géom envoyé
@@ -171,11 +193,14 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
                     }
                     else {
                         osmPolygon2pseudoGeojson(data);
-                        return callback({osmXML:data,osmGeojson:osmPolygon2pseudoGeojson(data)});
+                        return callback(xhr.status,{osmXML:data,osmGeojson:osmPolygon2pseudoGeojson(data)});
                     }
-                }
+                },
+                    error:function(err){
+                        return callback(err.status,err.statusText);   
+                    }
             });
-        },
+        },*/
 
         getGeojsonByBbox:function(_ks,l_bounds,callback){
             var bb = (l_bounds.getWest()+','+l_bounds.getSouth()+','+l_bounds.getEast()+','+l_bounds.getNorth());
@@ -184,7 +209,7 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
             $.ajax({
                 type: "GET",
                 url: url +'map?bbox='+ bb,
-                success: function(data){
+                success: function(data, textStatus, xhr){
                     var elements = [];
                     var features = osmUpdateNdrefToFeatures(data,osmtogeojson(data).features);
 
@@ -194,39 +219,23 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
                             elements.push(features[i]);
                         }
 
-                        else if (features[i].geometry.type == 'Polygon'){
+                        else if (features[i].geometry.type == 'Polygon' || features[i].geometry.type == 'LineString'){
                             features[i].properties.way_geometry = $.extend(true, {},turf.flip(features[i].geometry)); //on stocke la géometrie du polygon
-                            var way_geojson = L.multiPolygon(features[i].geometry.coordinates).toGeoJSON();
+                            var way_geojson = (features[i].geometry.type == 'Polygon') ? L.multiPolygon(features[i].geometry.coordinates).toGeoJSON() : L.polyline(features[i].geometry.coordinates).toGeoJSON();
                             var center_way = turf.flip(turf.pointOnSurface(way_geojson)).geometry.coordinates; //pointOnSurface => point SUR le polygon
                             features[i].geometry.coordinates = center_way;
                             features[i].geometry.type = 'Point';
                             elements.push(features[i]);
                         }
+
                     }
-                    return callback(elements);   
+                    return callback(xhr.status,elements);   
+                }, 
+                error:function(err){
+                    return callback(err.status,err.statusText);   
                 }
             });
 
-        },
-
-
-        getOsmPermission : function (username,password,callback){
-            var url = ConfigFctry.getServerAPI().url+'/api/0.6/changeset/create';
-
-            $.ajax({
-                headers: {"Authorization": "Basic " + btoa(username+':'+password)},
-                type: "PUT",
-                url: url,
-                error: function(textStatus, XMLHttpRequest){
-                    if (textStatus.status == 400){
-                        ConfigFctry.setUserInfo(username,password);
-                        return callback(textStatus.status); 
-                    }
-                    else{
-                        return callback(textStatus.status);
-                    }
-                }
-            });
         },
 
         getStatutChangeSet:function(id_CS,callback){
@@ -236,17 +245,19 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
                 type: "GET",
                 url: url,
                 dataType: "xml",
-                success: function(data){
+                success: function(data, textStatus, xhr){
                     var open = data.getElementsByTagName("changeset")[0].getAttribute("open");
                     var user = data.getElementsByTagName("changeset")[0].getAttribute("user");
-                    return callback({open:open, user:user});   
+                    return callback(xhr.status,{open:open, user:user});   
+                }, 
+                error:function(err){
+                    return callback(err.status,err.statusText);   
                 }
             });
 
         },
 
         createOSMChangeSet:function(callback){
-
             var url = ConfigFctry.getServerAPI().url+'/api/0.6/changeset/create';
             var content_put = '<osm><changeset><tag k="created_by" v="DOSM"/><tag k="comment" v="'+ConfigFctry.getChangesetComment()+'"/></changeset></osm>';
             $.ajax({
@@ -254,11 +265,11 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
                 type: "PUT",
                 url: url,
                 data:content_put,
-                error:function(er){
-                    return er;
-                },
-                success: function(data){
-                    return callback(data);   
+                success: function(data, textStatus, xhr){
+                    return callback(xhr.status,data);   
+                }, 
+                error:function(err){
+                    return callback(err.status,err.statusText);   
                 }
             });
 
@@ -267,7 +278,7 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
         getValidChangset:function(callback){
             //si il n'existe pas
             if (factory.getChangeset().id == null || factory.getChangeset().id == '' ){
-                factory.createOSMChangeSet(function(id_new_CS){
+                factory.createOSMChangeSet(function(status,id_new_CS){
                     factory.setChangeset(id_new_CS,Date.now());
                     callback(factory.getChangeset().id);
 
@@ -275,12 +286,10 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
             }
             else if ( (Date.now() - factory.getChangeset().datechange)/1000 > 3540) {  //factory.getChangeset().id === 0 ||
                 console.log("bientot périmé");
-                factory.getStatutChangeSet(factory.changeset.id,function(data){
+                factory.getStatutChangeSet(factory.changeset.id,function(status,data){
                     if (data.open == "false"){ //c'est fermé, on en crée un nouveau
-                        factory.createOSMChangeSet(function(id_new_CS){
+                        factory.createOSMChangeSet(function(statusid_new_CS){
                             factory.setChangeset(id_new_CS,Date.now());
-
-
                             callback(factory.getChangeset().id);
                         });
                     }
@@ -301,8 +310,11 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
                     type: "PUT",
                     url: url,
                     data:content_put,
-                    success: function(data){
-                        return callback(data);   
+                    success: function(data, textStatus, xhr){
+                        return callback(xhr.status,data);   
+                    }, 
+                    error:function(err){
+                        return callback(err.status,err.statusText);   
                     }
                 });//EOF ajax
             }
@@ -322,9 +334,13 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
                     type: "PUT",
                     url: url,
                     data:content_put,
-                    success: function(data){
-                        return callback(data);   
+                    success: function(data, textStatus, xhr){
+                        return callback(xhr.status,data);   
+                    },
+                    error:function(err){
+                        return callback(err.status,err.statusText);   
                     }
+
                 });//EOF ajax
 
             }
@@ -345,9 +361,12 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
                         type: "DELETE",
                         url: url,
                         data:content_delete,
-                        success: function(data){
+                        success: function(data, textStatus, xhr){
                             //Precondition failed: Node 4297420791 is still used by relations 4296366138.
-                            return callback(data);   
+                            return callback(xhr.status,data);   
+                        },
+                        error : function(err){
+                            return callback(err.status,err.statusText);  
                         }
                     });//EOF ajax
                 }

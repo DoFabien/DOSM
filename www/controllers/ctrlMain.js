@@ -155,19 +155,16 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
     $scope.updateOsmLatLng = function (){
         if (Fgroup.getLayers().length == 1){
 
-            var geojson = Fgroup.getLayers()[0].json;
-            OsmFctry.UpdateOsm(geojson,function(data){
+            var feature = Fgroup.getLayers()[0].json;
+            OsmFctry.UpdateOsm(feature,function(status,data){
                 var new_version = data;
-                if (data != geojson.properties.meta.version *1 + 1){
-                    alert('Erreur! Une autre version existe')
+                if (status != 200){
+                    alert(data)
                 }
                 $scope.show_btn = {bar_menu:true, btn_chargement:true, btn_center:true, refreshing_data:false,footer:false, update_validate:false, update_cancel:false, btn_menu:true};
                 $scope.$apply();
+                drawMarkers(OsmFctry.getGeojsonOsm());
 
-                OsmFctry.getOsmElemById(geojson.id,function(_data){
-                    OsmFctry.updateFeatureToGeojsonOsm(_data.osmGeojson);
-                    drawMarkers(OsmFctry.getGeojsonOsm());
-                });
             });
         }
     }
@@ -175,6 +172,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
     $scope.cancelOsmLatLng = function (){
         $scope.show_btn = {bar_menu:true, btn_chargement:true,footer:false,refreshing_data:true, update_validate:false, update_cancel:false,btn_menu:true, btn_center:true};
         OsmFctry.updateFeatureToGeojsonOsm($scope.original_feature_OSM);
+        $scope.current_action = '';
         drawMarkers(OsmFctry.getGeojsonOsm() );       
     }
 
@@ -193,8 +191,12 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
                 var lng = data[i].geometry.coordinates[0];
                 var type_value =kv.v;
 
-                /*Si c'est un way on lui affiche un petit W*/
-                var marker_number = (data[i].properties.type == 'way' ? 'W' : 0);
+                /*Si c'est un way on lui affiche un petit P (polygon) ou un petit L*/
+                  var marker_number = 0;
+                if (data[i].properties.type == 'way'){
+                    marker_number = (data[i].properties.way_geometry.type == 'Polygon' ? 'P' : 'L');
+                }
+              
                 var style_tag = ConfigFctry.getConfigTag(type_key,type_value);
 
                 var marker_style = L.AwesomeMarkers.icon({icon: 'fa-question-circle',iconColor:'white', markerColor: 'black', prefix: 'fa',number: marker_number }); // valeur par defaut
@@ -225,7 +227,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
         this.bounce(1);
         FgroupWay.clearLayers();
         if (e.target.json.properties.type == 'way'){
-            showWayPolygon(e.target);
+            showWay(e.target);
         }
 
         $timeout(function() { // pause pour laisser l'annimation se terminer
@@ -243,15 +245,20 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
         else if (marker.json.properties.type == 'way'){
             // $scope.showAlert(true,"Impossible de déplacer l'élément car c'est un polygone",'alert-warning');
             marker.bounce(1);
-            showWayPolygon(marker);
+            showWay(marker);
 
         }
     };
 
-    var showWayPolygon = function(marker){
+    var showWay = function(marker){
         FgroupWay.clearLayers();
         var way_geometry = marker.json.properties.way_geometry.coordinates;
-        L.multiPolygon(way_geometry).addTo(FgroupWay);
+        if (marker.json.properties.way_geometry.type =="LineString"){
+            L.polyline(way_geometry).addTo(FgroupWay);
+        }
+        else if (marker.json.properties.way_geometry.type =="Polygon"){
+            L.multiPolygon(way_geometry).addTo(FgroupWay);
+        }
     }
 
     $scope.dragMarker = function(marker){
@@ -291,34 +298,37 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
     };
     //load data & draw markers
     $scope.refreshMapData = function(){
+        var current_bbox = map.getBounds();
+         var current_bbox_geojson = L.rectangle(current_bbox).toGeoJSON();
         $scope.current_action = '';
         $scope.show_btn = {bar_menu:true, btn_chargement:true,footer:false,refreshing_data:true, update_validate:false, update_cancel:false,btn_menu:true, btn_center:true};
         if(!$scope.$$phase) {$scope.$apply();}
-        OsmFctry.getGeojsonByBbox(ConfigFctry.getListOfPrimaryKey(),map.getBounds(),function (data){ 
+        
+        OsmFctry.getGeojsonByBbox(ConfigFctry.getListOfPrimaryKey(),current_bbox,function (status,data){
+            if (status == 200){
             $scope.show_btn.refreshing_data = false;
             if(!$scope.$$phase) {$scope.$apply();}
-
             //l'emprise des données téléchargés
             if(!OsmFctry.getBboxData()){ //aucune données de chargée, on initialise le mutlipolygon
-                OsmFctry.setBboxData(L.multiPolygon([L.rectangle(map.getBounds())._latlngs],{color: "#ff7800", weight: 3,fillOpacity: 0,clickable:false, invert: true}));
+                OsmFctry.setBboxData(L.multiPolygon([L.rectangle(current_bbox)._latlngs],{color: "#ff7800", weight: 3,fillOpacity: 0,clickable:false, invert: true}));
                 OsmFctry.getBboxData().addTo(FgroupPosition);
             }
 
-            else{//il y a déjà un MP, on le fusionne avec la bbox courante
+            else{//il y a déjà un MP, on le fusionne avec la bbox courante //
                 var bbbox_data_geojson = OsmFctry.getBboxData().toGeoJSON();
-                var current_bbox_geojson = L.rectangle(map.getBounds()).toGeoJSON();
+               
                 var fc = turf.featurecollection([bbbox_data_geojson,current_bbox_geojson]);
                 var merged = turf.merge(fc);  
                 var latlngs = turf.flip(merged).geometry.coordinates;
                 OsmFctry.setBboxData( OsmFctry.getBboxData().setLatLngs(latlngs));
-
-
-
             }
-
-            OsmFctry.setGeojsonOsm(data);
+            OsmFctry.setGeojsonOsm(data,current_bbox_geojson);
             drawMarkers(OsmFctry.getGeojsonOsm() );
-
+            }
+            else {
+                 $scope.show_btn.refreshing_data = false;
+                $scope.showAlert(true,"<strong>Une erreur est survenue lors de la mise à jour des données</strong>" + data,'alert-danger');
+            }
         });
     };
 
@@ -353,11 +363,10 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
             feature = result.geojson;
 
             $scope.type_ope = result.type_ope;
-            var RegIsInteger = /^\d+$/;
             /*CREATION*/
             if ( $scope.type_ope  == 'W'){
-                OsmFctry.crateOsmNode(feature,function(data){
-                    if( RegIsInteger.test(data)){ //OK
+                OsmFctry.crateOsmNode(feature,function(status,data){
+                    if( status == 200){ //OK
                         feature.properties.id = data;
                         feature.id = 'node/'+data;
                         feature.properties.meta.version = 1; //on ajoute la version
@@ -378,8 +387,8 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
 
             /*DELETE*/
             else if( $scope.type_ope  == 'D'){ // C'est un delete, on l'enleve de nos données, on redessine les markers
-                OsmFctry.deleteOsmElem(feature,function(_data){
-                    if( RegIsInteger.test(_data)){ // DELETE OK
+                OsmFctry.deleteOsmElem(feature,function(_status,_data){
+                    if(_status == 200){ // DELETE OK
                         OsmFctry.deleteFeatureToGeojsonOsm(feature);
                         drawMarkers(OsmFctry.getGeojsonOsm() );
                     }
@@ -391,10 +400,10 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
 
             //UPDATE
             else {
-                OsmFctry.UpdateOsm(feature,function(data){
+                OsmFctry.UpdateOsm(feature,function(status,data){
                     var old_version = feature.properties.meta.version;
                     var new_version = data;
-                    if ( 1 * old_version +1 == 1* new_version ){ // UPDATE OK
+                    if ( status == 200 ){ // UPDATE OK
                         feature.properties.meta.version = new_version; //on update la version
                         feature.properties.meta.timestamp = new Date().toISOString(); // on update la date
                         feature.properties.meta.user = ConfigFctry.getUserInfo().display_name; // on ajoute l'user
