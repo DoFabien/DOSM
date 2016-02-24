@@ -120,10 +120,9 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
 
                 var node_header = '<node changeset="'+id_changeset+'" lat="'+lat+'" lon="'+lng+'">';
                 var tags_xml = '';
-                for (var k in tags_json){ // TODO : si k se terminer _1, _2, _N, supprimer la fin (le geojson ne peut pas avoir 2 fois la meme clé, le XML si.??? Duplication de clé
-                    if(k != '' && tags_json[k] != ''){
-
-                        tags_xml += '<tag k="'+k+'" v="'+tags_json[k]+'"/>';
+                for (var k in tags_json){
+                    if(k != '' && tags_json[k] != '' ){
+                        tags_xml += '<tag k="'+k.toLowerCase().trim()+'" v="'+tags_json[k].trim()+'"/>';
                     }
                 }
                 var xml =  '<osm>'+node_header+tags_xml+'</node></osm>'
@@ -147,9 +146,7 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
                     for (var k in tags_json){
                         if(k != '' && tags_json[k] != ''){
 
-                            // console.log(k.replace(/_[0-9]+/i, "")); Impossible de dupliquer une clé d'après l'API
-                            //tags_xml += '<tag k="'+k+'" v="'+tags_json[k]+'"/>';
-                            tags_xml += '<tag k="'+k.replace(/_[0-9]+/i, "")+'" v="'+tags_json[k]+'"/>';
+                            tags_xml += '<tag k="'+k.replace(/_[0-9]+/i, "")+'" v="'+tags_json[k]+'"/>'; //C'est quoi déjà?
                         }
                     }
                     var xml =  '<osm>'+node_header+tags_xml+'</node></osm>'
@@ -238,8 +235,8 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
 
         },
 
+        /*id_CS = id du changeset*/
         getStatutChangeSet:function(id_CS,callback){
-            console.log('id_CS');
             url = ConfigFctry.getServerAPI().url+'/api/0.6/changeset/'+id_CS;
             $.ajax({
                 type: "GET",

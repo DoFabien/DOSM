@@ -427,7 +427,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
             var isEditable = object.isEditable;
             if(isEditable == true){
                 if ( type_ope  == 'R'){  // c'est un update qui est annulé, on réinsert la feature originale
-                    OsmFctry.UpdateFeatureToGeojsonOsm($scope.original_feature_OSM);
+                    OsmFctry.updateFeatureToGeojsonOsm($scope.original_feature_OSM);
                     drawMarkers(OsmFctry.getGeojsonOsm() );
                 }
             }
