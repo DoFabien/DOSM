@@ -171,6 +171,26 @@
         {"v":"","lbl":" NC"},
         {"v":"yes","lbl":"Oui"},
         {"v":"no","lbl":"Non"}
+    ]},
+      "recycling_type":{"type":"select","lbl":"Type", "tags":[
+        {"v":"","lbl":" NC"},
+        {"v":"container","lbl":"Conteneur"},
+        {"v":"centre","lbl":"Déchèterie"}
+    ]},
+    "recycling:glass":{"type":"select","lbl":"Verre", "tags":[
+        {"v":"","lbl":" NC"},
+        {"v":"yes","lbl":"Oui"},
+        {"v":"no","lbl":"Non"}
+    ]},
+    "recycling:paper":{"type":"select","lbl":"Papier", "tags":[
+        {"v":"","lbl":" NC"},
+        {"v":"yes","lbl":"Oui"},
+        {"v":"no","lbl":"Non"}
+    ]},
+    "recycling:plastic":{"type":"select","lbl":"Plastique", "tags":[
+        {"v":"","lbl":" NC"},
+        {"v":"yes","lbl":"Oui"},
+        {"v":"no","lbl":"Non"}
     ]}
 
 }
