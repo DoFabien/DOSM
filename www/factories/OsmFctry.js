@@ -122,7 +122,7 @@ app.factory('OsmFctry',['ConfigFctry', function(ConfigFctry) {
                 var tags_xml = '';
                 for (var k in tags_json){
                     if(k != '' && tags_json[k] != '' ){
-                        tags_xml += '<tag k="'+k.toLowerCase().trim()+'" v="'+tags_json[k].trim()+'"/>';
+                        tags_xml += '<tag k="'+k.toLowerCase().trim()+'" v="'+String(tags_json[k]).trim()+'"/>';
                     }
                 }
                 var xml =  '<osm>'+node_header+tags_xml+'</node></osm>'
