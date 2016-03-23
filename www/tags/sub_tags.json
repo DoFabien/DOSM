@@ -76,7 +76,7 @@
     "fire_hydrant:type":{"type":"select","lbl":"Type", "tags":[
         {"v":"","lbl":" NC"},
         {"v":"underground","lbl":"Souterraine"},
-        {"v":"pillar","lbl":"Colonne"},
+        {"v":"pillar","lbl":"Pilier / hors sol"},
         {"v":"wall","lbl":"Mur"},
         {"v":"pond","lbl":"Etang"}
     ]},
@@ -191,6 +191,21 @@
         {"v":"","lbl":" NC"},
         {"v":"yes","lbl":"Oui"},
         {"v":"no","lbl":"Non"}
+    ]},
+    "backrest":{"type":"select","lbl":"Dossier", "tags":[
+        {"v":"","lbl":" NC"},
+        {"v":"yes","lbl":"Oui"},
+        {"v":"no","lbl":"Non"}
+    ]},
+    "seats":{"type":"number","lbl":"Nombre de places", "tags":[
+    ]},
+    "religion":{"type":"select","lbl":"Religion", "tags":[
+        {"v":"","lbl":" NC"},
+        {"v":"christian","lbl":"Chrétienne"},
+        {"v":"jewish","lbl":"Judaïste"},
+        {"v":"muslim","lbl":"Islamique"},
+        {"v":"multifaith","lbl":"Multiconfessionnelle"}   
     ]}
+    
 
 }
