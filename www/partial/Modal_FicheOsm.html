@@ -112,7 +112,7 @@
 
 
                 <!--Tag connus-->
-                <md-list-item ng-repeat="k in list_sub_tag_of_object" ng-if="geojson.properties.tags[k] || editable"> <!--Si y'a pas de valeur, on ne l'affiche pas à la lecture-->
+                <md-list-item ng-repeat="k in list_presets_of_object" ng-if="geojson.properties.tags[k] || editable"> <!--Si y'a pas de valeur, on ne l'affiche pas à la lecture-->
                     <!--Editable-->
                     <div ng-if="editable" class="editableA">
                         <label>{{(!customValueType) ? all_sub_tags[k].lbl : k}}</label>
@@ -160,7 +160,7 @@
 
 
                 <!--LE RESTE DES TAGS-->
-                <md-list-item ng-repeat="(k ,v ) in geojson.properties.tags" ng-if="tag_hidden.indexOf(k) == -1 && k != primary_tag.k && list_sub_tag_of_object.indexOf(k) == -1 ">
+                <md-list-item ng-repeat="(k ,v ) in geojson.properties.tags" ng-if="tag_hidden.indexOf(k) == -1 && k != primary_tag.k && list_presets_of_object.indexOf(k) == -1 ">
                     <!--editable-->
                     <div ng-if="editable" class="editableA">
                         <label>{{k}}</label>

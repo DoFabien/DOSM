@@ -2,9 +2,9 @@
     "shop":{"type":"shop", "lbl": "Commerce", "values":[
         {"key": "travel_agency", "lbl": "Agence de voyage", "lbl_alt": "", "icon": "travel-agency", "prefix": "map-icon", "iconColor": "white", "markerColor": "red", "alert": "",
          "subtags": ["operator"]},
-        {"key": "estate_agent", "lbl": "Agent immobilier", "lbl_alt": "", "icon": "real-estate-agency", "prefix": "map-icon", "iconColor": "white", "markerColor": "red", "alert": "", 
+        {"key": "estate_agent", "lbl": "Agent immobilier", "lbl_alt": "", "icon": "real-estate-agency", "prefix": "map-icon", "iconColor": "white", "markerColor": "red", "alert": "Préférez la catégorie 'Bureau'", 
          "subtags": ["operator"] },
-        {"key": "insurance", "lbl": "Assurance", "lbl_alt": "", "icon": "insurance-agency", "prefix": "map-icon", "iconColor": "white", "markerColor": "red", "alert": "", 
+        {"key": "insurance", "lbl": "Assurance", "lbl_alt": "", "icon": "insurance-agency", "prefix": "map-icon", "iconColor": "white", "markerColor": "red", "alert": "Préférez la catégorie 'Bureau'", 
          "subtags": ["operator"] },
         {"key": "jewelry", "lbl": "Bijouterie", "lbl_alt": "", "icon": "jewelry-store", "prefix": "map-icon", "iconColor": "white", "markerColor": "red", "alert": "",
          "subtags": ["operator"] },
@@ -194,7 +194,8 @@
         {"key": "shelter", "lbl": "Refuge", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "white", "markerColor": "orange", "alert": "", "subtags": [] },
         {"key": "restaurant", "lbl": "Restaurant", "lbl_alt": "", "icon": "cutlery", "prefix": "fa", "iconColor": "white", "markerColor": "orange", "alert": "", 
          "subtags": ["cuisine"] },
-        {"key": "fast_food", "lbl": "Restauration rapide / Fast food", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "white", "markerColor": "orange", "alert": "", "subtags": [] },
+        {"key": "fast_food", "lbl": "Restauration rapide / Fast food", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "white", "markerColor": "orange", "alert": "", 
+        "subtags": ["cuisine"] },
         {"key": "hall", "lbl": "Salle", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "white", "markerColor": "orange", "alert": "", "subtags": [] },
         {"key": "village_hall", "lbl": "Salle communale", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "white", "markerColor": "orange", "alert": "", "subtags": [] },
         {"key": "gym", "lbl": "Salle de gymnastique", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "white", "markerColor": "orange", "alert": "", "subtags": [] },
@@ -360,6 +361,10 @@
     "man_made":{"type":"man_made", "lbl": "Édifice", "values":[
         {"key": "lighthouse", "lbl": "Phare", "lbl_alt": "", "icon": "", "prefix": "fa", "iconColor": "white", "markerColor": "lightgray", "alert": "", "subtags": [] },
         {"key": "ligmasththouse", "lbl": "Mât d'émission radio", "lbl_alt": "Émetteur de téléphonie mobile, mât de transmission", "icon": "", "prefix": "fa", "iconColor": "white", "markerColor": "lightgray", "alert": "", "subtags": [] },  
+        {"key": "*", "lbl": "_NC", "lbl_alt": "", "icon": "", "prefix": "", "iconColor": "", "markerColor": "black", "alert": "", "subtags": [] }
+    ]},
+    "natural":{"type":"natural", "lbl": "Naturel", "values":[
+        {"key": "tree", "lbl": "Arbre", "lbl_alt": "Arbre isolé, arbre remarquable", "icon": "", "prefix": "fa", "iconColor": "white", "markerColor": "green", "alert": "", "subtags": [] },
         {"key": "*", "lbl": "_NC", "lbl_alt": "", "icon": "", "prefix": "", "iconColor": "", "markerColor": "black", "alert": "", "subtags": [] }
     ]}
 }

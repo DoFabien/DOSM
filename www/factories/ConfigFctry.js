@@ -219,7 +219,7 @@ app.factory('ConfigFctry',function(){
 
         /*Renvoie l'objet de Configuration du Tag*/
         getConfigSubTag:function(_key,_value){
-            var tags = factory.SubTags[_key].tags;
+            var tags = factory.Presets[_key].tags;
             for (var i = 0;i<tags.length;i++){
                 if(tags[i].v == _value){
                     return    tags[i];
@@ -228,17 +228,17 @@ app.factory('ConfigFctry',function(){
             return null;
         },
 
-        SubTags:[],
-        /*Renvoie les "sub-tags" dans l'intégralité + charge SubTags*/
-        getSubTags:function(){
+        Presets:[],
+        /*Renvoie les "sub-tags" dans l'intégralité + charge Presets*/
+        getPresets:function(){
             var result = null;
             $.ajax({
-                url: 'tags/sub_tags.json',
+                url: 'tags/presets.json',
                 dataType:'json', 
                 async :false,
                 success: function(data){
                     result = data;
-                    factory.SubTags = data;
+                    factory.Presets = data;
                 },
                 error : function (e){
                     result = e;   

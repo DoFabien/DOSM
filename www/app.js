@@ -37,7 +37,7 @@ app.run(function($rootScope,ConfigFctry,$cordovaGeolocation,$cordovaDeviceOrient
     }
 
     ConfigFctry.getTags(); // load tags in ConfigFctry.Tags
-    ConfigFctry.getSubTags(); // load Subtags in ConfigFctry.SubTags
+    ConfigFctry.getPresets(); // load Presets in ConfigFctry.Presets
 
 
 

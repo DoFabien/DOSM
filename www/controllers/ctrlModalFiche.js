@@ -11,14 +11,14 @@ app.controller('ModalFicheCtrl', function ($scope, $mdDialog,$mdSidenav,items,$f
     $scope.sw_delete = false; // variable si true, le bouton supprimer apparait
     $scope.tag_hidden = ['source','name']; // tags a ne pas afficher dans la fiche
     $scope.newKV = {k_add: '', v_add:''} ; //emplacement temporaire pour ajouter un tag
-    $scope.customValueType = false; // Si les tags ne suffisent pas , permet une edition manuelle (de la clé principale seulement)
+    $scope.customValueType = false; // Si les tags ne suffisent pas , permet une edition manuelle
     $scope.editable= (($scope.type_action == 'W') ? true : false); // en mode edition ou non
 
 
     $scope.geojson = items.geojson; // l'object json dans son ensemble
 
     $scope.all_tags = ConfigFctry.Tags; // tous les tags et leurs Configurations
-    $scope.all_sub_tags = ConfigFctry.SubTags;
+    $scope.all_presets = ConfigFctry.Presets;
 
     $scope.primary_tag = ConfigFctry.getPrimaryKeyOfObject($scope.geojson.properties.tags);/*Le type de la key de l'objet OSM ex: {k: "amenity", v: "restaurant"}  paramètre : les tags du geojson*/
 
@@ -52,7 +52,7 @@ app.controller('ModalFicheCtrl', function ($scope, $mdDialog,$mdSidenav,items,$f
         //geojson.properties.tags[e] = '*'
     };
 
-    $scope.$watch('geojson.properties.tags[primary_tag.k]', function() { // au changement de tag principal, on rafraichi les subkey
+    $scope.$watch('geojson.properties.tags[primary_tag.k]', function() { // au changement de tag principal, on rafraichi les presets
         $scope.primary_tag = ConfigFctry.getPrimaryKeyOfObject($scope.geojson.properties.tags);/*Le type de la key de l'objet OSM ex: {k: "amenity", v: "restaurant"}  paramètre : les tags du geojson*/
         if($scope.primary_tag.v){
             //on supprimer les clé vide
@@ -62,7 +62,7 @@ app.controller('ModalFicheCtrl', function ($scope, $mdDialog,$mdSidenav,items,$f
                 }
             }
             $scope.current_primary_key_config = ConfigFctry.getConfigTag($scope.primary_tag.k,$scope.primary_tag.v); // ligne de Configuration du tag
-            $scope.list_sub_tag_of_object = ($scope.current_primary_key_config) ? $scope.current_primary_key_config.subtags : [];
+            $scope.list_presets_of_object = ($scope.current_primary_key_config) ? $scope.current_primary_key_config.Presets : [];
 
         }
     });
@@ -82,11 +82,11 @@ app.controller('ModalFicheCtrl', function ($scope, $mdDialog,$mdSidenav,items,$f
     };
 
 
-    $scope.findSubTagLabel = function (_k,_v){
-        if($scope.all_sub_tags[_k]){
-            for(var i = 0; i< $scope.all_sub_tags[_k].tags.length;i++){
-                if($scope.all_sub_tags[_k].tags[i].v == _v){
-                    return $scope.all_sub_tags[_k].tags[i].lbl;
+    $scope.findPresetLabel = function (_k,_v){
+        if($scope.all_presets[_k]){
+            for(var i = 0; i< $scope.all_presets[_k].tags.length;i++){
+                if($scope.all_presets[_k].tags[i].v == _v){
+                    return $scope.all_presets[_k].tags[i].lbl;
                 }
             }
         }
@@ -167,10 +167,10 @@ app.controller('ModalFicheCtrl', function ($scope, $mdDialog,$mdSidenav,items,$f
         $scope.closeSnTypeTag();
     }
 
-    /*SIDNAV SELECT POUR LES SUBTAGS*/
+    /*SIDNAV SELECT POUR LES Presets*/
 
     $scope.openSnSelect = function(type_tag) {
-        $scope.curent_subtage_type = type_tag; //Type de subtags necessaire pour la SNselect
+        $scope.curent_preset_type = type_tag; //Type de Presets necessaire pour la SNselect
         $mdSidenav('SNselect').toggle();
     };
 
@@ -181,7 +181,7 @@ app.controller('ModalFicheCtrl', function ($scope, $mdDialog,$mdSidenav,items,$f
     $scope.tagSNselectSelected = function(key, tag){
         $scope.geojson.properties.tags[key] = tag.v;
         $scope.search_SNselect = '';
-        $scope.curent_subtage_type = null;
+        $scope.curent_preset_type = null;
         $scope.closeSnSelect();
     }
 
