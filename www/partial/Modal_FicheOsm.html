@@ -37,7 +37,7 @@
 
         <div class="content_TypeTag" ng-if="SNselectIsOpen">
             <md-list>
-                <md-list-item class="md-3-line" ng-repeat="tag in all_sub_tags[curent_subtage_type].tags | filter:search_SNselect" ng-click="tagSNselectSelected(curent_subtage_type, tag)">
+                <md-list-item class="md-3-line" ng-repeat="tag in all_presets[current_preset_type].tags | filter:search_SNselect" ng-click="tagSNselectSelected(current_preset_type, tag)">
                     <div class="md-list-item-text">
                         <h3>{{ tag.lbl }}</h3>
                         <h4>{{ tag.v }}</h4>
@@ -115,26 +115,24 @@
                 <md-list-item ng-repeat="k in list_presets_of_object" ng-if="geojson.properties.tags[k] || editable"> <!--Si y'a pas de valeur, on ne l'affiche pas à la lecture-->
                     <!--Editable-->
                     <div ng-if="editable" class="editableA">
-                        <label>{{(!customValueType) ? all_sub_tags[k].lbl : k}}</label>
+                        <label>{{(!customValueType) ? all_presets[k].lbl : k}}</label>
                     </div>
                     <div ng-if="editable" class="editableB">
                         <!--SELECT-->
-                        <md-select  ng-if = "all_sub_tags[k].type == 'select' && !customValueType" ng-model = "geojson.properties.tags[k]" >
-                            <md-option ng-repeat="st in all_sub_tags[k].tags"  value="{{st.v}}">{{st.lbl}}</md-option>
+                        <md-select  ng-if = "all_presets[k].type == 'select' && !customValueType" ng-model = "geojson.properties.tags[k]" >
+                            <md-option ng-repeat="st in all_presets[k].tags"  value="{{st.v}}">{{st.lbl}}</md-option>
                         </md-select> 
                         <!--NUMBER-->
-                        <md-input-container class="padding0" ng-if = "all_sub_tags[k].type == 'number' && !customValueType ">
+                        <md-input-container class="padding0" ng-if = "all_presets[k].type == 'number' && !customValueType ">
                             <input type="number" step="any" name="rate" value="{{geojson.properties.tags[k]}}" ng-model = "geojson.properties.tags[k]" >
                         </md-input-container>
                         <!--TEXT-->
-                        <md-input-container class="padding0" ng-if = "all_sub_tags[k].type == 'text' && !customValueType">
+                        <md-input-container class="padding0" ng-if = "all_presets[k].type == 'text' && !customValueType">
                             <input ng-model="geojson.properties.tags[k]">
                         </md-input-container>
                         <!--LIST-->
-                        <md-input-container ng-if = "all_sub_tags[k].type == 'list' && !customValueType" class="padding0 margin0" style="margin-top:0;margin-bottom:0">
-                        <md-list-item class="md-no-style md-button" ng-show="!customValueType" ng-click="openSnSelect(k)"> <strong>{{findSubTagLabel(k,geojson.properties.tags[k])}} <i class="fa fa-cog"> </i></strong></md-list-item>
-<!--                         <span ng-show="!customValueType" ng-click="openSnSelect(k)"> {{findSubTagLabel(k,geojson.properties.tags[k])}}  <i class="fa fa-code fa-2x"></i> </span>-->
-<!--                          <md-button ng-show="!customValueType" ng-click="openSnSelect(k)" class="md-primary"> {{findSubTagLabel(k,geojson.properties.tags[k])}} </md-button>-->
+                        <md-input-container ng-if = "all_presets[k].type == 'list' && !customValueType" class="padding0 margin0" style="margin-top:0;margin-bottom:0">
+                        <md-list-item class="md-no-style md-button" ng-show="!customValueType" ng-click="openSnSelect(k)"> <strong>{{findPresetLabel(k,geojson.properties.tags[k])}} <i class="fa fa-cog"> </i></strong></md-list-item>
                         </md-input-container>
 
                         <!--custom value! -->
@@ -149,10 +147,10 @@
                     </div>
                     <!--Lecture-->
                     <div ng-if="!editable && geojson.properties.tags[k]" class="readA">
-                        {{all_sub_tags[k].lbl ? all_sub_tags[k].lbl : k}}
+                        {{all_presets[k].lbl ? all_presets[k].lbl : k}}
                     </div>
                     <div ng-if="!editable && geojson.properties.tags[k]" class="readB">
-                        {{findSubTagLabel(k,geojson.properties.tags[k])}}
+                        {{findPresetLabel(k,geojson.properties.tags[k])}}
                     </div>
                     <md-divider></md-divider>
                 </md-list-item>

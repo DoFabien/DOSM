@@ -62,7 +62,7 @@ app.controller('ModalFicheCtrl', function ($scope, $mdDialog,$mdSidenav,items,$f
                 }
             }
             $scope.current_primary_key_config = ConfigFctry.getConfigTag($scope.primary_tag.k,$scope.primary_tag.v); // ligne de Configuration du tag
-            $scope.list_presets_of_object = ($scope.current_primary_key_config) ? $scope.current_primary_key_config.Presets : [];
+            $scope.list_presets_of_object = ($scope.current_primary_key_config) ? $scope.current_primary_key_config.presets : [];
 
         }
     });
@@ -170,7 +170,7 @@ app.controller('ModalFicheCtrl', function ($scope, $mdDialog,$mdSidenav,items,$f
     /*SIDNAV SELECT POUR LES Presets*/
 
     $scope.openSnSelect = function(type_tag) {
-        $scope.curent_preset_type = type_tag; //Type de Presets necessaire pour la SNselect
+        $scope.current_preset_type = type_tag; //Type de Presets necessaire pour la SNselect
         $mdSidenav('SNselect').toggle();
     };
 
@@ -181,7 +181,7 @@ app.controller('ModalFicheCtrl', function ($scope, $mdDialog,$mdSidenav,items,$f
     $scope.tagSNselectSelected = function(key, tag){
         $scope.geojson.properties.tags[key] = tag.v;
         $scope.search_SNselect = '';
-        $scope.curent_preset_type = null;
+        $scope.current_preset_type = null;
         $scope.closeSnSelect();
     }
 
