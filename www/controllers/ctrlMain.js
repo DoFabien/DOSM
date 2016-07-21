@@ -162,6 +162,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
                     alert(data)
                 }
                 $scope.show_btn = {bar_menu:true, btn_chargement:true, btn_center:true, refreshing_data:false,footer:false, update_validate:false, update_cancel:false, btn_menu:true};
+                $scope.current_action = '';
                 $scope.$apply();
                 drawMarkers(OsmFctry.getGeojsonOsm());
 
