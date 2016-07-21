@@ -39,6 +39,10 @@
                         {
                             "xml": "<feature name=\"Geolocation\"><param name=\"android-package\" value=\"org.apache.cordova.geolocation.Geolocation\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"SplashScreen\"><param name=\"android-package\" value=\"org.apache.cordova.splashscreen.SplashScreen\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -78,6 +82,9 @@
             "PACKAGE_NAME": "fr.dogeo.dosm"
         },
         "cordova-plugin-geolocation": {
+            "PACKAGE_NAME": "fr.dogeo.dosm"
+        },
+        "cordova-plugin-splashscreen": {
             "PACKAGE_NAME": "fr.dogeo.dosm"
         }
     },
@@ -126,12 +133,20 @@
             "id": "cordova-plugin-geolocation.PositionError",
             "pluginId": "cordova-plugin-geolocation",
             "runs": true
+        },
+        {
+            "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+            "id": "cordova-plugin-splashscreen.SplashScreen",
+            "clobbers": [
+                "navigator.splashscreen"
+            ]
         }
     ],
     "plugin_metadata": {
         "cordova-plugin-whitelist": "1.0.0",
         "cordova-plugin-device-orientation": "1.0.1",
         "cordova-plugin-crosswalk-webview": "1.5.0",
-        "cordova-plugin-geolocation": "2.1.0"
+        "cordova-plugin-geolocation": "2.1.0",
+        "cordova-plugin-splashscreen": "3.2.2"
     }
 }

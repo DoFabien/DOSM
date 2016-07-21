@@ -79,6 +79,9 @@
         },
         "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "fr.dogeo.dosm"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "fr.dogeo.dosm"
         }
     },
     "dependent_plugins": {}

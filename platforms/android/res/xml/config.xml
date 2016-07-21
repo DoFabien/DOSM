@@ -16,7 +16,15 @@
     <feature name="Geolocation">
         <param name="android-package" value="org.apache.cordova.geolocation.Geolocation" />
     </feature>
+    <feature name="SplashScreen">
+        <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
+        <param name="onload" value="true" />
+    </feature>
     <allow-intent href="market:*" />
+    <splash density="port-hdpi" src="res/screen/android/dosm_2048.png" />
+    <splash density="port-ldpi" src="res/screen/android/dosm_1024.png" />
+    <splash density="port-mdpi" src="res/screen/android/dosm_640.png" />
+    <splash density="port-xhdpi" src="res/screen/android/dosm_640.png" />
     <name>DOSM</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.

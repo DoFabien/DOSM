@@ -43,6 +43,13 @@ module.exports = [
         "id": "cordova-plugin-geolocation.PositionError",
         "pluginId": "cordova-plugin-geolocation",
         "runs": true
+    },
+    {
+        "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+        "id": "cordova-plugin-splashscreen.SplashScreen",
+        "clobbers": [
+            "navigator.splashscreen"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -51,7 +58,8 @@ module.exports.metadata =
     "cordova-plugin-whitelist": "1.0.0",
     "cordova-plugin-device-orientation": "1.0.1",
     "cordova-plugin-crosswalk-webview": "1.5.0",
-    "cordova-plugin-geolocation": "2.1.0"
-}
+    "cordova-plugin-geolocation": "2.1.0",
+    "cordova-plugin-splashscreen": "3.2.2"
+};
 // BOTTOM OF METADATA
 });
