@@ -59,6 +59,15 @@ div{
     bottom: 15px;
     right:0px;
 }
+
+.div_fab_dezoom{
+    z-index: 900;
+    margin: 0;
+    position: absolute;
+    bottom: 15px;
+    right:60px;
+}
+
 #btn_zoom{
     margin: 10px;
     background-color: white;

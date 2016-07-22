@@ -123,7 +123,8 @@ app.factory('ConfigFctry',function(){
         bases_map: {
             bm_osm_fr: {name:'OSM fr', layer :L.tileLayer('http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',{maxZoom:20})},
             bm_bright_gl: {name:'MapboxGL Bright', layer: L.mapboxGL({accessToken: 'j',style: 'Mapbox-GL/styles/bright-v8.json'}) },
-            mapbox_satellite : {name:'Mapbox Satellite ',  layer :L.tileLayer('http://{s}.tiles.mapbox.com/v4/openstreetmap.map-inh7ifmo/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoib3BlbnN0cmVldG1hcCIsImEiOiJncjlmd0t3In0.DmZsIeOW-3x-C5eX-wAqTw',{maxZoom:19})}  
+            mapbox_satellite : {name:'Mapbox Satellite ',  layer :L.tileLayer('http://{s}.tiles.mapbox.com/v4/openstreetmap.map-inh7ifmo/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoib3BlbnN0cmVldG1hcCIsImEiOiJncjlmd0t3In0.DmZsIeOW-3x-C5eX-wAqTw',{maxZoom:19})},
+            ign_ortho: {name:'IGN ortho', layer :L.tileLayer('http://proxy-ign.openstreetmap.fr/bdortho/{z}/{x}/{y}.jpg',{maxZoom:19})}  
         },
 
         getBasesMaps:function(){

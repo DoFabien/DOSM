@@ -14,11 +14,18 @@
         </md-button>
     </div>
 
-    <!--ZOOM EN BAS A DROIT-->
+    <!--ZOOM EN BAS A DROITE (IN)-->
+    <div class="div_fab_dezoom">
+        <md-button ng-disabled="zoom == 18" id="btn_zoom"  ng-click="zoomInOut('out')" class="md-fab md-primary md-button md-default-theme" aria-label="Zoom" >
+            <md-icon  md-svg-src = 'images/SVG/ic_zoom_out_24px.svg' class="fab_icon" ng-style="{color : zoom == 18 ? 'grey' : 'black'}"></md-icon>
+        </md-button>
+    </div>
+
+        <!--ZOOM EN BAS A DROITE (OUT)-->
     <div class="div_fab_zoom">
-        <md-button id="btn_zoom"  ng-click="zoomInOut()" class="md-fab md-primary md-button md-default-theme" aria-label="Zoom" >
-            <md-icon ng-if="zoom != 20" md-svg-src = 'images/SVG/ic_zoom_in_24px.svg' class="fab_icon" style="color:black"></md-icon>
-            <md-icon ng-if="zoom == 20" md-svg-src = 'images/SVG/ic_zoom_out_24px.svg' class="fab_icon" style="color:black"></md-icon>
+        <md-button ng-disabled="zoom == 20" id="btn_zoom"  ng-click="zoomInOut('in')" class="md-fab md-primary md-button md-default-theme" aria-label="Zoom" >
+            <md-icon  md-svg-src = 'images/SVG/ic_zoom_in_24px.svg' class="fab_icon" ng-style="{color : zoom == 20 ? 'grey' : 'black'}"></md-icon>
+            
         </md-button>
     </div>
 

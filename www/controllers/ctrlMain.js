@@ -9,7 +9,7 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
     $scope.current_action = '';
     $scope.zoom = 19;
 
-    var map = $window.L.map('map',{zoomControl:false, minZoom: 19, maxZoom: 20});
+    var map = $window.L.map('map',{zoomControl:false, minZoom: 18, maxZoom: 20});
     var Fgroup = L.featureGroup();
     var FgroupWay =  L.featureGroup().addTo(map);
     var FgroupPosition =L.featureGroup();
@@ -61,9 +61,13 @@ app.controller('MainCtrl', function($scope,$window,$mdDialog,$location,OsmFctry,
         $scope.menu_is_open = ($scope.menu_is_open) ? false : true;
     };
 
-    $scope.zoomInOut = function(){
-        if(map.getZoom()==19){ map.setZoom(20);}
-        else{ map.setZoom(19);}  
+    $scope.zoomInOut = function(typeZoom){
+        if (typeZoom == 'in'){
+            map.setZoom(map.getZoom() + 1)
+        }
+        else if (typeZoom == 'out'){
+            map.setZoom(map.getZoom() - 1)
+        }
     }
 
     map.on('zoomend',function(e){
