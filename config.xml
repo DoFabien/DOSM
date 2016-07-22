@@ -22,10 +22,10 @@
     <platform name="android">
         <allow-intent href="market:*" />
 
-        <splash src="res/screen/android/dosm_2048.png" density="port-hdpi"/>
-        <splash src="res/screen/android/dosm_1024.png" density="port-ldpi"/>
-        <splash src="res/screen/android/dosm_640.png" density="port-mdpi"/>
-        <splash src="res/screen/android/dosm_640.png" density="port-xhdpi"/>
+        <splash src="res/screen/android/DOSM_HDPI.png" density="port-hdpi"/>
+        <splash src="res/screen/android/DOSM_LDPI.png" density="port-ldpi"/>
+        <splash src="res/screen/android/DOSM_MDPI.png" density="port-mdpi"/>
+        <splash src="res/screen/android/DOSM_XHDPI.png" density="port-xhdpi"/>
     </platform>
 
     <platform name="ios">
